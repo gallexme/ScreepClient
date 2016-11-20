@@ -1,0 +1,114 @@
+<section class='world-map'>
+<div app:game-map-container class='map-container' ng-click='locked &amp;&amp; WorldMap.goToRoom()'>
+<div app-stop-click-propagation app-stop-propagation='mouseout mouseover mousemove' class='zoom-controls'>
+<md:button class='md-raised' ng:click='WorldMap.zoomChange(1)'>
+<div class='fa fa-plus'></div>
+</md:button>
+<md:button class='md-raised' ng:click='WorldMap.zoomChange(-1)'>
+<div class='fa fa-minus'></div>
+</md:button>
+</div>
+<ng-include src="'world-map-zoom'+WorldMap.zoom"></ng-include>
+<ui:drop-select app-stop-click-propagation app-stop-propagation='mouseout mouseover mousemove wheel' btn-class='md-raised' class='layer-select' drop-class='pull-right' label-pattern='Display: &lt;b&gt;{}&lt;/b&gt;' ng-if='WorldMap.zoom == 3 &amp;&amp; isOffServer()' ng:model='WorldMap.displayOptions.layer' options="[{none0: 'None'}, {owner0: 'Owner control level'}, {claim0: 'Claimable'}, {minerals0: 'Minerals'}, {energyControl8: 'Control points for the last 1 hour'}, {energyControl180: 'Control points for the last 24 hours'}, {energyControl1440: 'Control points for the last 7 days'}, {energyHarvested8: 'Energy harvested for the last 1 hour'}, {energyHarvested180: 'Energy harvested for the last 24 hours'}, {energyHarvested1440: 'Energy harvested for the last 7 days'}, {energyConstruction8: 'Energy spent on construction for the last 1 hour'}, {energyConstruction180: 'Energy spent on construction for the last 24 hours'}, {energyConstruction1440: 'Energy spent on construction for the last 7 days'}, {energyCreeps8: 'Energy spent on creeps for the last 1 hour'}, {energyCreeps180: 'Energy spent on creeps for the last 24 hours'}, {energyCreeps1440: 'Energy spent on creeps for the last 7 days'},  {creepsProduced8: 'Creeps produced for the last 1 hour'}, {creepsProduced180: 'Creeps produced for the last 24 hours'}, {creepsProduced1440: 'Creeps produced for the last 7 days'}, {creepsLost8: 'Creeps lost for the last 1 hour'}, {creepsLost180: 'Creeps lost for the last 24 hours'}, {creepsLost1440: 'Creeps lost for the last 7 days'}, {powerProcessed8: 'Power processed for the last 1 hour'}, {powerProcessed180: 'Power processed for the last 24 hours'}, {powerProcessed1440: 'Power processed for the last 7 days'}]" style-type='md-button'></ui:drop-select>
+<ui:drop-select app-stop-click-propagation app-stop-propagation='mouseout mouseover mousemove wheel' btn-class='md-raised' class='layer-select' drop-class='pull-right' label-pattern='Display: &lt;b&gt;{}&lt;/b&gt;' ng-if='WorldMap.zoom == 3 &amp;&amp; !isOffServer()' ng:model='WorldMap.displayOptions.layer' options="[{none0: 'None'}, {owner0: 'Owner control level'}, {claim0: 'Claimable'}, {minerals0: 'Minerals'}]" style-type='md-button'></ui:drop-select>
+<md:button app-stop-click-propagation app-stop-propagation='mouseout mouseover mousemove' class='md-raised btn-units' ng-if='WorldMap.zoom == 3' ng:class="{'md-primary': WorldMap.displayOptions.units}" ng:click='WorldMap.toggleUnits()' tooltip-placement='bottom' tooltip='Toggle units'>
+<i class='fa fa-eye'></i>
+</md:button>
+<form app-stop-click-propagation app-stop-propagation='mouseout mouseover mousemove' app:form-fail-anim='anim-shake' app:submit='WorldMap.lookForRoom()' class='room-search'>
+<input app:stop-propagation='mousedown' ng:model='WorldMap.searchRoom' placeholder='Search by room or player name...' type='text'>
+</form>
+<div ng:controller='Top.WorldMap.MapFloatInfo as MapFloatInfo' ng:show='MapFloatInfo.float.active'>
+<div class='room-hover' ng-click='MapFloatInfo.goToRoom()' ng:style="{top: MapFloatInfo.float.hover.top+'px', left: MapFloatInfo.float.hover.left+'px', width: MapFloatInfo.float.hover.size+'px', height: MapFloatInfo.float.hover.size+'px', cursor: locked ? 'pointer' : 'move'}"></div>
+<div class='map-float-info' ng:style="{top: MapFloatInfo.float.top+'px', left: MapFloatInfo.float.left+'px'}">
+<div class='room-name'>
+Room {{MapFloatInfo.float.roomName}}
+</div>
+<div class='room-protected' ng:if='WorldMap.roomStats[MapFloatInfo.float.roomName].safeMode'>Safe mode</div>
+<div class='room-novice' ng:if='WorldMap.roomStats[MapFloatInfo.float.roomName].novice &gt; WorldMap.now()'>
+Novice area ({{WorldMap.roomStats[MapFloatInfo.float.roomName].novice | elapsedDays}} left)
+</div>
+<div class='room-disabled' ng:if="WorldMap.roomStats[MapFloatInfo.float.roomName].status == 'out of borders'">
+Not available
+</div>
+<div class='room-disabled' ng:if='WorldMap.roomStats[MapFloatInfo.float.roomName].openTime &gt; WorldMap.now()'>
+Not available ({{WorldMap.roomStats[MapFloatInfo.float.roomName].openTime | elapsedDays}} left)
+</div>
+<div class='owner'>
+<label>Owner:</label>
+<span ng:if='!WorldMap.roomStats[MapFloatInfo.float.roomName].own || !WorldMap.roomStats[MapFloatInfo.float.roomName].own.level'>None</span>
+<span ng:if='WorldMap.roomStats[MapFloatInfo.float.roomName].own &amp;&amp; WorldMap.roomStats[MapFloatInfo.float.roomName].own.level'>
+<img app:badge-src='WorldMap.roomUsers[WorldMap.roomStats[MapFloatInfo.float.roomName].own.user].badge'>
+{{WorldMap.roomUsers[WorldMap.roomStats[MapFloatInfo.float.roomName].own.user].username}}
+</span>
+</div>
+<div class='owner' ng:if='WorldMap.roomStats[MapFloatInfo.float.roomName].own &amp;&amp; !WorldMap.roomStats[MapFloatInfo.float.roomName].own.level'>
+<label>Reservation:</label>
+<span>
+<img app:badge-src='WorldMap.roomUsers[WorldMap.roomStats[MapFloatInfo.float.roomName].own.user].badge'>
+{{WorldMap.roomUsers[WorldMap.roomStats[MapFloatInfo.float.roomName].own.user].username}}
+</span>
+</div>
+<div class='rcl' ng:if='WorldMap.roomStats[MapFloatInfo.float.roomName].own &amp;&amp; WorldMap.roomStats[MapFloatInfo.float.roomName].own.level'>
+{{WorldMap.roomStats[MapFloatInfo.float.roomName].own.level}}
+</div>
+<div class='stats' ng:if="WorldMap.displayOptions.layer == 'minerals0'">
+<div>
+<label>Mineral:</label>
+<span>{{WorldMap.resourceTypeNames[WorldMap.roomStats[MapFloatInfo.float.roomName].minerals0.type]}}</span>
+</div>
+<div>
+<label>Density:</label>
+<span ng-class="'mineral-density-'+WorldMap.roomStats[MapFloatInfo.float.roomName].minerals0.density">
+{{WorldMap.densityNames[WorldMap.roomStats[MapFloatInfo.float.roomName].minerals0.density]}}
+</span>
+</div>
+</div>
+<div class='stats' ng:if='WorldMap.roomStats[MapFloatInfo.float.roomName][WorldMap.displayOptions.layer].length'>
+<label>{{ {energyHarvested8: 'Energy harvested:', energyHarvested180: 'Energy harvested:',energyHarvested1440: 'Energy harvested:', energyConstruction8: 'Energy spent:', energyConstruction180: 'Energy spent:',energyConstruction1440: 'Energy spent:',energyControl8: 'Control points:',energyControl180: 'Control points:',energyControl1440: 'Control points:',energyCreeps8: 'Energy spent:',energyCreeps180: 'Energy spent:',energyCreeps1440: 'Energy spent:',creepsProduced8: 'Body parts produced:',creepsProduced180: 'Body parts produced:',creepsProduced1440: 'Body parts produced:',creepsLost8: 'Body parts lost:',creepsLost180: 'Body parts lost:',creepsLost1440: 'Body parts lost:', powerProcessed8: 'Power processed:', powerProcessed180: 'Power processed:',powerProcessed1440: 'Power processed:'}[WorldMap.displayOptions.layer] }}</label>
+<div class='stat-user' ng:repeat='statItem in WorldMap.roomStats[MapFloatInfo.float.roomName][WorldMap.displayOptions.layer]'>
+<span>{{statItem.value | round}}</span>
+<label>by</label>
+<img app:badge-src='WorldMap.roomUsers[statItem.user].badge'>
+<span>{{WorldMap.roomUsers[statItem.user].username}}</span>
+</div>
+</div>
+</div>
+</div>
+<div app-stop-click-propagation app-stop-propagation='mouseout mouseover mousemove' class='counter' ng:if="WorldMap.worldStatus == 'empty'">
+<div class='title'>
+<span>Select your room</span>
+<md-button class='md-primary md-raised' ng-click='WorldMap.switchNoviceArea()' ng-if='WorldMap.startRoom.length &gt; 1'>Another area</md-button>
+</div>
+</div>
+</div>
+</section>
+<script id='world-map-zoom3' type='text/ng-template'>
+<div class='map-sector map-sector--zoom3' ng:if='sector.pos' ng:repeat='sector in WorldMap.sectors track by sector.id' ng:style="{top: sector.top+'px', left: sector.left+'px', 'background-image': 'url('+WorldMap.mapUrl.base+sector.name+'.png?'+WorldMap.mapUrl.query+')', cursor: WorldMap.roomStats[sector.name].status != 'normal' &amp;&amp; !WorldMap.roomStats[sector.name].safeMode ? 'default' : locked ? 'pointer' : 'move'}">
+<canvas app:game-map-room-objects='{{sector.name}}' class='room-objects' height='150' map-scale='3' ng:if='WorldMap.displayOptions.units' width='150'></canvas>
+<div class='room-disabled' ng:if="WorldMap.roomStats[sector.name].status != 'normal' &amp;&amp; !WorldMap.roomStats[sector.name].safeMode || WorldMap.roomStats[sector.name].openTime &gt; WorldMap.now()"></div>
+<div class='room-prohibited' ng:if="(WorldMap.worldStatus == 'empty' || WorldMap.displayOptions.layer == 'claim0') &amp;&amp; WorldMap.isRoomRespawnProhibited(sector.name)"></div>
+<div class='room-novice' ng:if="WorldMap.roomStats[sector.name].novice &gt; WorldMap.now() &amp;&amp; !((WorldMap.worldStatus == 'empty' || WorldMap.displayOptions.layer == 'claim0') &amp;&amp; WorldMap.isRoomRespawnProhibited(sector.name))"></div>
+<div class='room-protected' ng:if='WorldMap.roomStats[sector.name].safeMode'></div>
+<div class='room-stats' ng-if="WorldMap.displayOptions.layer == 'minerals0' &amp;&amp; WorldMap.roomStats[sector.name].minerals0">
+<div class='room-mineral-type' ng-class="'room-mineral-type-'+WorldMap.roomStats[sector.name].minerals0.type+' room-mineral-density-'+WorldMap.roomStats[sector.name].minerals0.density">
+{{WorldMap.roomStats[sector.name].minerals0.type}}
+</div>
+</div>
+<div class='room-stats' ng:class='{reserve: WorldMap.roomStats[sector.name].own.level == 0}' ng:if="WorldMap.roomStats[sector.name].own &amp;&amp; WorldMap.displayOptions.layer == 'owner0'">
+<img app:badge-src='WorldMap.roomUsers[WorldMap.roomStats[sector.name].own.user].badge' ng:style="{width: WorldMap.getStatsCircleSize(WorldMap.roomStats[sector.name].own.level || 1) + 'px', height: WorldMap.getStatsCircleSize(WorldMap.roomStats[sector.name].own.level || 1) + 'px'}" no-auto-watch watch-change>
+</div>
+<div class='room-stats' ng:if='WorldMap.roomStats[sector.name][WorldMap.displayOptions.layer].length'>
+<img app:badge-src='WorldMap.roomUsers[WorldMap.roomStats[sector.name][WorldMap.displayOptions.layer][0].user].badge' ng:style="{width: WorldMap.getStatsCircleSize(WorldMap.roomStats[sector.name][WorldMap.displayOptions.layer][0].value) + 'px', height: WorldMap.getStatsCircleSize(WorldMap.roomStats[sector.name][WorldMap.displayOptions.layer][0].value) + 'px'}" no-auto-watch watch-change>
+</div>
+</div>
+</script>
+<script id='world-map-zoom2' type='text/ng-template'>
+<div class='map-sector map-sector--zoom2' ng:if='sector.pos' ng:repeat='sector in WorldMap.sectors track by sector.id' ng:style="{top: sector.top+'px', left: sector.left+'px', 'background-image': 'url('+WorldMap.mapUrl.zoom2+sector.firstRoomName+'.png?'+WorldMap.mapUrl.query+')'}">
+<canvas app:game-map-sector height='200' id='{{sector.id}}' width='200'></canvas>
+</div>
+</script>
+<script id='world-map-zoom1' type='text/ng-template'>
+<div class='map-sector map-sector--zoom1' ng:if='sector.pos' ng:repeat='sector in WorldMap.sectors' ng:style="{top: sector.top+'px', left: sector.left+'px', 'background-image': 'url('+WorldMap.mapUrl.zoom1+sector.firstRoomName+'.png?'+WorldMap.mapUrl.query+')'}">
+<canvas app:game-map-sector height='200' width='200'></canvas>
+</div>
+</script>

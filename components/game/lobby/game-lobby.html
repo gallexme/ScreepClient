@@ -1,0 +1,52 @@
+<section class='game-lobby'>
+<div class='row'>
+<div class='col-xs-12'>
+<a class='lobby-item lobby-first-item disabled' ng:href="#!{{ 'top.game-world-map' | routeSegmentUrl }}">
+<h1>World</h1>
+<div class='lobby-description'>Stake your claim in a huge, constantly expanding, persistent world, and develop your colony as you compete with other players for control over the territory.</div>
+<div class='lobby-rank'>
+<div class='lobby-rank-title'>EARLY PREVIEW STARTS ON MAY 20</div>
+</div>
+</a>
+</div>
+</div>
+<div class='row'>
+<div class='col-xs-4'>
+<a class='lobby-item disabled' ng:href="#!{{ 'top.game-lobby-survival-no-season' | routeSegmentUrl }}">
+<h1>Survival</h1>
+<div class='lobby-description'>Defend from NPC creeps, wave after wave, trying to stay as long as you can.</div>
+<div class='lobby-rank'>
+<div class='lobby-rank-title'>Temporarily disabled</div>
+<!--
+<div class='lobby-rank-value' ng:if='GameLobby.myResults.survival'>{{GameLobby.myResults.survival.rank+1}}</div>
+<div class='lobby-rank-value' ng:if='!GameLobby.myResults.survival'>&mdash;</div>
+<div class='lobby-rank-title'>Your Rank</div>
+-->
+</div>
+</a>
+</div>
+<div class='col-xs-4'>
+<a class='lobby-item disabled' ng:href="#!{{ 'top.game-lobby-arena-no-season' | routeSegmentUrl }}">
+<h1>Arena</h1>
+<div class='lobby-description'>Play against others in a confined arena fighting for energy and points.</div>
+<div class='lobby-rank'>
+<div class='lobby-rank-title'>Temporarily disabled</div>
+<!--
+<div class='lobby-rank-value' ng:if='GameLobby.myResults.arena'>{{GameLobby.myResults.arena.rank+1}}</div>
+<div class='lobby-rank-value' ng:if='!GameLobby.myResults.arena'>&mdash;</div>
+<div class='lobby-rank-title'>Your Rank</div>
+-->
+</div>
+</a>
+</div>
+<div class='col-xs-4'>
+<div class='lobby-item disabled' ng:click='GameLobby.disabledModeClick()'>
+<h1>Duel</h1>
+<div class='lobby-description'>Fight with a random player opponent 1 vs 1 until any of you wins.</div>
+<div class='lobby-rank'>
+<div class='lobby-rank-title'>In Development</div>
+</div>
+</div>
+</div>
+</div>
+</section>

@@ -1,0 +1,571 @@
+<section class='room' ng:controller='Top.Game.Room as Room'>
+<svg height='0' viewbox='0 0 100 100' width='0'>
+<defs>
+<clipPath id='flagClip'>
+<path d='M18.486 4.68 c -11.408 4.567-6.787-7.725-15.635-1.254 l -1.851 0.664 3.666 14.41 h 2.019 l -1.795-7.058 c 7.894-6.618 4.698 7.211 14.036-6.357 0.217-0.315-0.073-0.552-0.44-0.405z'></path>
+</clipPath>
+</defs>
+</svg>
+<div class='game-field-container' ng:class="{'pan-active': Room.panActive}">
+<div class='resize-placeholder' ng:if='!(Room.terrain | empty) &amp;&amp; Room.isRoomUpdatedOnce'></div>
+<div class='pan-overhover'></div>
+<div app:room-resize class='game-field {{Room.getChangeAnimClass()}}' ng:if='!(Room.terrain | empty) &amp;&amp; Room.isRoomUpdatedOnce' zoom='Room.zoom'>
+<app:room-rendered-svg-path path-options="{fill: '#292b18', stroke: '#252715', 'stroke-width': 50, 'paint-order': 'stroke'}" path="Room.getRenderedPath('swamps')" svg-options="{viewBox: '0 0 5000 5000', 'shape-rendering': 'optimizeSpeed'}"></app:room-rendered-svg-path>
+<app:room-rendered-svg-path path-options="{fill: 'transparent', stroke: '#666', 'stroke-width': 30, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'}" path="Room.getRenderedPath('roads')" svg-options="{viewBox: '0 0 5000 5000', 'shape-rendering': 'optimizeSpeed'}"></app:room-rendered-svg-path>
+<app:game-exit></app:game-exit>
+<app:room-rendered-svg-path path-options="{fill: '#111', stroke: '#090909', 'stroke-width': 20, 'paint-order': 'stroke'}" path="Room.getRenderedPath('walls')" svg-options="{viewBox: '0 0 5000 5000', 'shape-rendering': 'optimizeSpeed'}"></app:room-rendered-svg-path>
+<app:room-rendered-svg-path ng:repeat='user in Room.getUsersWithRamparts() track by user' path-options="{fill: user == Game.player || user == 0 ? '#334834' : '#483034', stroke: user == Game.player || user == 0 ? '#8fbb93' : '#ed5557', 'stroke-width': 25, 'paint-order': 'stroke', opacity: '0.5'}" path="Room.getRenderedPath('ramparts:'+user)" svg-options="{viewBox: '0 0 5000 5000', 'shape-rendering': 'optimizeSpeed'}"></app:room-rendered-svg-path>
+<div class='object' ng:repeat='object in Room.objects track by object._id'>
+<app:game-rampart display-options='Room.displayOptions' game-time='Room.gameTime' ng:if="object.type == 'rampart' &amp;&amp; object.isPublic" object-data='object' player='Game.player' speed='Game.speed' users='Room.users'></app:game-rampart>
+<app:game-constructed-wall display-options='Room.displayOptions' ng:if="::object.type == 'constructedWall'" object-data='object' player='Game.player'></app:game-constructed-wall>
+<app:game-energy display-options='Room.displayOptions' ng:if="::object.type == 'energy'" object-data='object' player='Game.player'></app:game-energy>
+<app:game-source display-options='Room.displayOptions' ng:if="::object.type == 'source'" object-data='object' player='Game.player'></app:game-source>
+<app:game-extractor display-options='Room.displayOptions' ng:if="::object.type == 'extractor'" object-data='object' player='Game.player' speed='Game.speed'></app:game-extractor>
+<app:game-mineral display-options='Room.displayOptions' ng:if="::object.type == 'mineral'" object-data='object' player='Game.player'></app:game-mineral>
+<app:game-keeper-lair display-options='Room.displayOptions' ng:if="::object.type == 'keeperLair'" object-data='object'></app:game-keeper-lair>
+<app:game-controller display-options='Room.displayOptions' game-time='Room.gameTime' ng:if="::object.type == 'controller'" object-data='object' player='Game.player' speed='Game.speed' users='Room.users'></app:game-controller>
+<app:game-container display-options='Room.displayOptions' ng:if="::object.type == 'container'" object-data='object' player='Game.player'></app:game-container>
+<app:game-creep display-options='Room.displayOptions' game-time='Room.gameTime' ng:if='Room.creepFilter(object)' object-data='object' player='Game.player' room-controller='Room.roomController' speed='Game.speed' users='Room.users'></app:game-creep>
+<app:game-portal display-options='Room.displayOptions' ng:if="::object.type == 'portal'" object-data='object'></app:game-portal>
+<app:game-extension display-options='Room.displayOptions' ng:if="::object.type == 'extension'" object-data='object' player='Game.player'></app:game-extension>
+<app:game-storage display-options='Room.displayOptions' ng:if="::object.type == 'storage'" object-data='object' player='Game.player'></app:game-storage>
+<app:game-link display-options='Room.displayOptions' ng:if="::object.type == 'link'" object-data='object' player='Game.player' speed='Game.speed'></app:game-link>
+<app:game-tower display-options='Room.displayOptions' ng:if="::object.type == 'tower'" object-data='object' player='Game.player' speed='Game.speed'></app:game-tower>
+<app:game-terminal display-options='Room.displayOptions' ng:if="::object.type == 'terminal'" object-data='object' player='Game.player' speed='Game.speed'></app:game-terminal>
+<app:game-lab display-options='Room.displayOptions' ng:if="::object.type == 'lab'" object-data='object' player='Game.player' speed='Game.speed'></app:game-lab>
+<app:game-observer display-options='Room.displayOptions' ng:if="::object.type == 'observer'" object-data='object' player='Game.player' speed='Game.speed'></app:game-observer>
+<app:game-power-bank display-options='Room.displayOptions' ng:if="::object.type == 'powerBank'" object-data='object' player='Game.player' speed='Game.speed'></app:game-power-bank>
+<app:game-power-spawn display-options='Room.displayOptions' ng:if="::object.type == 'powerSpawn'" object-data='object' player='Game.player' speed='Game.speed' users='Room.users'></app:game-power-spawn>
+<app:game-nuker display-options='Room.displayOptions' ng:if="::object.type == 'nuker'" object-data='object' player='Game.player' speed='Game.speed'></app:game-nuker>
+<app:game-nuke display-options='Room.displayOptions' game-time='Room.gameTime' ng:if="::object.type == 'nuke'" object-data='object' player='Game.player' speed='Game.speed'></app:game-nuke>
+<app:game-spawn display-options='Room.displayOptions' ng:if="::object.type == 'spawn'" object-data='object' player='Game.player' users='Room.users'></app:game-spawn>
+<app:game-construction-site display-options='Room.displayOptions' ng:if="::object.type == 'constructionSite'" object-data='object' player='Game.player' speed='Game.speed'></app:game-construction-site>
+<app:game-disabled-object ng:if='Room.isStructureDisabled(object)' object-data='object'></app:game-disabled-object>
+<div ng-if='::Room.customObjectTypes[object.type]'>
+<svg class='custom-object speed{{Game.speed}}' height='6%' ng:style="{left: ((object.x-1)*100/50)+'%', top: ((object.y-1)*100/50)+'%'}" viewbox='0 0 300 300' width='6%'>
+<g ng-include="'customObjectTypeSvg_'+object.type" transform='translate(150,150)'></g>
+</svg>
+</div>
+</div>
+<div class='object' ng:if='Room.displayOptions.showFlags' ng:repeat='object in Room.flags track by object._id'>
+<app:game-flag display-options='Room.displayOptions' object-data='object' player='Game.player'></app:game-flag>
+</div>
+<svg class='selected-object-cursor' height='6%' ng:class="'speed'+Game.speed" ng:if='Room.selectedObject' ng:style="{left: ((Room.selectedObject.x-1)*100/50)+'%', top: ((Room.selectedObject.y-1)*100/50)+'%'}" viewbox='0 0 300 300' width='6%'>
+<ellipse cx='150' cy='150' fill='transparent' opacity='0.7' rx='100' ry='100' stroke-width='15' stroke='#6374D0'></ellipse>
+</svg>
+<div class='cursor' ng:if='Room.cursorPos &amp;&amp; !Room.panActive' ng:style="{left: (Room.cursorPos.x*2)+'%', top: (Room.cursorPos.y*2)+'%'}"></div>
+<div app:room-cursor-click='Room.cursorClick($event)' app:room-cursor-paint='Room.cursorPaint($event)' app:room-cursor-pos='Room.cursorPos' app:stop-click-propagation class='cursor-layer' ng:show='!Room.panActive'></div>
+<app:view-popup></app:view-popup>
+<div class='exit exit-top' ng:click="Room.switchRoom('top')" ng:if='Room.hasExit.top'>
+<i>
+<img src='components/game/room/exit-top.svg'>
+</i>
+</div>
+<div class='exit exit-left' ng:click="Room.switchRoom('left')" ng:if='Room.hasExit.left'>
+<i>
+<img src='components/game/room/exit-left.svg'>
+</i>
+</div>
+<div class='exit exit-right' ng:click="Room.switchRoom('right')" ng:if='Room.hasExit.right'>
+<i>
+<img src='components/game/room/exit-right.svg'>
+</i>
+</div>
+<div class='exit exit-bottom' ng:click="Room.switchRoom('bottom')" ng:if='Room.hasExit.bottom'>
+<i>
+<img src='components/game/room/exit-bottom.svg'>
+</i>
+</div>
+<img class='overlay-img' ng:if='Room.overlayImgSrc &amp;&amp; Room.overlayImg' ng:src='{{Room.overlayImgSrc}}'>
+</div>
+</div>
+<div class='subscribe-error' ng-if='Game.isSubscribeError()'>
+<h4>WAITING FOR DATA</h4>
+Too many tabs opened
+</div>
+<div class='history-no-data' ng:if="Game.simulationMode == 'history' &amp;&amp; Room.gameTime &amp;&amp; !Room.historyTimestamp">
+<h4>NO DATA</h4>
+Try to choose another game tick<br>using the timeline at the top
+</div>
+<svg class='room-message' ng:if="Room.selectedAction.action == 'spawn' || Room.selectedAction.action == 'flag' || Room.selectedAction.action == 'construct' &amp;&amp; Room.selectedAction.construct || Room.selectedAction.action == 'customize' &amp;&amp; Room.selectedAction.customize || Room.selectedAction.action == 'view' &amp;&amp; Room.selectedAction.changeFlag || Room.selectedAction.action == 'createInvader'" viewBox='0 0 500 80'>
+<rect fill='#000' height='80' opacity='0.1' rx='20' ry='20' width='500' x='0' y='0'></rect>
+<g class='error' ng:if="Room.selectedAction.action == 'spawn' &amp;&amp; Room.respawnProhibited">
+<text font-size='40' x='250' y='50'>Room is not available yet</text>
+</g>
+<g ng:class='{error: !Room.isLocationValid()}' ng:if="Room.selectedAction.action != 'spawn' || !Room.respawnProhibited">
+<text font-size='40' ng:if="Room.selectedAction.action == 'spawn' &amp;&amp; Room.timeUntilCanSpawn()" x='250' y='50'>
+{{Room.timeUntilCanSpawn() > 3600 ? Math.floor(Room.timeUntilCanSpawn()/3600)+':' : ''}}{{Math.floor(Room.timeUntilCanSpawn()/60)%60 | pad}}:{{(Room.timeUntilCanSpawn()%60) | pad}}
+</text>
+<text font-size='40' ng:if="Room.selectedAction.action == 'spawn' &amp;&amp; !Room.timeUntilCanSpawn()" x='250' y='50'>
+Place your spawn
+</text>
+<text font-size='40' ng:if="Room.selectedAction.action != 'spawn'" x='250' y='50'>
+Choose location
+</text>
+</g>
+</svg>
+<!--
+<a app-nw-external-link class='serverclub' href='http://serverclub.com' ng:class="{'aside-collapsed': Room.displayOptions.asideCollapsed}" target='_blank'></a>
+Powered by Multiplay
+-->
+<div class='room-controls' ng:if='!Game.readOnly'>
+<div class='room-controls-content'>
+<md:button aria-label='View / Pan' class='md-fab' ng:class="{'md-primary': Room.selectedAction.action == 'view'}" ng:click="Room.selectedAction = {action: 'view'}" tooltip-append-to-body='true' tooltip-placement='bottom' tooltip='View / Pan'>
+<img src='components/game/room/eye.svg'>
+</md:button>
+<md:button class='md-fab' ng:class="{'md-primary': Room.selectedAction.action == 'spawn'}" ng:click="Room.selectedAction = {action: 'spawn'}" ng:if='Room.isPlacingFirstSpawn' tooltip-append-to-body='true' tooltip-placement='bottom' tooltip='Place spawn'>
+<img src='components/game/room/cube.svg'>
+</md:button>
+<md:button aria-label='View' class='md-fab' ng-if='!Room.isPlacingFirstSpawn' ng:class="{'md-primary': Room.selectedAction.action == 'flag'}" ng:click="Room.selectedAction = {action: 'flag'}" tooltip-append-to-body='true' tooltip-placement='bottom' tooltip='Create Flag'>
+<img src='components/game/room/flag.svg'>
+</md:button>
+<md:button class='md-fab' ng:class="{'md-primary': Room.selectedAction.action == 'construct'}" ng:click="Room.selectedAction = {action: 'construct'}" ng:if="Room.roomMode != 'arena' &amp;&amp; !Room.isPlacingFirstSpawn" tooltip-append-to-body='true' tooltip-placement='bottom' tooltip='Construct'>
+<img src='components/game/room/cube.svg'>
+</md:button>
+<md:button class='md-fab' ng:class="{'md-primary': Room.selectedAction.action == 'customize'}" ng:click="Room.selectedAction = {action: 'customize'}" ng:if="(Game.simulationMode == 'custom' || Game.simulationMode == 'survival') &amp;&amp; !Room.isPlacingFirstSpawn" tooltip-append-to-body='true' tooltip-placement='bottom' tooltip='Customize'>
+<img src='components/game/room/cog.svg'>
+</md:button>
+<md:button class='md-fab btn-tutorial' ng:click='Room.showTutorial()' ng:if="Game.simulationMode == 'tutorial'" tooltip-append-to-body='true' tooltip-placement='bottom' tooltip='Tutorial'>
+<img src='components/game/question-circle.svg'>
+</md:button>
+</div>
+</div>
+<div class='history-controls' ng:class='{striped: Game.historyTickValue != Math.floor(Room.gameTime/20)}' ng:if="Game.simulationMode == 'history'">
+<md-slider max='{{Math.floor(Game.historyMaxGameTime/20)}}' min='{{Math.floor(Game.historyMinGameTime/20)}}' ng:change='Game.historyTickChange()' ng:model='Game.historyTickValue' step='1'></md-slider>
+<div class='history-tick-value'>Tick # {{Game.historyTickValue == Math.floor(Room.gameTime/20) ? Room.gameTime : Game.historyTickValue*20}}</div>
+</div>
+<div class='left-controls'>
+<md:button class='md-raised btn-exit-history' ng-click='Game.exitHistory()' ng:if="Game.simulationMode == 'history'" tooltip-append-to-body='true' tooltip-placement='right' tooltip='Exit history view'>
+<img src='components/game/ic_arrow_back_white_36px.svg'>
+</md:button>
+<md:button class='md-raised' ng-click='Room.goToMap()' ng:if="Room.roomMode == 'world' &amp;&amp; !Game.simulationMode" tooltip-append-to-body='true' tooltip-placement='right' tooltip='World'>
+<img src='components/game/ic_language_white_36px.svg'>
+</md:button>
+<md:button class='md-raised' ng:href="#!{{ 'top.game-overview-room' | routeSegmentUrl:{room:Room.roomName} }}" ng:if="Room.roomMode == 'world' &amp;&amp; !Game.simulationMode" tooltip-append-to-body='true' tooltip-placement='right' tooltip='Room overview'>
+<img src='components/game/ic_event_note_white_36px.svg'>
+</md:button>
+<md:button class='md-raised' ng-click='Room.goToHistory()' ng:if="Room.roomMode == 'world' &amp;&amp; !Game.simulationMode &amp;&amp; !ptr" tooltip-append-to-body='true' tooltip-placement='right' tooltip='Replay room history'>
+<img src='components/game/ic_videocam_white_36px.svg'>
+</md:button>
+<div class='zoom-controls'>
+<md:button class='md-raised' ng:click='Room.zoomIn()'>
+<div class='fa fa-plus'></div>
+</md:button>
+<md:button class='md-raised' ng:click='Room.zoomOut()'>
+<div class='fa fa-minus'></div>
+</md:button>
+</div>
+</div>
+<aside ng:class='{collapsed: Room.displayOptions.asideCollapsed}'>
+<div class='aside-handle' ng:click='Room.displayOptions.asideCollapsed = !Room.displayOptions.asideCollapsed'>
+<div class='fa' ng:class="{'fa-caret-left': Room.displayOptions.asideCollapsed, 'fa-caret-right': !Room.displayOptions.asideCollapsed}"></div>
+</div>
+<div class='aside-content'>
+<app:aside-block class='simulation' heading="{{Game.simulationMode == 'history' ? 'History' : 'Simulation Room'}}" ng:if='Game.simulationMode' visibility-model='Room.asidePanels.simulation'>
+<md:button class='md-fab prev-tick-more' ng:click='Game.rewindHistory(-100)' ng:if="Game.simulationMode == 'history'" title='-100 ticks'>
+<div class='fa fa-angle-double-left'></div>
+</md:button>
+<md:button class='md-fab prev-tick' ng:click='Game.rewindHistory(-1)' ng:if="Game.simulationMode == 'history'" title='Previous tick'>
+<div class='fa fa-angle-left'></div>
+</md:button>
+<md:button class='md-fab play-pause' ng:class="{'md-primary': Game.playing}" ng:click='Game.playing ? Game.pause() : Game.play()' ng:disabled="Game.playDisabled || Game.simulationMode == 'history' &amp;&amp; Room.gameTime &gt;= Game.historyMaxGameTime" title='Play / Pause'>
+<div class='fa fa-play' ng:if='!Game.playing'></div>
+<div class='fa fa-pause' ng:if='Game.playing'></div>
+</md:button>
+<md:button class='md-fab next-tick' ng:click='Game.rewindHistory(1)' ng:disabled='Room.gameTime+1 &gt; Game.historyMaxGameTime' ng:if="Game.simulationMode == 'history'" title='Next tick'>
+<div class='fa fa-angle-right'></div>
+</md:button>
+<md:button class='md-fab next-tick-more' ng:click='Game.rewindHistory(100)' ng:disabled='Room.gameTime+100 &gt; Game.historyMaxGameTime' ng:if="Game.simulationMode == 'history'" title='+100 ticks'>
+<div class='fa fa-angle-double-right'></div>
+</md:button>
+<div class='speed'>
+<md:button class='dec-speed' ng:click='Game.decSpeed()' ng:disabled='Game.speed == 50' title='Decrease speed'>
+<div class='fa fa-minus'></div>
+</md:button>
+<span>Speed: {{Game.speed}}%</span>
+<md:button class='inc-speed' ng:click='Game.incSpeed()' ng:disabled='Game.speed &gt;= Game.maxSpeed' title='Increase speed'>
+<div class='fa fa-plus'></div>
+</md:button>
+</div>
+<div class='history-info' ng:if="Game.simulationMode == 'history' &amp;&amp; Room.gameTime">
+<div class='history-tick'>Tick # {{Room.gameTime}}</div>
+<div class='history-date'>{{(Room.historyTimestamp | date:'short') || 'No data'}}</div>
+</div>
+<div ng:if="Game.simulationMode != 'history'">
+<md:button class='md-primary md-hue-1 allwidth' ng-href="#!{{'top.sim' | routeSegmentUrl}}">Leave simulation</md:button>
+</div>
+<div ng:if="Game.simulationMode == 'history'">
+<md:button app:click-animated='Room.historyShare.create()' class='md-primary md-hue-1 allwidth' ng:if='Room.historyShare.room != Room.roomName || Room.historyShare.time != Room.gameTime'>Share</md:button>
+<div app:button-copy-input class='history-share' ng:if='Room.historyShare.room == Room.roomName &amp;&amp; Room.historyShare.time == Room.gameTime'>
+<input app:click-select-all ng:model='Room.historyShare.url' readonly>
+<md:button class='md-primary md-raised'>Copy</md:button>
+</div>
+</div>
+</app:aside-block>
+<app:aside-block class='world-room' heading='Room {{Room.roomName}}' ng:if="Room.roomMode == 'world'" visibility-model='Room.asidePanels.worldRoom'>
+<label>Owner:</label>
+<span ng:if='!Room.roomController.user'>None</span>
+<a ng:href="#!{{ 'top.profile' | routeSegmentUrl:{username:Room.users[Room.roomController.user].username} }}" ng:if='Room.roomController.user'>
+<img app:badge-src='Room.users[Room.roomController.user].badge'>
+{{Room.users[Room.roomController.user].username}}
+</a>
+<div class='room-novice' ng:if='Room.gameTime &amp;&amp; Room.roomStatusInfo.novice &gt; Room.now()'>
+<span>Novice area ({{Room.roomStatusInfo.novice | elapsedDays}} left)</span>
+</div>
+<div class='room-disabled' ng:if="Room.gameTime &amp;&amp; Room.roomStatusInfo.status == 'out of borders'">
+<span>Not available</span>
+</div>
+<div class='room-disabled' ng:if='Room.gameTime &amp;&amp; Room.roomStatusInfo.openTime &gt; Room.now()'>
+<span>Not available ({{Room.roomStatusInfo.openTime | elapsedDays}} left)</span>
+</div>
+<div class='room-protected' ng:if='Room.gameTime &amp;&amp; Room.safeMode &gt; Room.gameTime'>
+<span>Safe mode ({{Room.safeMode - Room.gameTime}})</span>
+<br>
+<a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/203339002' target='_blank'>Learn more</a>
+about safe mode
+</div>
+</app:aside-block>
+<app:aside-block heading='World Map' ng:if="Room.roomMode == 'world'" visibility-model='Room.asidePanels.worldMap'>
+<div class='world-minimap'>
+<a class='world-minimap-room tl' ng:href="#!{{ $routeSegment.name | routeSegmentUrl:{room: Room.getNeighborRoom(-1,-1)} }}{{ Game.simulationMode == 'history' ? '?t='+Room.gameTime : '' }}" ng:style="{'background-image': 'url('+Room.mapUrl+Room.getNeighborRoom(-1,-1)+'.png)'}">
+<canvas app:game-map-room-objects='{{Room.getNeighborRoom(-1,-1)}}' class='room-objects' height='50' map-scale='1' ng:if='Room.asidePanels.worldMap' width='50'></canvas>
+</a>
+<a class='world-minimap-room t' ng:href="#!{{ $routeSegment.name | routeSegmentUrl:{room: Room.getNeighborRoom(0,-1)} }}{{ Game.simulationMode == 'history' ? '?t='+Room.gameTime : '' }}" ng:style="{'background-image': 'url('+Room.mapUrl+Room.getNeighborRoom(0,-1)+'.png)'}">
+<canvas app:game-map-room-objects='{{Room.getNeighborRoom(0,-1)}}' class='room-objects' height='50' map-scale='1' ng:if='Room.asidePanels.worldMap' width='50'></canvas>
+</a>
+<a class='world-minimap-room tr' ng:href="#!{{ $routeSegment.name | routeSegmentUrl:{room: Room.getNeighborRoom(1,-1)} }}{{ Game.simulationMode == 'history' ? '?t='+Room.gameTime : '' }}" ng:style="{'background-image': 'url('+Room.mapUrl+Room.getNeighborRoom(1,-1)+'.png)'}">
+<canvas app:game-map-room-objects='{{Room.getNeighborRoom(1,-1)}}' class='room-objects' height='50' map-scale='1' ng:if='Room.asidePanels.worldMap' width='50'></canvas>
+</a>
+<a class='world-minimap-room l' ng:href="#!{{ $routeSegment.name | routeSegmentUrl:{room: Room.getNeighborRoom(-1,0)} }}{{ Game.simulationMode == 'history' ? '?t='+Room.gameTime : '' }}" ng:style="{'background-image': 'url('+Room.mapUrl+Room.getNeighborRoom(-1,0)+'.png)'}">
+<canvas app:game-map-room-objects='{{Room.getNeighborRoom(-1,0)}}' class='room-objects' height='50' map-scale='1' ng:if='Room.asidePanels.worldMap' width='50'></canvas>
+</a>
+<div class='world-minimap-room c' ng:style="{'background-image': 'url('+Room.mapUrl+Room.roomName+'.png)'}">
+<canvas app:game-map-room-objects='{{Room.roomName}}' class='room-objects' height='50' map-scale='1' ng:if='Room.asidePanels.worldMap' width='50'></canvas>
+</div>
+<a class='world-minimap-room r' ng:href="#!{{ $routeSegment.name | routeSegmentUrl:{room: Room.getNeighborRoom(1,0)} }}{{ Game.simulationMode == 'history' ? '?t='+Room.gameTime : '' }}" ng:style="{'background-image': 'url('+Room.mapUrl+Room.getNeighborRoom(1,0)+'.png)'}">
+<canvas app:game-map-room-objects='{{Room.getNeighborRoom(1,0)}}' class='room-objects' height='50' map-scale='1' ng:if='Room.asidePanels.worldMap' width='50'></canvas>
+</a>
+<a class='world-minimap-room bl' ng:href="#!{{ $routeSegment.name | routeSegmentUrl:{room: Room.getNeighborRoom(-1,1)} }}{{ Game.simulationMode == 'history' ? '?t='+Room.gameTime : '' }}" ng:style="{'background-image': 'url('+Room.mapUrl+Room.getNeighborRoom(-1,1)+'.png)'}">
+<canvas app:game-map-room-objects='{{Room.getNeighborRoom(-1,1)}}' class='room-objects' height='50' map-scale='1' ng:if='Room.asidePanels.worldMap' width='50'></canvas>
+</a>
+<a class='world-minimap-room b' ng:href="#!{{ $routeSegment.name | routeSegmentUrl:{room: Room.getNeighborRoom(0,1)} }}{{ Game.simulationMode == 'history' ? '?t='+Room.gameTime : '' }}" ng:style="{'background-image': 'url('+Room.mapUrl+Room.getNeighborRoom(0,1)+'.png)'}">
+<canvas app:game-map-room-objects='{{Room.getNeighborRoom(0,1)}}' class='room-objects' height='50' map-scale='1' ng:if='Room.asidePanels.worldMap' width='50'></canvas>
+</a>
+<a class='world-minimap-room br' ng:href="#!{{ $routeSegment.name | routeSegmentUrl:{room: Room.getNeighborRoom(1,1)} }}{{ Game.simulationMode == 'history' ? '?t='+Room.gameTime : '' }}" ng:style="{'background-image': 'url('+Room.mapUrl+Room.getNeighborRoom(1,1)+'.png)'}">
+<canvas app:game-map-room-objects='{{Room.getNeighborRoom(1,1)}}' class='room-objects' height='50' map-scale='1' ng:if='Room.asidePanels.worldMap' width='50'></canvas>
+</a>
+</div>
+</app:aside-block>
+<app:aside-block heading='Debug' ng:if='isDebug' visibility-model='Room.asidePanels.debug'>
+<md:button ng:click='Room.save()'>Save</md:button>
+<md:button ng:click='Room.restore()'>Restore</md:button>
+<textarea ng:model='Room.restoreData' rows='3'></textarea>
+<div>
+<ui:drop-select ng:model='Room.symmetry' options="[{none: 'none'}, {diagonal: 'diagonal'}, {horizontal: 'horizontal'}, {quadrant: 'quadrant'}]" style-type='button'></ui:drop-select>
+<md:button ng:click='Room.symmetryMirror()'>OK</md:button>
+</div>
+<md:button ng:click='Room.rotate()'>Rotate</md:button>
+<div>
+<div>Overlay:</div>
+<input ng:model='Room.overlayImgSrc' style='width: 100px'>
+<md-checkbox ng:model='Room.overlayImg' style='display: inline-block'></md-checkbox>
+</div>
+<div>
+<md-checkbox ng-model='Room.rotateCreepOnClick'>Rotate creep on click</md-checkbox>
+</div>
+<div ng-if='Room.selectedObject'>
+<textarea ng-model='Room.selectedObjectJSON' rows='5'></textarea>
+<div>
+<md-button ng-click='Room.setSelectedObjectJSON()'>Update object</md-button>
+</div>
+</div>
+<div>
+<md-checkbox ng-model='Room.autoCreateCreeps'>Auto create creeps</md-checkbox>
+</div>
+</app:aside-block>
+<app:aside-block class='display-options' heading='Display Options' visibility-model='Room.asidePanels.displayOptions'>
+<app:display-options-block children="{spawns: 'My spawns', creeps: 'My creeps'}" heading='Show my names' model='Room.displayOptions.showMyNames'></app:display-options-block>
+<app:display-options-block children="{spawns: 'Hostile spawns', creeps: 'Hostile creeps'}" heading='Show hostile names' model='Room.displayOptions.showEnemyNames'></app:display-options-block>
+<app:display-options-block children="{showFlagsNames: 'Flag names'}" heading='Show flags' model='Room.displayOptions' parent='showFlags'></app:display-options-block>
+<md-checkbox class='md-primary' ng-model='Room.displayOptions.showCreepSpeech'>Show creeps speech</md-checkbox>
+<md-checkbox class='md-primary' ng-model='Room.displayOptions.animations'>Smooth animations</md-checkbox>
+</app:aside-block>
+<app:aside-block class='invasion' heading='Invasion' ng:if="Game.simulationMode != 'tutorial'" visibility-model='Room.asidePanels.invasion'>
+<div ng-controller='Top.Game.Room.Invasion as Invasion'>
+<table>
+<tr>
+<td>Type</td>
+<td>Size</td>
+</tr>
+<tr>
+<td>
+<md-radio-group ng-model='Invasion.type'>
+<md-radio-button class='md-primary md-hue-1' value='Melee'>Melee</md-radio-button>
+<md-radio-button class='md-primary md-hue-1' value='Ranged'>Ranged</md-radio-button>
+<md-radio-button class='md-primary md-hue-1' value='Healer'>Healer</md-radio-button>
+</md-radio-group>
+</td>
+<td>
+<md-radio-group ng-model='Invasion.size'>
+<md-radio-button class='md-primary md-hue-1' value='small'>Small</md-radio-button>
+<md-radio-button class='md-primary md-hue-1' value='big'>Big</md-radio-button>
+</md-radio-group>
+</td>
+</tr>
+</table>
+<md-checkbox class='md-primary' ng-model='Invasion.boosted'>Boosted</md-checkbox>
+<md-button class='md-primary md-hue-1 allwidth' ng-class="{'md-raised': Room.selectedAction.action == 'createInvader'}" ng-click="Room.selectedAction.action = 'createInvader'" ng-disabled='!Room.canCreateInvaders'>
+Create an invader
+</md-button>
+</div>
+</app:aside-block>
+<app:aside-block class='cursor' heading='Cursor' visibility-model='Room.asidePanels.cursor'>
+<div class='x'>
+<label>X:</label>
+{{Room.cursorPos.x}}
+</div>
+<div class='y'>
+<label>Y:</label>
+{{Room.cursorPos.y}}
+</div>
+<label>Terrain:</label>
+{{Room.getTerrainAtCursor()}}
+</app:aside-block>
+<app:aside-block heading='Player Control' ng:if="Game.simulationMode == 'custom'" visibility-model='Room.asidePanels.playerControl'>
+<md-radio-group ng:model='Game.player'>
+<md-radio-button class='md-primary md-hue-1' ng:if='!Me()' value='0'>Player 1</md-radio-button>
+<md-radio-button class='md-primary md-hue-1' ng:if='Me()' value='{{Me()._id}}'>{{Room.users[Me()._id].username}}</md-radio-button>
+<md-radio-button class='md-primary md-hue-1' value='1'>Player 2</md-radio-button>
+<md-radio-button class='md-primary md-hue-1' ng:if='isDebug' value='2'>Invader</md-radio-button>
+<md-radio-button class='md-primary md-hue-1' ng:if='isDebug' value='3'>Source Keeper</md-radio-button>
+</md-radio-group>
+</app:aside-block>
+<div class='object-properties' ng:if="Room.selectedAction.action == 'view' &amp;&amp; Room.selectedObject &amp;&amp; !Room.customObjectTypes[Room.selectedObject.type]" ng:include="'components/game/room/properties/'+Room.selectedObject.type+'.html' | bust"></div>
+<div class='object-properties' ng:if="Room.selectedAction.action == 'view' &amp;&amp; Room.selectedObject &amp;&amp; Room.customObjectTypes[Room.selectedObject.type]">
+<app:aside-block class='aside-block-highlighted' heading='{{Room.selectedObject.type}}' ng-init='object = Room.selectedObject' visibility-model='Room.asidePanels.view'>
+<div>
+<div class='object-properties-id'>
+ID: {{Room.selectedObject._id}}
+</div>
+<div ng:if='Room.selectedObject.user'>
+<label>Owner:</label>
+<span>
+<a ng:href="#!{{ 'top.profile' | routeSegmentUrl:{username: Room.users[Room.selectedObject.user].username} }}" ng:if="!_.contains(['0','1','2','3'], Room.selectedObject.user)" title='View user profile'>
+<img app:badge-src='Room.users[Room.selectedObject.user].badge'>
+{{Room.users[Room.selectedObject.user].username}}
+</a>
+<span ng:if="_.contains(['0','1','2','3'], Room.selectedObject.user)">
+{{Room.users[Room.selectedObject.user].username}}
+</span>
+</span>
+</div>
+<div>
+<label>Position:</label>
+{{Room.selectedObject.x}}, {{Room.selectedObject.y}}
+</div>
+<ng-include src="'customObjectTypeProperties_'+Room.selectedObject.type"></ng-include>
+</div>
+</app:aside-block>
+</div>
+<app:aside-block class='customize aside-block-highlighted' heading='Customize' ng:if="Room.selectedAction.action == 'customize'" visibility-model='Room.asidePanels.customize'>
+<div class='title'>Choose action:</div>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'container'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'container'}">Container</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'controller'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'controller'}">Controller</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize == 'createCreep'}" ng:click="Room.selectedAction.customize = 'createCreep'">Creep</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'constructedWall'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'constructedWall'}">C. Wall</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'extension'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'extension'}">Extension</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'extractor'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'extractor'}">Extractor</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'keeperLair'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'keeperLair'}">Keeper Lair</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'lab'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'lab'}">Lab</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'link'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'link'}">Link</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'mineral'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'mineral'}">Mineral</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'invader'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'invader'}">NPC Invader</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'nuker'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'nuker'}">Nuker</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'observer'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'observer'}">Observer</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'powerBank'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'powerBank'}">Power Bank</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'powerSpawn'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'powerSpawn'}">Power Spawn</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'rampart'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'rampart'}">Rampart</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'road'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'road'}">Road</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'source'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'source'}">Source</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'spawn'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'spawn'}">Spawn</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'storage'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'storage'}">Storage</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'swamp'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'swamp'}">Swamp</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'terminal'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'terminal'}">Terminal</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'tower'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'tower'}">Tower</md:button>
+<md:button class='md-primary md-hue-1' ng:class="{'md-raised': Room.selectedAction.customize.type == 'wall'}" ng:click="Room.selectedAction.customize = {action: 'create', type: 'wall'}">Wall</md:button>
+<md:button class='md-primary md-hue-1 allwidth' ng:class="{'md-raised': Room.selectedAction.customize == 'erase'}" ng:click="Room.selectedAction.customize = 'erase'">Erase</md:button>
+</app:aside-block>
+<app:aside-block class='construct aside-block-highlighted' heading='Construct' ng:if="Room.selectedAction.action == 'construct'" visibility-model='Room.asidePanels.construct'>
+<md:button class='allwidth' ng:class="{'md-raised': Room.selectedAction.construct == 'extension'}" ng:click="Room.selectedAction.construct = 'extension'" ng:disabled="Room.checkController({construct:'extension'}).msg != 'OK'">
+<div class='construction-icon'>
+<app:game-extension display-options='{}' object-data='{x: 1, y: 1, energyCapacity: 100, energy: 50, user: 0}' player='0' users='{0: {badge: Me().badge}}'></app:game-extension>
+</div>
+<app:room-construction-available structure='extension'></app:room-construction-available>
+<strong>Extension</strong>
+<div class='construction-note'>Contains additional energy which can be used by spawns for spawning bigger creeps.</div>
+</md:button>
+<md:button class='allwidth' ng:class="{'md-raised': Room.selectedAction.construct == 'road'}" ng:click="Room.selectedAction.construct = 'road'" ng:disabled="Room.checkController({construct:'road'}).msg != 'OK'">
+<div class='construction-icon'>
+<svg height='100%' shape-rendering='optimizeSpeed' viewBox='0 0 5000 5000' width='100%'>
+<path fill='transparent' ng:attr-d="{{Room.getRenderedPath('roads', Room.dummyRoad, true)}}" stroke-linecap='round' stroke-linejoin='round' stroke-width='30' stroke='#666'></path>
+</svg>
+</div>
+<app:room-construction-available structure='road'></app:room-construction-available>
+<strong>Road</strong>
+<div class='construction-note'>Decreases movement cost. Decays over time and requires repair.</div>
+</md:button>
+<md:button class='allwidth' ng:class="{'md-raised': Room.selectedAction.construct == 'constructedWall'}" ng:click="Room.selectedAction.construct = 'constructedWall'" ng:disabled="Room.checkController({construct:'constructedWall'}).msg != 'OK'">
+<div class='construction-icon'>
+<svg height='100%' shape-rendering='optimizeSpeed' viewBox='0 0 5000 5000' width='100%'>
+<path fill='#111' ng:attr-d="{{Room.getRenderedPath('walls', Room.dummyWall, true)}}" stroke-width='20' stroke='#090909'></path>
+</svg>
+<app:game-constructed-wall display-options='{}' object-data='{x: 1, y: 1}'></app:game-constructed-wall>
+</div>
+<app:room-construction-available structure='constructedWall'></app:room-construction-available>
+<strong>Wall</strong>
+<div class='construction-note'>Blocks movement of all creeps. Requires repair after construction.</div>
+</md:button>
+<md:button class='allwidth' ng:class="{'md-raised': Room.selectedAction.construct == 'rampart'}" ng:click="Room.selectedAction.construct = 'rampart'" ng:disabled="Room.checkController({construct:'rampart'}).msg != 'OK'">
+<div class='construction-icon'>
+<svg height='100%' shape-rendering='optimizeSpeed' viewBox='0 0 5000 5000' width='100%'>
+<path fill='#334834' ng:attr-d="{{Room.getRenderedPath('ramparts:0', Room.dummyRampart, true)}}" opacity='0.5' paint-order='stroke' stroke-width='15' stroke='#8fbb93'></path>
+</svg>
+</div>
+<app:room-construction-available structure='rampart'></app:room-construction-available>
+<strong>Rampart</strong>
+<div class='construction-note'>Defends creeps and structures on the same tile and blocks enemy movement. Decays over time and requires repair.</div>
+</md:button>
+<md:button class='allwidth' ng:class="{'md-raised': Room.selectedAction.construct == 'tower'}" ng:click="Room.selectedAction.construct = 'tower'" ng:disabled="Room.checkController({construct:'tower'}).msg != 'OK'">
+<div class='construction-icon'>
+<app:game-tower display-options='{}' object-data='{x: 1, y: 1, energyCapacity: 100, energy: 50, user: 0}' player='0' users='{0: {badge: Me().badge}}'></app:game-tower>
+</div>
+<app:room-construction-available structure='tower'></app:room-construction-available>
+<strong>Tower</strong>
+<div class='construction-note'>
+Remotely attacks or heals any creep in a room, or repairs a structure.
+</div>
+</md:button>
+<md:button class='allwidth' ng:class="{'md-raised': Room.selectedAction.construct == 'container'}" ng:click="Room.selectedAction.construct = 'container'" ng:disabled="Room.checkController({construct:'container'}).msg != 'OK'">
+<div class='construction-icon'>
+<app:game-container display-options='{}' object-data='{x: 1, y: 1, energyCapacity: 100, energy: 50}'></app:game-container>
+</div>
+<app:room-construction-available structure='container'></app:room-construction-available>
+<strong>Container</strong>
+<div class='construction-note'>Stores up to 2,000 resource units. Decays over time and requires repair.</div>
+</md:button>
+<md:button class='allwidth' ng:class="{'md-raised': Room.selectedAction.construct == 'storage'}" ng:click="Room.selectedAction.construct = 'storage'" ng:disabled="Room.checkController({construct:'storage'}).msg != 'OK'">
+<div class='construction-icon'>
+<app:game-storage display-options='{}' object-data='{x: 1, y: 1, energyCapacity: Room.Constants.STORAGE_CAPACITY, energy: Room.Constants.STORAGE_CAPACITY/2, user: 0}' player='0' users='{0: {badge: Me().badge}}'></app:game-storage>
+</div>
+<app:room-construction-available structure='storage'></app:room-construction-available>
+<strong>Storage</strong>
+<div class='construction-note'>Stores up to 1,000,000 resource units.</div>
+</md:button>
+<md:button class='allwidth' ng:class="{'md-raised': Room.selectedAction.construct == 'link'}" ng:click="Room.selectedAction.construct = 'link'" ng:disabled="Room.checkController({construct:'link'}).msg != 'OK'">
+<div class='construction-icon'>
+<app:game-link display-options='{}' object-data='{x: 1, y: 1, energyCapacity: 100, energy: 50, user: 0}' player='0' users='{0: {badge: Me().badge}}'></app:game-link>
+</div>
+<app:room-construction-available structure='link'></app:room-construction-available>
+<strong>Link</strong>
+<div class='construction-note'>Remotely transfers energy to another Link in the same room.</div>
+</md:button>
+<md:button class='allwidth' ng:class="{'md-raised': Room.selectedAction.construct == 'extractor'}" ng:click="Room.selectedAction.construct = 'extractor'" ng:disabled="Room.checkController({construct:'extractor'}).msg != 'OK'">
+<div class='construction-icon'>
+<app:game-extractor display-options='{}' object-data='{x: 1, y: 1, user: 0}' player='0'></app:game-extractor>
+</div>
+<app:room-construction-available structure='extractor'></app:room-construction-available>
+<strong>Extractor</strong>
+<div class='construction-note'>Allows to mine a mineral deposit.</div>
+</md:button>
+<md:button class='allwidth' ng:class="{'md-raised': Room.selectedAction.construct == 'lab'}" ng:click="Room.selectedAction.construct = 'lab'" ng:disabled="Room.checkController({construct:'lab'}).msg != 'OK'">
+<div class='construction-icon'>
+<app:game-lab display-options='{}' object-data="{x: 1, y: 1, user: 0, energy:50, energyCapacity: 100, mineralAmount: 50, mineralCapacity: 100, mineralType: 'L'}" player='0'></app:game-lab>
+</div>
+<app:room-construction-available structure='lab'></app:room-construction-available>
+<strong>Lab</strong>
+<div class='construction-note'>Produces mineral compounds and boosts creeps.</div>
+</md:button>
+<md:button class='allwidth' ng:class="{'md-raised': Room.selectedAction.construct == 'terminal'}" ng:click="Room.selectedAction.construct = 'terminal'" ng:disabled="Room.checkController({construct:'terminal'}).msg != 'OK'">
+<div class='construction-icon'>
+<app:game-terminal display-options='{}' object-data='{x: 1, y: 1, user: 0, U:50, energyCapacity: 100}' player='0'></app:game-terminal>
+</div>
+<app:room-construction-available structure='terminal'></app:room-construction-available>
+<strong>Terminal</strong>
+<div class='construction-note'>Sends any resources to a&nbsp;Terminal in another room.</div>
+</md:button>
+<md:button class='allwidth' ng:class="{'md-raised': Room.selectedAction.construct == 'spawn'}" ng:click="Room.selectedAction.construct = 'spawn'" ng:disabled="Room.checkController({construct:'spawn'}).msg != 'OK'">
+<div class='construction-icon'>
+<app:game-spawn display-options='{}' object-data='{x: 1, y: 1, energyCapacity: 100, energy: 50, user: 0, spawning: {remainingTime: 20, needTime: 30}}' player='0' users='{0: {badge: Me().badge}}'></app:game-spawn>
+</div>
+<app:room-construction-available structure='spawn'></app:room-construction-available>
+<strong>Spawn</strong>
+<div class='construction-note'>Spawns creeps using energy contained in the room spawns and extensions.</div>
+</md:button>
+<md:button class='allwidth' ng:class="{'md-raised': Room.selectedAction.construct == 'observer'}" ng:click="Room.selectedAction.construct = 'observer'" ng:disabled="Room.checkController({construct:'observer'}).msg != 'OK'">
+<div class='construction-icon'>
+<app:game-observer display-options='{}' object-data='{x: 1, y: 1, user: 0}' player='0' users='{0: {badge: Me().badge}}'></app:game-observer>
+</div>
+<app:room-construction-available structure='observer'></app:room-construction-available>
+<strong>Observer</strong>
+<div class='construction-note'>Provides visibility into a distant room from your script.</div>
+</md:button>
+<md:button class='allwidth' ng:class="{'md-raised': Room.selectedAction.construct == 'powerSpawn'}" ng:click="Room.selectedAction.construct = 'powerSpawn'" ng:disabled="Room.checkController({construct:'powerSpawn'}).msg != 'OK'">
+<div class='construction-icon'>
+<app:game-power-spawn display-options='{}' object-data='{x: 1, y: 1, energyCapacity: 100, energy: 30, power: 10, powerCapacity: 30, user: 0, spawning: {}}' player='0' users='{0: {badge: Me().badge}}'></app:game-power-spawn>
+</div>
+<app:room-construction-available structure='powerSpawn'></app:room-construction-available>
+<strong>Power Spawn</strong>
+<div class='construction-note'>Spawns power creeps with special unique powers.</div>
+</md:button>
+<md:button class='allwidth' ng:class="{'md-raised': Room.selectedAction.construct == 'nuker'}" ng:click="Room.selectedAction.construct = 'nuker'" ng:disabled="Room.checkController({construct:'nuker'}).msg != 'OK'">
+<div class='construction-icon'>
+<app:game-nuker display-options='{}' object-data='{x: 1, y: 1, energyCapacity: 100, energy: 50, G: 50, GCapacity: 100, user: 0}' player='0' users='{0: {badge: Me().badge}}'></app:game-nuker>
+</div>
+<app:room-construction-available structure='nuker'></app:room-construction-available>
+<strong>Nuker</strong>
+<div class='construction-note'>Launches a nuke to a distant room dealing huge damage to the landing area.</div>
+</md:button>
+</app:aside-block>
+</div>
+</aside>
+</section>
+<script id='room-aside-block-template' type='text/ng-template'>
+<div class='aside-block' ng:class='{active: AsideBlock.show}'>
+<md:button class='aside-block-header' ng:click='AsideBlock.toggle()'>
+<i class='fa' ng:class="{'fa-caret-down': !AsideBlock.show, 'fa-caret-up': AsideBlock.show}"></i>
+{{AsideBlock.heading}}
+</md:button>
+<div class='aside-block-container' ng:show='AsideBlock.show'>
+<div class='aside-block-content' ng:transclude></div>
+</div>
+</div>
+</script>
+<script id='room-construction-available' type='text/ng-template'>
+<div class='construction-available' ng:if="Room.checkController({construct:RoomConstructionAvailable.structure}).msg == 'OK'">
+<span ng:if='Room.checkController({construct:RoomConstructionAvailable.structure}).count &gt; 200'>
+Available
+</span>
+<span ng:if='Room.checkController({construct:RoomConstructionAvailable.structure}).count &lt;= 200'>
+Available: {{Room.checkController({construct:RoomConstructionAvailable.structure}).count}}
+</span>
+</div>
+<div class='construction-not-available' ng:if='Room.checkController({construct:RoomConstructionAvailable.structure}).rcl == 1'>
+No controller
+</div>
+<div class='construction-not-available' ng:if='Room.checkController({construct:RoomConstructionAvailable.structure}).rcl &gt; 1'>
+RCL {{Room.checkController({construct:RoomConstructionAvailable.structure}).rcl}} required
+</div>
+<div class='construction-not-available' ng:if='Room.checkController({construct:RoomConstructionAvailable.structure}).rcl == -1'>
+Available: 0
+</div>
+</script>
+<script id='room-destroy-structure' type='text/ng-template'>
+<div ng:if="!Game.readOnly &amp;&amp; (Room.roomController.user == Game.player || Room.roomController.user == 0 &amp;&amp; Game.player == Me()._id) &amp;&amp; (Room.selectedObject.type != 'constructedWall' || !Room.selectedObject.decayTime || Room.selectedObject.user)">
+<md:button class='md-warn allwidth' ng:click='Room.destroySelectedObject()' ng:if='RoomDestroyStructure.confirm'>
+Click again to confirm
+</md:button>
+<md:button class='md-warn allwidth' ng:click='RoomDestroyStructure.start()' ng:if='!RoomDestroyStructure.confirm'>
+Destroy this structure
+</md:button>
+</div>
+</script>

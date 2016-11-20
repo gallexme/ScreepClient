@@ -1,0 +1,20 @@
+<svg class='spawn' height='10%' ng:class='{owner: Spawn.player == Spawn.objectData.user || Spawn.objectData.user == 0 &amp;&amp; Spawn.player == Me()._id}' ng:style="::{left: ((Spawn.objectData.x-2)*100/50)+'%', top: ((Spawn.objectData.y-2)*100/50)+'%'}" viewbox='0 0 500 500' width='10%'>
+<text font-size='55' ng:if='(Spawn.player == Spawn.objectData.user || Spawn.objectData.user == 0 &amp;&amp; Spawn.player == Me()._id) &amp;&amp; Spawn.displayOptions.showMyNames.spawns || Spawn.player != Spawn.objectData.user &amp;&amp; Spawn.objectData.user != 0 &amp;&amp; Spawn.displayOptions.showEnemyNames.spawns' x='250' y='155'>
+{{Spawn.player == Spawn.objectData.user || Spawn.objectData.user == 0 && Spawn.player == Me()._id ? Spawn.objectData.name : Spawn.users[Spawn.objectData.user].username}}
+</text>
+<g ng:attr-opacity='{{Spawn.objectData.tempRemove ? 0.3 : 1.0}}' transform='translate(250,250)'>
+<!-- %rect(x="-70" y="-70" width="140" height="140" fill="#111") -->
+<!-- %rect(x="-65" y="-65" width="130" height="130" fill="#222") -->
+<g>
+<ellipse class='border' cx='0' cy='0' rx='70' ry='70'></ellipse>
+<ellipse cx='0' cy='0' fill='#181818' rx='59' ry='59'></ellipse>
+<ellipse cx='0' cy='0' fill='#555' ng:if='::!Spawn.users[Spawn.objectData.user].badge' rx='37' ry='37'></ellipse>
+<image app:badge-xlink-href='Spawn.users[Spawn.objectData.user].badge' height='74' image-rendering='optimizeSpeed' ng:if='::Spawn.users[Spawn.objectData.user].badge' width='74' x='-37' xlink:href='' y='-37'></image>
+<path fill='transparent' ng:attr-d='M 50 0 A 50 50 0 {{ (Spawn.objectData.spawning.remainingTime+0.01) &gt; Spawn.objectData.spawning.needTime / 2 ? 0 : 1 }} 1 {{50*Math.cos(-Math.PI * 2 * (Spawn.objectData.spawning.remainingTime+0.01) / Spawn.objectData.spawning.needTime)}} {{50*Math.sin(-Math.PI * 2 * (Spawn.objectData.spawning.remainingTime+0.01) / Spawn.objectData.spawning.needTime)}}' ng:if='Spawn.objectData.spawning' stroke-width='15' stroke='#aaa' transform='rotate(-90)'></path>
+<!-- %ellipse(cx="0" cy="0" rx="65" ry="65" fill="#111") -->
+<!-- %ellipse(cx="0" cy="0" rx="39" ry="39" fill="transparent" stroke="#222" stroke-width="4") -->
+<ellipse cx='0' cy='0' fill='#ffe56d' ng:attr-rx='{{38 * Math.min(Spawn.objectData.energy / Spawn.objectData.energyCapacity, 1)}}' ng:attr-ry='{{38 * Math.min(Spawn.objectData.energy / Spawn.objectData.energyCapacity, 1)}}' ng:if='Spawn.objectData.energy &gt; 0'></ellipse>
+<animateTransform app-attr="calcMode#Spawn.displayOptions.animations ? 'linear' : 'discrete'" attributeName='transform' attributeType='XML' dur='2s' keyTimes='0;0.25;1' ng:if='Spawn.isSpawning()' repeatCount='indefinite' type='scale' values='1 1;1.24 1.24;1 1'></animateTransform>
+</g>
+</g>
+</svg>

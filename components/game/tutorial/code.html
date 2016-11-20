@@ -1,0 +1,8 @@
+<div class='tutorial-code'>
+<div class='toggle'>
+<div class='fa fa-caret-down'></div>
+<span>Code</span>
+<span class='code-title' ng-if='TutorialCode.title'>({{TutorialCode.title}})</span>
+</div>
+<div class='code' ng:model='TutorialCode.code' ng:show='TutorialCode.visible' readonly='true' ui-ace="{mode: 'javascript', theme: 'tomorrow_night'}"></div>
+</div>

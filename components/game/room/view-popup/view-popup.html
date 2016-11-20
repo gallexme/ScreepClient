@@ -1,0 +1,7 @@
+<div app:stop-click-propagation class='view-popup' ng:if='ViewPopup.visible' ng:style='{left: ViewPopup.mouseX, top: ViewPopup.mouseY}'>
+<ul>
+<li ng:click='ViewPopup.select(i)' ng:repeat='i in ViewPopup.objects track by i._id'>
+{{i.type == 'energy' ? 'resource' : i.type}}
+</li>
+</ul>
+</div>

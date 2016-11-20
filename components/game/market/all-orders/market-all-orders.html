@@ -1,0 +1,10 @@
+<div class='market-all-orders'>
+Choose resource:
+<a class='market-resource' ng-href="#!{{ 'top.market.all-orders-resource' | routeSegmentUrl:{resourceType: resourceType} }}" ng-repeat='(resourceType,resourceName) in AllOrders.resources'>
+<div class='resource-name'>
+<img ng-src='https://s3.amazonaws.com/static.screeps.com/upload/mineral-icons/{{resourceType}}.png'>
+{{resourceName}}
+</div>
+<div class='resource-orders' count='AllOrders.data.index[resourceType].count || 0' ng-pluralize when="{one:'1 order',other: '{} orders'}"></div>
+</a>
+</div>

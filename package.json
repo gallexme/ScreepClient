@@ -1,0 +1,19 @@
+{
+  "main": "nw_index.html",
+  "name": "Screeps",
+  "packageVersion": 71,
+  "protocolVersion": 12,
+  "version": "0.0.1",
+  "window": {
+	  "width": 1280,
+	  "height": 900,
+	  "min_width": 960,
+	  "min_height": 500,
+      "icon": "icon.png"
+  },
+
+  "dependencies": {
+    "chokidar": "^1.5.2",
+    "graceful-fs": "^4.1.4"
+  }
+}

@@ -1,0 +1,13 @@
+<section class='dlg-select'>
+<form app:submit='DlgSelect.submit()' name='form'>
+<div class='modal-body'>
+{{DlgSelect.label}}:
+<ui:drop-select btn-class='md-raised' ng:model='DlgSelect.value' options='DlgSelect.options' style-type='md-button'></ui:drop-select>
+<div class='note' ng:if='DlgSelect.note'>{{DlgSelect.note}}</div>
+</div>
+<div class='modal-footer'>
+<md:button ng:click='$dismiss()' type='button'>Cancel</md:button>
+<md:button app:submit-animated class='md-raised md-primary' ng:disabled='form.$invalid' type='submit'>Save</md:button>
+</div>
+</form>
+</section>

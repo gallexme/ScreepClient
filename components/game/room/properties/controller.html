@@ -1,0 +1,77 @@
+<app:aside-block class='aside-block-highlighted' heading='Room Controller' visibility-model='Room.asidePanels.view'>
+<div ng:controller='Top.Game.Room.ControllerProperties as ControllerProperties'>
+<div class='object-properties-id'>
+ID: {{Room.selectedObject._id}}
+</div>
+<div>
+<label>Owner:</label>
+<span ng:if='Room.selectedObject.user'>
+<a ng:href="#!{{ 'top.profile' | routeSegmentUrl:{username: Room.users[Room.selectedObject.user].username} }}" ng:if="!_.contains(['0','1','2','3'], Room.selectedObject.user)" title='View user profile'>
+<img app:badge-src='Room.users[Room.selectedObject.user].badge'>
+{{Room.users[Room.selectedObject.user].username}}
+</a>
+<span ng:if="_.contains(['0','1','2','3'], Room.selectedObject.user)">
+{{Room.users[Room.selectedObject.user].username}}
+</span>
+</span>
+<span ng:if='!Room.selectedObject.user'>None</span>
+</div>
+<div>
+<label>Position:</label>
+{{Room.selectedObject.x}}, {{Room.selectedObject.y}}
+</div>
+<div>
+<label>Level:</label>
+{{Room.selectedObject.level}}
+</div>
+<div ng:if='Room.selectedObject.level &amp;&amp; Room.selectedObject.level&lt;8'>
+<label>Progress:</label>
+{{Room.selectedObject.progress | round}} / {{ Room.selectedObject.tutorial && Room.selectedObject.level == 1 ? 4 : ptr ? 1000 : Room.Constants.CONTROLLER_LEVELS[Room.selectedObject.level] | round}}
+</div>
+<div ng:if='Room.selectedObject.reservation'>
+<label>Reserved:</label>
+<a ng:href="#!{{ 'top.profile' | routeSegmentUrl:{username: Room.users[Room.selectedObject.reservation.user].username} }}" title='View user profile'>
+<img app:badge-src='Room.users[Room.selectedObject.reservation.user].badge'>
+{{Room.users[Room.selectedObject.reservation.user].username}}
+</a>
+<span ng:if='Room.gameTime'>
+({{Room.selectedObject.reservation.endTime - Room.gameTime}})
+</span>
+</div>
+<div class='damaged' ng:if='Room.gameTime &amp;&amp; Room.selectedObject.downgradeTime &gt;= Room.gameTime &amp;&amp; (Room.selectedObject.downgradeTime &lt; Room.gameTime + Room.Constants.CONTROLLER_DOWNGRADE[Room.selectedObject.level] || Room.selectedObject.downgradeTime &gt; Room.gameTime + Room.Constants.CONTROLLER_DOWNGRADE[Room.selectedObject.level] + 1)'>
+<label>Downgrade in:</label>
+{{Room.selectedObject.downgradeTime - Room.gameTime}}
+<a app-nw-external-link class='help' href='http://support.screeps.com/hc/en-us/articles/203086021-Territory-control' target='_blank' title='Upgrade your controller to avoid downgrading (Click to learn more)'>
+<i class='fa fa-question-circle'></i>
+</a>
+</div>
+<div class='damaged' ng:if='Room.gameTime &amp;&amp; Room.selectedObject.upgradeBlocked &gt;= Room.gameTime'>
+<label>Upgrade blocked:</label>
+{{Room.selectedObject.upgradeBlocked - Room.gameTime}}
+</div>
+<div>
+<label>Safe modes available:</label>
+{{Room.selectedObject.safeModeAvailable || 0}}
+</div>
+<div ng:if='Room.gameTime &amp;&amp; Room.selectedObject.safeModeCooldown &gt;= Room.gameTime'>
+<label>Safe mode cooldown:</label>
+{{Room.selectedObject.safeModeCooldown - Room.gameTime}}
+</div>
+<div class='safe' ng:if='Room.gameTime &amp;&amp; Room.selectedObject.safeMode &gt; Room.gameTime'>
+<label>Safe mode:</label>
+{{Room.selectedObject.safeMode - Room.gameTime}}
+</div>
+<md:button class='md-primary md-hue-1 allwidth' ng:click='ControllerProperties.increaseLevel()' ng:if='Game.simulationMode'>
+Increase level
+</md:button>
+<md:button class='md-primary md-hue-1 allwidth' ng:click='ControllerProperties.decreaseLevel()' ng:if='Game.simulationMode'>
+Decrease level
+</md:button>
+<md:button class='md-primary md-hue-1 allwidth' ng-disabled='!Room.selectedObject.safeModeAvailable || Room.selectedObject.safeMode &gt; Room.gameTime || Room.selectedObject.safeModeCooldown &gt; Room.gameTime || Room.selectedObject.upgradeBlocked &gt; Room.gameTime' ng:click='ControllerProperties.activateSafeMode()' ng:if='!Game.readOnly &amp;&amp; (Room.selectedObject.user == Game.player || Room.selectedObject.user == 0 &amp;&amp; Game.player == Me()._id)'>
+Activate safe mode
+</md:button>
+<md:button class='md-primary md-hue-1 allwidth' ng:click='ControllerProperties.unclaim()' ng:if='!Game.readOnly &amp;&amp; (Room.selectedObject.user == Game.player || Room.selectedObject.user == 0 &amp;&amp; Game.player == Me()._id)'>
+{{ControllerProperties.askUnclaim ? 'Click again to confirm' : 'Unclaim'}}
+</md:button>
+</div>
+</app:aside-block>

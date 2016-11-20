@@ -1,0 +1,32 @@
+<app:aside-block class='aside-block-highlighted' heading='Mineral' visibility-model='Room.asidePanels.view'>
+<div class='object-properties-id'>
+ID: {{Room.selectedObject._id}}
+</div>
+<div>
+<label>Position:</label>
+{{Room.selectedObject.x}}, {{Room.selectedObject.y}}
+</div>
+<div>
+<label>Mineral:</label>
+<img class='resource-type' ng-src='https://s3.amazonaws.com/static.screeps.com/upload/mineral-icons/{{Room.selectedObject.mineralType}}.png' tooltip='{{Room.resourceTypeNames[Room.selectedObject.mineralType]}}'>
+&nbsp;{{ Room.resourceTypeNames[Room.selectedObject.mineralType] }}
+</div>
+<div>
+<label>Density:</label>
+<span ng-class="'mineral-density-'+Room.selectedObject.density">
+{{ Room.densityNames[Room.selectedObject.density] }}
+</span>
+</div>
+<div>
+<label>Amount:</label>
+{{Room.selectedObject.mineralAmount | round}}
+</div>
+<div ng:if='Room.gameTime &amp;&amp; Room.selectedObject.nextRegenerationTime &gt;= Room.gameTime'>
+<label>Regeneration in:</label>
+{{Room.selectedObject.nextRegenerationTime - Room.gameTime}}
+</div>
+<div class='desc'>Build an extractor here to mine this mineral deposit.</div>
+<div class='learn-more'>
+<a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/207891075-Minerals' target='_blank'>Learn more</a>
+</div>
+</app:aside-block>

@@ -1,0 +1,5 @@
+<svg class='energy' height='2%' ng:style="::{left: ((Energy.objectData.x)*100/50)+'%', top: ((Energy.objectData.y)*100/50)+'%'}" viewbox='0 0 100 100' width='2%'>
+<ellipse cx='50' cy='50' fill='#ffe56d' ng:attr-rx='{{30 * Math.min(1, Energy.objectData.energy / 1250)}}' ng:attr-ry='{{30 * Math.min(1, Energy.objectData.energy / 1250)}}' ng:if="::Energy.objectData.resourceType == 'energy'"></ellipse>
+<ellipse cx='50' cy='50' fill='#f41f33' ng:attr-rx='{{45 * Math.min(1, Energy.objectData.power / 1250)}}' ng:attr-ry='{{45 * Math.min(1, Energy.objectData.power / 1250)}}' ng:if="::Energy.objectData.resourceType == 'power'"></ellipse>
+<ellipse cx='50' cy='50' fill='#ccc' ng:attr-rx='{{45 * Math.min(1, Energy.objectData[Energy.objectData.resourceType] / 1250)}}' ng:attr-ry='{{45 * Math.min(1, Energy.objectData[Energy.objectData.resourceType] / 1250)}}' ng:if="::Energy.objectData.resourceType != 'energy' &amp;&amp; Energy.objectData.resourceType != 'power'"></ellipse>
+</svg>

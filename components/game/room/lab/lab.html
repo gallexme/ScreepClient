@@ -1,0 +1,24 @@
+<div>
+<svg class='lab' height='10%' ng:class='{owner: Lab.player == Lab.objectData.user || Lab.objectData.user == 0 &amp;&amp; Lab.player == Me()._id}' ng:style="::{left: ((Lab.objectData.x-2)*100/50)+'%', top: ((Lab.objectData.y-2)*100/50)+'%'}" viewbox='0 0 500 500' width='10%'>
+<g ng:attr-opacity='{{Lab.objectData.tempRemove ? 0.3 : 1.0}}' transform='translate(250,250) scale(0.9 0.9)'>
+<path class='border' d='M 50 40 A 60 60 0 1 0 -50 40 V 63 H 50 Z' fill='#181818' stroke-width='5'></path>
+<path d='M 36 33 A 46 43 0 1 0 -36 33 Z' fill='#555'></path>
+<path d='M 36 33 A 46 43 0 1 0 -36 33 Z' fill='#fff' ng-attr-transform='matrix({{Lab.objectData.mineralAmount / Lab.objectData.mineralCapacity}},0,0,{{Lab.objectData.mineralAmount / Lab.objectData.mineralCapacity}},0,{{33*(1-Lab.objectData.mineralAmount / Lab.objectData.mineralCapacity)}})' ng-if='Lab.objectData.mineralAmount'></path>
+<rect fill='#ffe56d' height='10' ng-attr-width='{{72 * Lab.objectData.energy / Lab.objectData.energyCapacity}}' ng-attr-x='{{-36*Lab.objectData.energy / Lab.objectData.energyCapacity}}' ng-if='Lab.objectData.energy' y='43'></rect>
+</g>
+</svg>
+<svg class='lab anim-shot' height='10%' ng:show='Lab.shotAnim' ng:style="::{left: ((Lab.objectData.x-2)*100/50)+'%', top: ((Lab.objectData.y-2)*100/50)+'%'}" viewbox='0 0 500 500' width='10%'>
+<line stroke-width='12' stroke='#fff' transform='translate(250,280)'>
+<animate app-attr="calcMode#Lab.displayOptions.animations ? 'linear' : 'discrete'" attributeName='x1' attributeType='XML' keyTimes='0;0.4;1' ng:attr-dur='{{0.6 * 100 / Lab.speed}}s' ng:attr-values="{{ ((Lab.shotAnim.x1 - Lab.objectData.x) * 100)+';'+((Lab.shotAnim.x1 - Lab.objectData.x) * 100)+';0' }}" repeatCount='0'></animate>
+<animate app-attr="calcMode#Lab.displayOptions.animations ? 'linear' : 'discrete'" attributeName='y1' attributeType='XML' keyTimes='0;0.4;1' ng:attr-dur='{{0.6 * 100 / Lab.speed}}s' ng:attr-values="{{ ((Lab.shotAnim.y1 - Lab.objectData.y) * 100)+';'+((Lab.shotAnim.y1 - Lab.objectData.y) * 100)+';0' }}" repeatCount='0'></animate>
+<animate app-attr="calcMode#Lab.displayOptions.animations ? 'linear' : 'discrete'" attributeName='x2' attributeType='XML' keyTimes='0;0.6;1' ng:attr-dur='{{0.6 * 100 / Lab.speed}}s' ng:attr-values="{{ ((Lab.shotAnim.x1 - Lab.objectData.x) * 100)+';0;0' }}" repeatCount='0'></animate>
+<animate app-attr="calcMode#Lab.displayOptions.animations ? 'linear' : 'discrete'" attributeName='y2' attributeType='XML' keyTimes='0;0.6;1' ng:attr-dur='{{0.6 * 100 / Lab.speed}}s' ng:attr-values="{{ ((Lab.shotAnim.y1 - Lab.objectData.y) * 100)+';0;0' }}" repeatCount='0'></animate>
+</line>
+<line stroke-width='12' stroke='#fff' transform='translate(250,280)'>
+<animate app-attr="calcMode#Lab.displayOptions.animations ? 'linear' : 'discrete'" attributeName='x1' attributeType='XML' keyTimes='0;0.4;1' ng:attr-dur='{{0.6 * 100 / Lab.speed}}s' ng:attr-values="{{ ((Lab.shotAnim.x2 - Lab.objectData.x) * 100)+';'+((Lab.shotAnim.x2 - Lab.objectData.x) * 100)+';0' }}" repeatCount='0'></animate>
+<animate app-attr="calcMode#Lab.displayOptions.animations ? 'linear' : 'discrete'" attributeName='y1' attributeType='XML' keyTimes='0;0.4;1' ng:attr-dur='{{0.6 * 100 / Lab.speed}}s' ng:attr-values="{{ ((Lab.shotAnim.y2 - Lab.objectData.y) * 100)+';'+((Lab.shotAnim.y2 - Lab.objectData.y) * 100)+';0' }}" repeatCount='0'></animate>
+<animate app-attr="calcMode#Lab.displayOptions.animations ? 'linear' : 'discrete'" attributeName='x2' attributeType='XML' keyTimes='0;0.6;1' ng:attr-dur='{{0.6 * 100 / Lab.speed}}s' ng:attr-values="{{ ((Lab.shotAnim.x2 - Lab.objectData.x) * 100)+';0;0' }}" repeatCount='0'></animate>
+<animate app-attr="calcMode#Lab.displayOptions.animations ? 'linear' : 'discrete'" attributeName='y2' attributeType='XML' keyTimes='0;0.6;1' ng:attr-dur='{{0.6 * 100 / Lab.speed}}s' ng:attr-values="{{ ((Lab.shotAnim.y2 - Lab.objectData.y) * 100)+';0;0' }}" repeatCount='0'></animate>
+</line>
+</svg>
+</div>

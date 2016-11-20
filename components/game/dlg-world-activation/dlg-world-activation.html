@@ -1,0 +1,31 @@
+<section class='dlg-world-activation'>
+<div class='modal-header'>
+<button class='close' ng:click='$dismiss()'>&times;</button>
+<h4 class='modal-title'>The World Mode activation</h4>
+</div>
+<form app:submit='DlgWorldActivation.submit()' class='form form-horizontal' name='form'>
+<div class='modal-body'>
+<p>
+<b>The World Mode is in the private Early Preview stage.</b> If you have the activation code, you can enter it below to start playing:
+</p>
+<div class='form-group'>
+<div class='col-xs-12'>
+<input class='form-control' ng:model='DlgWorldActivation.code' placeholder='Code' required>
+</div>
+</div>
+<div class='error' ng:if='DlgWorldActivation.error'>{{DlgWorldActivation.error}}</div>
+<p>
+Otherwise, please fill in the
+<a href='#!' ng:click='DlgWorldActivation.requestForm()'>request form</a>
+&mdash; we will invite new players as the capacity grows.
+</p>
+<p>
+Take note that the Early Preview purpose is to test and debug everything prior to the public launch. Please report any errors or bugs you may find as you play. <b>After the end of the Early Preview, close to the public launch, all the world data will be wiped.</b>
+</p>
+</div>
+<div class='modal-footer'>
+<md:button ng:click='$dismiss()' type='button'>Cancel</md:button>
+<md:button app:submit-animated class='md-raised md-primary' ng-disabled='form.$invalid' type='submit'>OK</md:button>
+</div>
+</form>
+</section>

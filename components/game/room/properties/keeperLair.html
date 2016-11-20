@@ -1,0 +1,19 @@
+<app:aside-block class='aside-block-highlighted' heading='Source Keeper Lair' visibility-model='Room.asidePanels.view'>
+<div>
+<div class='object-properties-id'>
+ID: {{Room.selectedObject._id}}
+</div>
+<div>
+<label>Owner:</label>
+<span>Source Keeper</span>
+</div>
+<div>
+<label>Position:</label>
+{{Room.selectedObject.x}}, {{Room.selectedObject.y}}
+</div>
+<div ng:if='Room.gameTime &amp;&amp; Room.selectedObject.nextSpawnTime &gt;= Room.gameTime'>
+<label>Spawning in:</label>
+{{Room.selectedObject.nextSpawnTime - Room.gameTime}}
+</div>
+</div>
+</app:aside-block>

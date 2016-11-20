@@ -1,0 +1,65 @@
+<section app:twitter-load class='twitter-promo'>
+<table class='twitter-table' ng-show='!Me().credits &amp;&amp; !TwitterPromo.data.twitter_promo.user'>
+<tr>
+<td class='twitter-no'>
+<span>1</span>
+</td>
+<td class='twitter-desc'>
+<span><b>Link</b> your Twitter account.</span>
+<div app:twitter-not-enough-followers class='note' ng:class='{warn: Me().twitter &amp;&amp; Me().twitter.followers_count &lt; 10}'>It should have 10 or more followers.</div>
+<div class='note warn' ng-if='TwitterPromo.data.twitter_promo.twitter'>This Twitter account has already participated in the promo.</div>
+</td>
+<td class='twitter-controls'>
+<span ng:if='Me().twitter'>
+Linked to
+<a app-nw-external-link ng:href='http://twitter.com/{{Me().twitter.username}}' target='_blank'>@{{Me().twitter.username}}</a>
+<br>
+<md-button app:click-animated='TwitterPromo.unlink()' class='md-primary md-hue-1'>Unlink</md-button>
+</span>
+<md-button class='md-primary md-raised' ng:click='TwitterPromo.signIn()' ng:if='!Me().twitter'>Link</md-button>
+</td>
+</tr>
+<tr>
+<td class='twitter-no'>
+<span>2</span>
+</td>
+<td class='twitter-desc'>
+<span><b>Post a tweet</b> with custom text about Screeps.</span>
+<div class='note'>
+A tweet should have phrases "@ScreepsGame" and "screeps.com".
+<br>
+It should NOT start with "@", i.e. be a Reply tweet.
+</div>
+</td>
+<td class='twitter-controls' ng:class='{disabled: !Me().twitter || Me().twitter.followers_count &lt; 10 || TwitterPromo.data.twitter_promo.twitter}'>
+<a style="display:none" href="https://twitter.com/share" app-nw-external-link class="twitter-share-button" data-text="MMO sandbox game for programmers: you write JavaScript which controls your units when you're offline @ScreepsGame" data-url="http://screeps.com" data-size="large" data-count="none" data-dnt="true">Tweet</a>
+</td>
+</tr>
+<tr>
+<td class='twitter-no'>
+<span>3</span>
+</td>
+<td class='twitter-desc'>
+<span>After your tweet is checked, you will <b>get 10 days</b> of free playing automatically within a few seconds.</span>
+<div class='note'>If you delete the tweet or unlink your account, the subscription will be cancelled.</div>
+<div class='note warn' ng:if='TwitterPromo.checkError'>{{TwitterPromo.checkError}}</div>
+</td>
+<td class='twitter-controls'>
+<span app:twitter-success class='twitter-ok' ng:if='TwitterPromo.checkResult'>You've received 15&nbsp;days!</span>
+<md-button app:click-animated='TwitterPromo.checkPost()' class='md-primary md-raised' ng:disabled='!Me().twitter || Me().twitter.followers_count &lt; 10 || TwitterPromo.data.twitter_promo.twitter' ng:if='!TwitterPromo.checkResult'>Check</md-button>
+</td>
+</tr>
+</table>
+<div class='twitter-warning' ng-if='!TwitterPromo.data.twitter_promo.user &amp;&amp; Me().credits'>
+<div>You still have CPU Credits to spend. To activate your subscription under the new model, please convert your Credits into subscription days.</div>
+<div class='pull-right'>
+<md-button class='md-primary md-hue-1' href="#!{{'top.account-subscription' | routeSegmentUrl}}">Proceed</md-button>
+</div>
+</div>
+<div class='twitter-success' ng-if='TwitterPromo.data.twitter_promo.user'>
+<p>Thank you! Your Twitter Promo subscription has been activated.</p>
+<div>
+<md-button class='md-primary md-raised' href="#!{{'top.game-world-map' | routeSegmentUrl}}">GO TO THE WORLD</md-button>
+</div>
+</div>
+</section>

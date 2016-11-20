@@ -1,0 +1,29 @@
+<section class='survival-score'>
+<div class='title'>Game Over</div>
+<div>Your Survival score:</div>
+<div class='best-score'>
+<div class='best-score-value'>{{Game.survivalScore}}</div>
+</div>
+<div class='replay'>
+<div class='replay-uploading' ng:if='Game.survivalReplayUploaded === false'>
+Uploading replay...
+</div>
+<div class='replay-error' ng:if="Game.survivalReplayUploaded === 'error'">
+Uploading failed
+</div>
+<div class='replay-view' ng:if="Game.survivalReplayUploaded &amp;&amp; Game.survivalReplayUploaded != 'error'">
+<a ng:click='Game.loadReplay()' ng:href="#!{{$routeSegment.getSegmentUrl('top.replay', {replay: Game.survivalReplayUploaded._id})}}?s={{Game.survivalReplayUploaded.secret}}">
+<i class='fa fa-play-circle'></i>
+View replay
+</a>
+</div>
+</div>
+<div class='controls'>
+<md:button ng:click='Game.clearGame()'>
+Back
+</md:button>
+<md:button class='md-primary md-raised' ng:click='Game.playSurvivalAgain()' ng:if='!$routeSegment.$routeParams.replay'>
+Play Again
+</md:button>
+</div>
+</section>

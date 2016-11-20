@@ -1,0 +1,35 @@
+<app:aside-block class='aside-block-highlighted' heading='Container' visibility-model='Room.asidePanels.view'>
+<div class='object-properties-id'>
+ID: {{Room.selectedObject._id}}
+</div>
+<div>
+<label>Position:</label>
+{{Room.selectedObject.x}}, {{Room.selectedObject.y}}
+</div>
+<div>
+<label>Hits:</label>
+{{Room.selectedObject.hits | round}} / {{Room.selectedObject.hitsMax | round}}
+</div>
+<div ng:if='Room.gameTime'>
+<label>Decay in:</label>
+{{Room.selectedObject.nextDecayTime - Room.gameTime}}
+</div>
+<div class='body'>
+<label class='body-header'>
+Store
+<div class='pull-right'>
+{{Room.calcResources(Room.selectedObject) | round}} / {{Room.selectedObject.energyCapacity | round}}
+</div>
+</label>
+<div ng:if='!Room.calcResources(Room.selectedObject)'>Empty</div>
+<table class='carry-resource'>
+<tr ng-if='Room.selectedObject[resourceType]' ng:repeat='resourceType in Room.Constants.RESOURCES_ALL'>
+<td>{{Room.selectedObject[resourceType] | number}}&nbsp;&times;&nbsp;</td>
+<td>
+<img class='resource-type' ng-src='https://s3.amazonaws.com/static.screeps.com/upload/mineral-icons/{{resourceType}}.png' tooltip='{{Room.resourceTypeNames[resourceType]}}'>
+</td>
+</tr>
+</table>
+</div>
+<app:room-destroy-structure></app:room-destroy-structure>
+</app:aside-block>

@@ -1,0 +1,49 @@
+<section app-tutorial-content>
+<p>
+To send a creep to harvest energy, you need to use the methods described in the documentation section below.
+Commands will be passed each game tick. The <code>harvest</code> method requires that the energy source is adjacent to the creep.
+</p>
+<p>
+You give orders to a creep by its name this way: <code>Game.creeps['Harvester1']</code>.
+Use the <code>FIND_SOURCES</code> constant as an argument to the <code>Room.find</code> method.
+</p>
+<div class='objective'>
+<div class='fa fa-caret-right'></div>
+Send your creep to harvest energy by typing code in the "Script" tab.
+</div>
+<div class='objective'>
+<div class='fa fa-caret-down'></div>
+Documentation:
+<ul>
+<li>
+<code><a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/203016382-Game#creeps' target='_blank'>
+Game.creeps
+</a></code>
+</li>
+<li>
+<code><a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/208435305-RoomObject#room' target='_blank'>
+RoomObject.room
+</a></code>
+</li>
+<li>
+<code><a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/203079011-Room#find' target='_blank'>
+Room.find
+</a></code>
+</li>
+<li>
+<code><a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/203013212-Creep#moveTo' target='_blank'>
+Creep.moveTo
+</a></code>
+</li>
+<li>
+<code><a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/203013212-Creep#harvest' target='_blank'>
+Creep.harvest
+</a></code>
+</li>
+</ul>
+</div>
+<app:tutorial-code></app:tutorial-code>
+<div class='tutorial-controls'>
+<md:button class='md-raised md-primary' ng:click='Tutorial.close()'>Got it</md:button>
+</div>
+</section>

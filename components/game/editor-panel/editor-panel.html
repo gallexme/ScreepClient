@@ -1,0 +1,19 @@
+<div class='editor-panel' ng:class="{'has-console-error': EditorPanel.hasConsoleError(), popped: Game.popped}" ng:controller='EditorPanel as EditorPanel'>
+<div app:resize-panel-handle class='resize-handle' ng:if='!Game.popped'></div>
+<div app:resize-panel-toggle class='btn-panel-toggle' ng:if='!Game.popped' title='Hide/show (Alt+Enter)'></div>
+<div app:popup-panel class='btn-panel-popup' ng:if='!Game.popped' title='New window'>
+<img src='components/game/editor-panel/new-window.png'>
+</div>
+<div class='popup-desync-error' ng-if='Game.popped &amp;&amp; EditorPanel.isPopupSynced()'>This pop-up editor is out of sync. Please re-open the editor.</div>
+<tabset selected-name='EditorPanel.activeTab'>
+<tab app:resize-panel-open class='script-tab' heading='Script' hotkey='49' name='script' select='EditorPanel.scriptClick()' tooltip-append-to-body='true' tooltip-placement='top' tooltip='Alt+1'>
+<ng:include src="::'components/game/editor-panel/script/script.html' | bust"></ng:include>
+</tab>
+<tab app:resize-panel-open class='console-tab' heading="Console &lt;i class='fa fa-exclamation-triangle'&gt;&lt;/i&gt;" hotkey='50' name='console' select='EditorPanel.consoleClick()' tooltip-append-to-body='true' tooltip-placement='top' tooltip='Alt+2'>
+<ng:include src="::'components/game/editor-panel/console/console.html' | bust"></ng:include>
+</tab>
+<tab app:resize-panel-open heading='Memory' hotkey='51' name='memory' select='EditorPanel.memoryClick()' tooltip-append-to-body='true' tooltip-placement='top' tooltip='Alt+3'>
+<ng:include src="::'components/game/editor-panel/memory/memory.html' | bust"></ng:include>
+</tab>
+</tabset>
+</div>

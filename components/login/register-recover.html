@@ -1,0 +1,39 @@
+<section class='register'>
+<h2>Change Password</h2>
+<form app:submit='RegisterRecover.submit()' name='form' ng:if='RegisterRecover.result !== true'>
+<div class='register-block'>
+<md-input-container>
+<label>Your New Password</label>
+<input app:custom-validator='RegisterRecover.passwordValidators' minlength='8' name='password' ng:model='RegisterRecover.password' required type='password'>
+<div class='hint' ng:if='form.password.$pristine || !form.password.$invalid'>
+Must be at least 8 characters including at least one numeric letter.
+</div>
+<div class='error' include='error-message' ng-messages='form.password.$error' ng:show='form.password.$dirty'>
+<div ng-message='correct'>Only alphanumeric and special characters are allowed.</div>
+<div ng-message='minlength'>Minimum 8 characters.</div>
+<div ng-message='number'>Please include at least one numeric character.</div>
+<div ng-message='non_number'>Please include at least one non-numeric character.</div>
+</div>
+</md-input-container>
+</div>
+<div class='register-block'>
+<md-input-container>
+<label>Confirm Password</label>
+<input app:custom-validator='RegisterRecover.passwordConfirmValidators' name='passwordConfirm' ng:model='RegisterRecover.passwordConfirm' required type='password'>
+<div class='hint' ng:if='form.passwordConfirm.$pristine || !form.passwordConfirm.$invalid'>
+Once again please.
+</div>
+<div class='error' ng-messages='form.passwordConfirm.$error' ng:show='form.passwordConfirm.$dirty'>
+<div ng-message='match'>Password doesn't match.</div>
+</div>
+</md-input-container>
+</div>
+<div class='controls controls-center'>
+<div class='error' ng:if='RegisterRecover.result === false'>An error occured while performing the request</div>
+<md:button app:submit-animated class='md-raised md-primary' ng:disabled='!form.$valid' type='submit'>
+Save
+</md:button>
+</div>
+</form>
+<div ng:if='RegisterRecover.result === true'>Your password has been changed successfully.</div>
+</section>

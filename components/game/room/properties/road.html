@@ -1,0 +1,18 @@
+<app:aside-block class='aside-block-highlighted' heading='Road' visibility-model='Room.asidePanels.view'>
+<div class='object-properties-id'>
+ID: {{Room.selectedObject._id}}
+</div>
+<div>
+<label>Position:</label>
+{{Room.selectedObject.x}}, {{Room.selectedObject.y}}
+</div>
+<div>
+<label>Hits:</label>
+{{Room.selectedObject.hits | round}} / {{Room.selectedObject.hitsMax | round}}
+</div>
+<div ng:if='Room.gameTime &amp;&amp; Room.selectedObject.nextDecayTime &gt;= Room.gameTime'>
+<label>Decay in:</label>
+{{Room.selectedObject.nextDecayTime - Room.gameTime}}
+</div>
+<app:room-destroy-structure></app:room-destroy-structure>
+</app:aside-block>

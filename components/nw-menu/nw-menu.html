@@ -1,0 +1,33 @@
+<div class='nw-menu'>
+<div class='nw-menu__background' ng-style='{&#x0027;background-image&#x0027;: &#x0027;url("components/nw-menu/back&#x0027;+NwMenu.backNum+&#x0027;.gif")&#x0027;}'></div>
+<img class='nw-menu__logo' src='components/nw-menu/logo.gif'>
+<div class='nw-menu__controls nw-menu__controls--official' ng-if='NwMenu.options.official'>
+<div class='nw-menu__world'>
+<img src='components/top/ic_language_white_24px.svg'>
+<span>screeps.com</span>
+<a href ng-click='NwMenu.changeOfficial(false)'>Change server</a>
+</div>
+<md-button app-click-animated='NwMenu.connect()' class='md-raised nw-menu__btn-connect'>CONNECT</md-button>
+</div>
+<div class='nw-menu__controls nw-menu__controls--non-official' ng-if='!NwMenu.options.official'>
+<form app-submit='NwMenu.connect()' class='nw-menu__credentials'>
+<div layout-gt-xs='row'>
+<md-input-container>
+<label>Host</label>
+<input ng-model='NwMenu.options.host'>
+</md-input-container>
+<md-input-container>
+<label>Port</label>
+<input ng-model='NwMenu.options.port'>
+</md-input-container>
+</div>
+<md-input-container>
+<label>Server password</label>
+<input ng-model='NwMenu.options.password' type='password'>
+</md-input-container>
+<md-button app-submit-animated class='md-raised nw-menu__btn-connect' type='submit'>CONNECT</md-button>
+</form>
+<a href ng-click='NwMenu.startServer()' ng-if='NwMenu.hasServer'>Start server</a>
+<a href ng-click='NwMenu.changeOfficial(true)'>Back to official server</a>
+</div>
+</div>

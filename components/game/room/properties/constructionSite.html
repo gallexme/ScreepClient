@@ -1,0 +1,30 @@
+<app:aside-block class='aside-block-highlighted' heading='Construction Site' visibility-model='Room.asidePanels.view'>
+<div class='object-properties-id'>
+ID: {{Room.selectedObject._id}}
+</div>
+<div>
+<label>Owner:</label>
+<a ng:href="#!{{ 'top.profile' | routeSegmentUrl:{username: Room.users[Room.selectedObject.user].username} }}" ng:if="!_.contains(['0','1','2'], Room.selectedObject.user)" title='View user profile'>
+<img app:badge-src='Room.users[Room.selectedObject.user].badge'>
+{{Room.users[Room.selectedObject.user].username}}
+</a>
+<span ng:if="_.contains(['0','1','2'], Room.selectedObject.user)">
+{{Room.users[Room.selectedObject.user].username}}
+</span>
+</div>
+<div>
+<label>Position:</label>
+{{Room.selectedObject.x}}, {{Room.selectedObject.y}}
+</div>
+<div>
+<label>Structure:</label>
+{{Room.selectedObject.structureType}}
+</div>
+<div>
+<label>Progress:</label>
+{{Room.selectedObject.progress | round}} / {{Room.selectedObject.progressTotal | round}}
+</div>
+<md:button class='md-primary md-hue-1 allwidth' ng:click='Room.removeSelectedObject()' ng:if='!Game.readOnly &amp;&amp; (Room.selectedObject.user == Game.player || Room.selectedObject.user == 0 &amp;&amp; Game.player == Me()._id || (Room.roomController.user == Game.player || Room.roomController.user == 0 &amp;&amp; Game.player == Me()._id))'>
+Remove construction site
+</md:button>
+</app:aside-block>

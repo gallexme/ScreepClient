@@ -1,0 +1,92 @@
+<section class='account'>
+<div class='header-jumbotron'>
+<h1>Account</h1>
+</div>
+<div class='account-block'>
+<div class='account-option'>
+<label>Player name</label>
+<div class='value'>{{Me().username}}</div>
+</div>
+<a class='account-option' ng:href="#!{{'top.account-badge' | routeSegmentUrl}}">
+<label>Badge</label>
+<div class='value value-badge'>
+<span ng:if='!Me().badge'>&mdash;</span>
+<img app:badge-src='Me().badge' ng:if='Me().badge'>
+</div>
+</a>
+<a class='account-option' ng:href="#!{{'top.account-email' | routeSegmentUrl}}">
+<label>E-mail</label>
+<div class='value'>{{Me().email || 'Not set'}}</div>
+</a>
+<a class='account-option' ng-if='isOffServer()' ng:href="#!{{'top.account-password' | routeSegmentUrl}}">
+<label>Password</label>
+<div class='value'>{{Me().password ? '********' : 'Not set'}}</div>
+</a>
+<a class='account-option' ng-if='isOffServer()' ng:href="#!{{'top.account-subscription' | routeSegmentUrl}}">
+<label>CPU Subscription</label>
+<div class='value' ng-class="{'value-accent': Account.isSubscriptionActive(), 'value-danger': !Account.isSubscriptionActive()}">
+{{Account.isSubscriptionActive() ? 'Active': 'Inactive'}}
+</div>
+</a>
+</div>
+<div class='account-block'>
+<h2>Notifications</h2>
+<div class='account-note'>
+Keep yourself notified about what is happening in the game.
+<a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/203016382-Game#notify' target='_blank'>Learn more</a>
+</div>
+<a app:click-animated='Account.toggleNotificationsDisabled()' class='account-option'>
+<label>Notifications enabled</label>
+<div class='value'>{{Me().notifyPrefs.disabled ? 'No' : 'Yes'}}</div>
+</a>
+<a class='account-option' ng:click='Account.setNotificationsInterval()' ng:if='!Me().notifyPrefs.disabled'>
+<label>Send interval</label>
+<div class='value'>{{ {5:'5 min', 10: '10 min', 30: '30 min', 60: '1 hour', 180: '3 hours', 360: '6 hours', 720: '12 hours', 1440: '24 hours', 4320: '3 days'}[Me().notifyPrefs.interval || 5]}}</div>
+</a>
+<a app:click-animated='Account.toggleNotificationsOnline()' class='account-option' ng:if='!Me().notifyPrefs.disabled'>
+<label>Send when online</label>
+<div class='value'>{{Me().notifyPrefs.sendOnline === false ? 'No' : 'Yes'}}</div>
+</a>
+<a class='account-option' ng:click='Account.setNotificationsErrorsInterval()' ng:if='!Me().notifyPrefs.disabled'>
+<label>Notify on errors</label>
+<div class='value'>{{ {0: 'Immediately', 5:'Every 5 min', 10: 'Every 10 min', 30: 'Every 30 min', 60: 'Every 1 hour', 180: 'Every 3 hours', 360: 'Every 6 hours', 720: 'Every 12 hours', 1440: 'Every 24 hours', 4320: 'Every 3 days', 100000: 'Never'}[Me().notifyPrefs.errorsInterval === undefined ? 30 : Me().notifyPrefs.errorsInterval ]}}</div>
+</a>
+<a app:click-animated='Account.toggleNotificationsMessages()' class='account-option' ng:if='!Me().notifyPrefs.disabled'>
+<label>Notify on new messages</label>
+<div class='value'>{{Me().notifyPrefs.disabledOnMessages ? 'No' : 'Yes'}}</div>
+</a>
+</div>
+<div class='account-block' ng-if='!nw'>
+<h2>Steam</h2>
+<div class='account-note'>Link your Steam account to use the same account in both web and Steam versions of the game.</div>
+<md:button class='md-primary md-hue-1' ng:click='Account.linkSteam()' ng:if='!Me().steam'>LINK TO STEAM</md:button>
+<div ng:if='Me().steam'>
+<a class='account-option' ng:click='Account.unlinkSteam()'>
+<label>Steam user</label>
+<div class='value'>{{Me().steam.displayName}}</div>
+</a>
+</div>
+</div>
+<div class='account-block' ng-if='isOffServer()'>
+<h2>GitHub</h2>
+<div class='account-note'>You can link your GitHub account and automatically pull code to Screeps from any of your GitHub repositories.</div>
+<md:button class='md-primary md-hue-1' ng:click='Account.linkGitHub()' ng:if='!Me().github'>LINK TO GITHUB</md:button>
+<div ng:if='Me().github'>
+<a class='account-option' ng:click='Account.unlinkGitHub()'>
+<label>GitHub user</label>
+<div class='value'>{{Me().github.username}}</div>
+</a>
+<a app:click-animated='Account.setGitHubRepo()' class='account-option'>
+<label>Sync from repository</label>
+<div class='value' ng:if='!Me().github.repo'>Not set</div>
+<div class='value' ng:if='Me().github.repo'>
+{{Me().github.repo.name}}
+<span ng:if='Me().github.repo.folder'>/ {{Me().github.repo.folder}}</span>
+</div>
+</a>
+</div>
+</div>
+<a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/203022512-Commiting-local-scripts-using-Grunt' ng-if='!nw'>
+Learn how to commit scripts from local machine
+</a>
+</section>

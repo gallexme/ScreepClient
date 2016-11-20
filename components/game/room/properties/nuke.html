@@ -1,0 +1,22 @@
+<app:aside-block class='aside-block-highlighted' heading='Nuke' visibility-model='Room.asidePanels.view'>
+<div class='object-properties-id'>
+ID: {{Room.selectedObject._id}}
+</div>
+<div>
+<label>Position:</label>
+{{Room.selectedObject.x}}, {{Room.selectedObject.y}}
+</div>
+<div>
+<label>Launch room:</label>
+<a ng-href="#!{{'top.game-room' | routeSegmentUrl:{room:Room.selectedObject.launchRoomName} }}">
+{{Room.selectedObject.launchRoomName}}
+</a>
+</div>
+<div ng:if='Room.gameTime &amp;&amp; Room.selectedObject.landTime &gt;= Room.gameTime'>
+<label>Landing in:</label>
+{{Room.selectedObject.landTime - Room.gameTime}}
+</div>
+<md-checkbox class='md-primary' md-no-ink ng:change='Room.onNotifyWhenAttackedChange()' ng:if="!Game.readOnly &amp;&amp; Room.selectedObject.user == Me()._id &amp;&amp; Room.roomMode == 'world'" ng:model='Room.selectedObject.notifyWhenAttacked'>
+Notify me when attacked
+</md-checkbox>
+</app:aside-block>

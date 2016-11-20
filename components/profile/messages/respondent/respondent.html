@@ -1,0 +1,22 @@
+<section class='messages-respondent language-javascript'>
+<div class='header-jumbotron'>
+<md:button class='md-fab fab-back' ng:href="#!{{'top.messages-index' | routeSegmentUrl}}"><div class='fa fa-chevron-left'></div></md:button>
+<div class='pull-right'>
+<md-button class='md-primary md-hue-1' ng-href="#!{{'top.profile' | routeSegmentUrl:{username:MessagesRespondent.user.username} }}">View user profile</md-button>
+</div>
+<h1>Messages to {{MessagesRespondent.user.username}}</h1>
+</div>
+<div app:auto-scroll-watch='MessagesRespondent.messages.length' class='messages-list'>
+<div class='message-item' ng:class='{unread: message.unread}' ng:controller='Top.MessagesRespondent.Message as Message' ng:repeat='message in MessagesRespondent.messages as resultsList track by message._id'>
+<img app:badge-src="message.type == 'in' ? MessagesRespondent.user.badge : Me().badge" class='message-badge' no-watch>
+<div class='message-text' ng:bind-html='::message.text | marked'></div>
+<div class='message-date'>{{::message.date | readableDate}}</div>
+</div>
+<div class='empty' ng:if='resultsList | empty'>No messages yet</div>
+</div>
+<form app:submit='MessagesRespondent.sendMessage()' class='write-message'>
+<textarea app:enter-submit autofocus ng:model='MessagesRespondent.messageText' placeholder='Enter new message...' rows='3'></textarea>
+<md-button app:submit-animated class='md-primary md-raised' tooltip-placement='bottom' tooltip='Ctrl+Enter' type='submit'>Send</md-button>
+<div class='markdown-note'>You can use <a href="https://guides.github.com/features/mastering-markdown/" app-nw-external-link target="_blank">Markdown</a> to format your message</div>
+</form>
+</section>

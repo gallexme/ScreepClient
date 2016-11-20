@@ -1,0 +1,11 @@
+<svg class='terminal' height='6%' ng:class='{owner: Terminal.player == Terminal.objectData.user || Terminal.objectData.user == 0 &amp;&amp; Terminal.player == Me()._id}' ng:style="::{left: ((Terminal.objectData.x-1)*100/50)+'%', top: ((Terminal.objectData.y-1)*100/50)+'%'}" viewbox='0 0 300 300' width='6%'>
+<g ng:attr-opacity='{{Terminal.objectData.tempRemove ? 0.3 : 1.0}}' transform='translate(150,150)'>
+<path class='border' d='M 85 0 L 55 -55 L 0 -85 L -55 -55 L -85 0 L -55 55 L 0 85 L 55 55 Z' fill='#181818' stroke-width='5'></path>
+<path d='M 67 0 L 48 -35 V 35 L 67 0 Z M 0 -67 L -35 -48 H 35 Z M -67 0 L -48 -35 V 35 Z M 0 67 L -35 48 H 35 Z' fill='#aaa'></path>
+<rect fill='#181818' height='90' width='90' x='-45' y='-45'></rect>
+<rect fill='#555' height='76' width='76' x='-38' y='-38'></rect>
+<rect fill='#fff' height='76' ng-attr-transform='scale({{Math.min(1, Terminal.resourcesTotal / Terminal.objectData.energyCapacity)}} {{Math.min(1, Terminal.resourcesTotal / Terminal.objectData.energyCapacity)}})' ng:if='Terminal.resourcesTotal &gt; Terminal.objectData.energy + (Terminal.objectData.power||0)' width='76' x='-38' y='-38'></rect>
+<rect fill='#f41f33' height='76' ng-attr-transform='scale({{Math.min(1, (Terminal.objectData.energy+Terminal.objectData.power) / Terminal.objectData.energyCapacity)}} {{Math.min(1, (Terminal.objectData.energy+Terminal.objectData.power) / Terminal.objectData.energyCapacity)}})' ng:if='Terminal.objectData.power' width='76' x='-38' y='-38'></rect>
+<rect fill='#ffe56d' height='76' ng-attr-transform='scale({{Math.min(1, (Terminal.objectData.energy) / Terminal.objectData.energyCapacity)}} {{Math.min(1, (Terminal.objectData.energy) / Terminal.objectData.energyCapacity)}})' ng:if='Terminal.objectData.energy' width='76' x='-38' y='-38'></rect>
+</g>
+</svg>

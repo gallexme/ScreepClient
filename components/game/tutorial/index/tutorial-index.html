@@ -1,0 +1,53 @@
+<section class='tutorial-index'>
+<div class='header-jumbotron'>
+<md:button class='md-fab fab-back' ng:href="#!{{'top.sim' | routeSegmentUrl}}"><div class='fa fa-chevron-left'></div></md:button>
+<div class='pull-right'>
+<md-button app-nw-external-link class='md-primary md-hue-1' href='https://github.com/screeps/tutorial-scripts' target='_blank'>
+<span>View scripts on GitHub</span>
+</md-button>
+</div>
+<h1>Tutorial</h1>
+</div>
+<div class='tutorial-section' ng-class="{'tutorial-section--done': TutorialIndex.isTutorialDone(1)}" ng-click='TutorialIndex.goToSection(1)'>
+<div class='tutorial-section__num'>1</div>
+<div class='tutorial-section__desc'>Game UI and basic scripting</div>
+<div class='tutorial-section__check'>
+<div class='icon-material-check'></div>
+</div>
+</div>
+<div class='tutorial-section' ng-class="{'tutorial-section--done': TutorialIndex.isTutorialDone(2)}" ng-click='TutorialIndex.goToSection(2)'>
+<div class='tutorial-section__num'>2</div>
+<div class='tutorial-section__desc'>Upgrading controller</div>
+<div class='tutorial-section__check'>
+<div class='icon-material-check'></div>
+</div>
+</div>
+<div class='tutorial-section' ng-class="{'tutorial-section--done': TutorialIndex.isTutorialDone(3)}" ng-click='TutorialIndex.goToSection(3)'>
+<div class='tutorial-section__num'>3</div>
+<div class='tutorial-section__desc'>Building structures</div>
+<div class='tutorial-section__check'>
+<div class='icon-material-check'></div>
+</div>
+</div>
+<div class='tutorial-section' ng-class="{'tutorial-section--done': TutorialIndex.isTutorialDone(4)}" ng-click='TutorialIndex.goToSection(4)'>
+<div class='tutorial-section__num'>4</div>
+<div class='tutorial-section__desc'>Auto-spawning creeps</div>
+<div class='tutorial-section__check'>
+<div class='icon-material-check'></div>
+</div>
+</div>
+<div class='tutorial-section' ng-class="{'tutorial-section--done': TutorialIndex.isTutorialDone(5)}" ng-click='TutorialIndex.goToSection(5)'>
+<div class='tutorial-section__num'>5</div>
+<div class='tutorial-section__desc'>Defending your room</div>
+<div class='tutorial-section__check'>
+<div class='icon-material-check'></div>
+</div>
+</div>
+<md-button class='md-raised tutorial-world' ng-class="{'md-primary': TutorialIndex.isAllTutorialDone()}" ng-click='TutorialIndex.goToWorld()'>
+GO TO THE WORLD
+</md-button>
+<div class='codecademy'>
+Don't know how to code in JavaScript? <br>
+Check out this&nbsp;<a app-nw-external-link href='https://codecademy.com/learn/javascript' target='_blank'>free interactive course</a>!
+</div>
+</section>

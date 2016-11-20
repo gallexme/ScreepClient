@@ -1,0 +1,26 @@
+<section class='register'>
+<h2>Password Reset</h2>
+<form app:submit='RegisterAskRecover.submit()' name='form' ng:if='RegisterAskRecover.result !== true'>
+<div class='register-block'>
+<md-input-container>
+<label>E-mail</label>
+<input name='email' ng:model='RegisterAskRecover.email' required>
+<div class='hint'>
+Please specify your account e-mail address.
+</div>
+</md-input-container>
+</div>
+<div class='controls controls-center'>
+<div class='error' ng-switch='RegisterAskRecover.result' ng:if='RegisterAskRecover.result'>
+<span ng:switch-when='invalid email'>This e-mail does not exist.</span>
+<span ng:switch-default>Unknown error occured.</span>
+</div>
+<md:button app:submit-animated class='md-raised md-primary' ng:disabled='!form.$valid' type='submit'>
+Send
+</md:button>
+</div>
+</form>
+<div ng:if='RegisterAskRecover.result === true'>
+We have sent an e-mail to your account address with the instructions of how to change your password.
+</div>
+</section>

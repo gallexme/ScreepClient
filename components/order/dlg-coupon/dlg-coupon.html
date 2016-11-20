@@ -1,0 +1,20 @@
+<section class='dlg-order-coupon'>
+<button class='close' ng:click='$dismiss()'>&times;</button>
+<form app:submit='DlgOrderCoupon.submit()' class='form form-horizontal' name='form'>
+<div class='modal-body'>
+<p>
+Please enter your coupon code:
+</p>
+<div class='form-group'>
+<div class='col-xs-12'>
+<input class='form-control' ng:model='DlgOrderCoupon.code' placeholder='Code' required>
+</div>
+</div>
+<div class='error' ng:if='DlgOrderCoupon.error'>{{DlgOrderCoupon.error}}</div>
+</div>
+<div class='modal-footer'>
+<md:button ng:click='$dismiss()' type='button'>Cancel</md:button>
+<md:button app:submit-animated class='md-raised md-primary' ng-disabled='form.$invalid' type='submit'>OK</md:button>
+</div>
+</form>
+</section>

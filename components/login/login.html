@@ -1,0 +1,28 @@
+<section class='login' ng:if='Login.svc.visible'>
+<div class='backcover' ng:click='Login.svc.hide()'></div>
+<form app:form-fail-anim='anim-shake' app:submit='Login.signIn()' class='login-window form-horizontal' name='form'>
+<div class='fa fa-remove' ng:click='Login.svc.hide()'></div>
+<h2>Sign In</h2>
+<div class='fa fa-at pull-left'></div>
+<md-input-container>
+<label>E-mail or username</label>
+<input ng:model='Login.email' reqiured>
+</md-input-container>
+<div class='fa fa-lock pull-left'></div>
+<md-input-container>
+<label>Password</label>
+<input ng:model='Login.password' required type='password'>
+</md-input-container>
+<div class='controls'>
+<div class='error' ng:if='Login.error'>Account credentials are invalid</div>
+<md:button app:submit-animated class='md-primary md-raised' type='submit'>SIGN IN</md:button>
+<span ng-if='!nw'>
+<span class='or'>OR</span>
+<div class='steam' ng:click='Login.signInSteam()' tooltip-append-to-body='true' tooltip-placement='bottom' tooltip='Sign in through Steam'></div>
+<div class='github' ng:click='Login.signInGithub()' tooltip-append-to-body='true' tooltip-placement='bottom' tooltip='Sign in through GitHub'></div>
+</span>
+<a href='#!/register' ng-if='!nw' ng:click='Login.svc.hide()'>Create a new account</a>
+<a href='#!/register/ask-recover' ng-if='!nw' ng:click='Login.svc.hide()'>I forgot my password</a>
+</div>
+</form>
+</section>

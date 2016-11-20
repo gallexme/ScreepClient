@@ -1,0 +1,44 @@
+<section class='memory' ng:controller='Top.Game.Memory as Memory'>
+<div class='memory-content'>
+<div class='memory-watches-container'>
+<div class='memory-watch' ng:class="{'memory-root-watch': !watch.path, 'memory-selected-object-watch': watch.path == Memory.selectedObjectWatch}" ng:controller='Top.Game.Memory.MemoryWatch as MemoryWatch' ng:repeat='watch in Memory.watches | orderBy:Memory.orderBy track by watch.path'>
+<div class='memory-watch-expression'>
+<span ng:if='watch.path'>{{watch.path}}</span>
+<span ng:if='!watch.path'>Memory root</span>
+<div class='memory-watch-remove fa fa-remove' ng:click='Memory.removeWatch(watch.path)' ng:if='watch.path' tooltip-append-to-body='true' tooltip-placement='top' tooltip='Remove watch'></div>
+</div>
+<div class='memory-watch-value' ng:click='MemoryWatch.getMemory()' ng:if='!MemoryWatch.editing &amp;&amp; !watch.path'>
+<i class='fa fa-caret-right'></i>
+<span>[object Object]</span>
+</div>
+<div class='memory-watch-value' ng:class="{incorrect: MemoryWatch.value == 'Incorrect memory path', 'value-loading': MemoryWatch.loading}" ng:click='MemoryWatch.getMemory()' ng:if='!MemoryWatch.editing &amp;&amp; watch.path'>
+<i class='fa fa-caret-right' ng:if="MemoryWatch.value &amp;&amp; MemoryWatch.value != 'Incorrect memory path'"></i>
+<span ng:if='MemoryWatch.value'>{{MemoryWatch.value}}</span>
+<span ng:if='!MemoryWatch.value'>&nbsp;</span>
+</div>
+<div class='memory-watch-editing' ng:if='MemoryWatch.editing'>
+<div class='editing-controls'>
+<md:button app:click-animated='MemoryWatch.save()' class='md-primary md-hue-1' tooltip-append-to-body='true' tooltip-placement='top' tooltip='Save'>
+<div class='fa fa-check'></div>
+</md:button>
+<md:button app:click-animated='MemoryWatch.reload()' class='md-primary md-hue-1' tooltip-append-to-body='true' tooltip-placement='top' tooltip='Reload'>
+<div class='fa fa-refresh'></div>
+</md:button>
+<md:button class='md-primary md-hue-1' ng:click='MemoryWatch.cancel()' tooltip-append-to-body='true' tooltip-placement='top' tooltip='Cancel changes'>
+<div class='fa fa-close'></div>
+</md:button>
+<md:button app:click-animated='MemoryWatch.remove()' class='md-primary md-hue-1 watch-delete' ng:if='watch.path' tooltip-append-to-body='true' tooltip-placement='top' tooltip='Delete from memory'>
+<div class='fa fa-trash'></div>
+<span ng:if='MemoryWatch.removeFirstTry'>Click again to confirm</span>
+</md:button>
+<div class='memory-size'>{{MemoryWatch.editingSize | number:1}} KB</div>
+</div>
+<div app:json-editor='{name: MemoryWatch.getLastPathPart()}' class='editor' editor-interface='MemoryWatch.editor' editor-json='MemoryWatch.editing'></div>
+</div>
+</div>
+</div>
+<form class='memory-watch memory-new-watch' ng:if='Memory.watches.length &lt; 50' ng:submit='Memory.submitNewWatch()'>
+<input ng:model='Memory.newWatchPath' placeholder='Add new memory watch path here, e.g. "creeps.John"' type='text'>
+</form>
+</div>
+</section>

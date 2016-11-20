@@ -1,0 +1,31 @@
+<section app-tutorial-content>
+<p>
+Great! This creep will now work as a harvester until it dies. Remember that almost any creep has a life cycle of 1500
+game ticks, then it "ages" and dies (this behavior is disabled in the Tutorial).
+</p>
+<p>
+Let's create another worker creep to help the first one. It will cost another 200 energy units, so you may
+need to wait until your harvester collects enough energy. The <code>createCreep</code> method will return an
+error code <code>ERR_NOT_ENOUGH_ENERGY</code> (-6) until then.
+</p>
+<p>
+Remember: to execute code once just type it in the "Console" tab.
+</p>
+<div class='objective'>
+<div class='fa fa-caret-right'></div>
+Spawn a second creep with the body <code>[WORK,CARRY,MOVE]</code> and name <code>Harvester2</code>.
+</div>
+<div class='objective'>
+<div class='fa fa-caret-down'></div>
+Documentation:
+<ul>
+<li>
+<code><a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/205990342-StructureSpawn#createCreep' target='_blank'>StructureSpawn.createCreep</a></code>
+</li>
+</ul>
+</div>
+<app:tutorial-code></app:tutorial-code>
+<div class='tutorial-controls'>
+<md:button class='md-raised md-primary' ng:click='Tutorial.close()'>Got it</md:button>
+</div>
+</section>

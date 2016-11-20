@@ -1,0 +1,31 @@
+<app:aside-block class='aside-block-highlighted' heading='Power Bank' visibility-model='Room.asidePanels.view'>
+<div>
+<div class='object-properties-id'>
+ID: {{Room.selectedObject._id}}
+</div>
+<div>
+<label>Owner:</label>
+<span>Power Bank</span>
+</div>
+<div>
+<label>Position:</label>
+{{Room.selectedObject.x}}, {{Room.selectedObject.y}}
+</div>
+<div>
+<label>Hits:</label>
+{{Room.selectedObject.hits | round}} / {{Room.selectedObject.hitsMax | round}}
+</div>
+<div>
+<label>Power:</label>
+{{Room.selectedObject.power}}
+</div>
+<div ng:if='Room.gameTime'>
+<label>Decay in:</label>
+{{Room.selectedObject.decayTime - Room.gameTime}}
+</div>
+<div class='desc'>This structure emits bright light and splashes of sparks.</div>
+<div class='learn-more'>
+<a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/205971132-Power' target='_blank'>Learn more</a>
+</div>
+</div>
+</app:aside-block>

@@ -1,0 +1,14 @@
+<app:account-edit-page title='GitHub Integration'>
+<form app:form-fail-anim='anim-shake' app:submit='AccountGitHub.submit()' class='account-block github' name='form'>
+<span>Sync from:</span>
+<ui:drop-select name='repo' ng:model='AccountGitHub.repo' options='AccountGitHub.reposList' placeholder='Select repository' style-type='button'></ui:drop-select>
+<span class='mute'>/</span>
+<input ng:model='AccountGitHub.folder' placeholder='Folder'>
+<div class='error' ng:if='AccountGitHub.error'>{{AccountGitHub.error}}</div>
+<div class='account-controls'>
+<md:button class='md-primary md-hue-1' ng:href="#!{{'top.account' | routeSegmentUrl}}">Cancel</md:button>
+<md:button class='md-primary md-hue-1' ng:click='AccountGitHub.reset()' type='button'>Reset</md:button>
+<md:button app:submit-animated class='md-primary md-raised' ng:disabled='form.$invalid' type='submit'>Sync</md:button>
+</div>
+</form>
+</app:account-edit-page>

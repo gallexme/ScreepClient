@@ -1,0 +1,32 @@
+<section app-tutorial-content>
+<p>
+You will have to create new creeps when old ones die from age or some other reasons. Since there are no
+events in the game to report death of a particular creep, the easiest way is to just count the number of
+required creeps, and if it becomes less than a defined value, to start spawning.
+</p>
+<p>
+There are several ways to count the number of creeps of the required type. One of them is filtering
+<code>Game.creeps</code> with the help of the <code>_.filter</code> function and using the role in
+their memory. Let’s try to do that and bring the number of creeps into the console.
+</p>
+<div class='objective'>
+<div class='fa fa-caret-right'></div>
+Add the output of the number of creeps with the role <code>harvester</code> into the console.
+</div>
+<div class='objective'>
+<div class='fa fa-caret-down'></div>
+Documentation:
+<ul>
+<li>
+<code><a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/203016382-Game#creeps' target='_blank'>Game.creeps</a></code>
+</li>
+<li>
+<code><a app-nw-external-link href='https://lodash.com/docs#filter' target='_blank'>lodash.filter</a></code>
+</li>
+</ul>
+</div>
+<app:tutorial-code title='main'></app:tutorial-code>
+<div class='tutorial-controls'>
+<md:button class='md-raised md-primary' ng:click='Tutorial.close()'>Got it</md:button>
+</div>
+</section>

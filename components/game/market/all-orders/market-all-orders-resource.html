@@ -1,0 +1,159 @@
+<div class='market-all-orders-resource'>
+<div class='market-controls'>
+<a class='orders-back' ng-href="#!{{ 'top.market.all-orders' | routeSegmentUrl }}">
+<div class='fa fa-caret-left'></div>
+Back to resources list
+</a>
+<md-button ng-click='ResourceOrders.reload()'>
+<div class='fa fa-refresh'></div>
+<span>Refresh</span>
+</md-button>
+</div>
+<div class='resource-header'>
+<img ng-src='https://s3.amazonaws.com/static.screeps.com/upload/mineral-icons/{{$routeSegment.$routeParams.resourceType}}.png'>
+{{ResourceOrders.resourceName}}
+<div class='resource-header__title' ng-if="$routeSegment.$routeParams.resourceType == 'token'">
+A special item that allows its owner to activate 60 days of CPU subscription. You can buy or activate tokens on the&nbsp;<a href="#!{{'top.order' | routeSegmentUrl}}">this page</a>.
+</div>
+</div>
+<div class='orders-table'>
+<div class='orders-table__target-room' ng-if="$routeSegment.$routeParams.resourceType != 'token'">
+<label>Target room:</label>
+<md-input-container>
+<input ng-change='ResourceOrders.onTargetRoomChange()' ng-model='ResourceOrders.targetRoom'>
+</md-input-container>
+</div>
+<div class='orders-table__header'>
+Selling
+</div>
+<div class='orders-table__table orders-table__table--overflow orders-table__table--sortable'>
+<table app-market-table default-sort='+price' ng-if='ResourceOrders.data.orders.sell.length'>
+<tr>
+<th ng-click="MarketTable.changeSort('_id')">
+Order ID
+<div class='fa fa-caret-down' ng-if="MarketTable.sort == '+_id'"></div>
+<div class='fa fa-caret-up' ng-if="MarketTable.sort == '-_id'"></div>
+</th>
+<th ng-click="MarketTable.changeSort('price')">
+<div class='fa fa-caret-down' ng-if="MarketTable.sort == '+price'"></div>
+<div class='fa fa-caret-up' ng-if="MarketTable.sort == '-price'"></div>
+Price
+</th>
+<th ng-click="MarketTable.changeSort('amount')">
+<div class='fa fa-caret-down' ng-if="MarketTable.sort == '+amount'"></div>
+<div class='fa fa-caret-up' ng-if="MarketTable.sort == '-amount'"></div>
+Available
+</th>
+<th ng-click="MarketTable.changeSort('remainingAmount')">
+<div class='fa fa-caret-down' ng-if="MarketTable.sort == '+remainingAmount'"></div>
+<div class='fa fa-caret-up' ng-if="MarketTable.sort == '-remainingAmount'"></div>
+Remaining
+</th>
+<th ng-click="MarketTable.changeSort('roomName')" ng-if="$routeSegment.$routeParams.resourceType != 'token'">
+<div class='fa fa-caret-down' ng-if="MarketTable.sort == '+roomName'"></div>
+<div class='fa fa-caret-up' ng-if="MarketTable.sort == '-roomName'"></div>
+Room
+</th>
+<th ng-click="MarketTable.changeSort('range')" ng-if="$routeSegment.$routeParams.resourceType != 'token'">
+<div class='fa fa-caret-down' ng-if="MarketTable.sort == '+range'"></div>
+<div class='fa fa-caret-up' ng-if="MarketTable.sort == '-range'"></div>
+Range
+</th>
+</tr>
+<tr ng-repeat='order in ResourceOrders.data.orders.sell | orderBy:MarketTable.sort'>
+<td class='order-id'>{{order._id}}</td>
+<td>{{order.price | number:2}}</td>
+<td>{{order.amount | number}}</td>
+<td class='order-remaining'>{{order.remainingAmount | number}}</td>
+<td ng-if="$routeSegment.$routeParams.resourceType != 'token'">
+<a ng-href="#!{{'top.game-room' | routeSegmentUrl:{room:order.roomName} }}">{{order.roomName}}</a>
+</td>
+<td ng-if="$routeSegment.$routeParams.resourceType != 'token'">{{order.range || '&mdash;'}}</td>
+</tr>
+</table>
+</div>
+<div class='orders-table__empty' ng-if='!ResourceOrders.data.orders.sell.length'>
+No orders
+</div>
+</div>
+<div class='orders-table'>
+<div class='orders-table__header'>
+Buying
+</div>
+<div class='orders-table__table orders-table__table--overflow orders-table__table--sortable'>
+<table app-market-table default-sort='-price' ng-if='ResourceOrders.data.orders.buy.length'>
+<tr>
+<th ng-click="MarketTable.changeSort('_id')">
+Order ID
+<div class='fa fa-caret-down' ng-if="MarketTable.sort == '+_id'"></div>
+<div class='fa fa-caret-up' ng-if="MarketTable.sort == '-_id'"></div>
+</th>
+<th ng-click="MarketTable.changeSort('price')">
+<div class='fa fa-caret-down' ng-if="MarketTable.sort == '+price'"></div>
+<div class='fa fa-caret-up' ng-if="MarketTable.sort == '-price'"></div>
+Price
+</th>
+<th ng-click="MarketTable.changeSort('amount')">
+<div class='fa fa-caret-down' ng-if="MarketTable.sort == '+amount'"></div>
+<div class='fa fa-caret-up' ng-if="MarketTable.sort == '-amount'"></div>
+Available
+</th>
+<th ng-click="MarketTable.changeSort('remainingAmount')">
+<div class='fa fa-caret-down' ng-if="MarketTable.sort == '+remainingAmount'"></div>
+<div class='fa fa-caret-up' ng-if="MarketTable.sort == '-remainingAmount'"></div>
+Remaining
+</th>
+<th ng-click="MarketTable.changeSort('roomName')" ng-if="$routeSegment.$routeParams.resourceType != 'token'">
+<div class='fa fa-caret-down' ng-if="MarketTable.sort == '+roomName'"></div>
+<div class='fa fa-caret-up' ng-if="MarketTable.sort == '-roomName'"></div>
+Room
+</th>
+<th ng-click="MarketTable.changeSort('range')" ng-if="$routeSegment.$routeParams.resourceType != 'token'">
+<div class='fa fa-caret-down' ng-if="MarketTable.sort == '+range'"></div>
+<div class='fa fa-caret-up' ng-if="MarketTable.sort == '-range'"></div>
+Range
+</th>
+</tr>
+<tr ng-repeat='order in ResourceOrders.data.orders.buy | orderBy:MarketTable.sort'>
+<td class='order-id'>{{order._id}}</td>
+<td>{{order.price | number:2}}</td>
+<td>{{order.amount | number}}</td>
+<td class='order-remaining'>{{order.remainingAmount | number}}</td>
+<td ng-if="$routeSegment.$routeParams.resourceType != 'token'">
+<a ng-href="#!{{'top.game-room' | routeSegmentUrl:{room:order.roomName} }}">{{order.roomName}}</a>
+</td>
+<td ng-if="$routeSegment.$routeParams.resourceType != 'token'">{{order.range || '&mdash;'}}</td>
+</tr>
+</table>
+</div>
+<div class='orders-table__empty' ng-if='!ResourceOrders.data.orders.buy.length'>
+No orders
+</div>
+</div>
+<div class='orders-table'>
+<div class='orders-table__header'>
+Price history
+</div>
+<div class='orders-table__table'>
+<table>
+<tr>
+<th>Date</th>
+<th>Transactions</th>
+<th>Total volume</th>
+<th>
+Price (avg &plusmn; stddev)
+</th>
+</tr>
+<tr ng-repeat='item in ResourceOrders.data.stats'>
+<td>{{item.date}}</td>
+<td>{{item.transactions | number}}</td>
+<td>{{item.volume | number}}</td>
+<td>
+{{item.avgPrice | number:2}}
+<span class='mute' ng-if='item.stddevPrice &gt; 0 || 1'>&plusmn; {{item.stddevPrice | number:3}}</span>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>

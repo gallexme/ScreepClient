@@ -1,0 +1,22 @@
+<section class='messages-index'>
+<div class='header-jumbotron'>
+<h1>Messages</h1>
+</div>
+<div class='messages-list'>
+<div class='message' ng:class="{unread: item.message.type == 'in' &amp;&amp; item.message.unread}" ng:click='MessagesIndex.goToRespondent(item)' ng:controller='Top.MessagesIndex.Message as Message' ng:repeat='item in MessagesIndex.data.index.messages as resultsList track by item._id'>
+<img app:badge-src='MessagesIndex.data.index.users[item._id].badge' class='message-badge' no-auto-watch>
+<a app:stop-click-propagation class='message-author' ng:href="#!{{ 'top.profile' | routeSegmentUrl:{username:MessagesIndex.data.index.users[item._id].username} }}">{{MessagesIndex.data.index.users[item._id].username}}</a>
+<div class='message-date'>{{item.message.date | readableDate}}</div>
+<div class='message-text'>
+<span ng:if="item.message.type == 'in'">{{item.message.text | truncate:200}}</span>
+<div class='out' ng:class='{unread: item.message.unread}' ng:if="item.message.type == 'out'">
+<img app:badge-src='Me().badge' class='message-out-badge' no-auto-watch>
+<span>{{item.message.text | truncate:200}}</span>
+</div>
+</div>
+</div>
+<div class='empty' ng:if='resultsList | empty'>
+No messages here yet.<br>You can send a message to another player using his profile page.
+</div>
+</div>
+</section>

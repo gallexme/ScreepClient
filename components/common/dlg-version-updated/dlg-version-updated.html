@@ -1,0 +1,14 @@
+<div class='dlg-version-updated' ng-if='$ctrl.isVisible()'>
+<div class='close' ng-click='$ctrl.onClose()'>
+<div class='icon-material-close'></div>
+</div>
+<div ng-if='$ctrl.isNw()'>
+<span>New update is available, please restart.</span>
+</div>
+<div ng-if='!$ctrl.isNw()'>
+<span>New update is available</span>
+<md-button class='md-primary md-hue-1' ng-click='$ctrl.onReload()'>
+RELOAD
+</md-button>
+</div>
+</div>

@@ -1,0 +1,16 @@
+<section class='replay-list'>
+<input class='form-control' ng:model='ReplayList.filter'>
+<table class='table'>
+<tr ng:click='ReplayList.view(item)' ng:repeat='item in ReplayList.list | filter:ReplayList.filter track by $index'>
+<td>
+<a ng:href='#!/replay/{{item._id}}?s={{item.secret}}'>
+{{item._id}}
+</a>
+{{item.ip}}
+</td>
+<td>{{item.v}}</td>
+<td>{{item.date | date:'short'}}</td>
+<td>{{item.score}}</td>
+</tr>
+</table>
+</section>

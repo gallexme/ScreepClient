@@ -1,0 +1,17 @@
+<svg class='keeper-lair' height='10%' ng:style="::{left: ((KeeperLair.objectData.x-2)*100/50)+'%', top: ((KeeperLair.objectData.y-2)*100/50)+'%'}" viewbox='0 0 500 500' width='10%'>
+<text font-size='55' ng:if='KeeperLair.displayOptions.showEnemyNames.spawns' x='250' y='155'>
+Source Keeper
+</text>
+<g transform='translate(250,250)'>
+<g>
+<ellipse cx='0' cy='0' fill='#000' rx='40' ry='40'></ellipse>
+<ellipse cx='0' cy='0' fill='#780207' rx='33' ry='33'>
+<animateTransform app-attr="calcMode#KeeperLair.displayOptions.animations ? 'linear' : 'discrete'" attributeName='transform' attributeType='XML' dur='2s' repeatCount='indefinite' type='scale' values='0 0;1 1;1 1'></animateTransform>
+<animate attributeName='fill' dur='2s' ng-if='KeeperLair.displayOptions.animations' repeatCount='indefinite' values='#780207; #00000'></animate>
+</ellipse>
+<ellipse cx='0' cy='0' fill='#000' rx='33' ry='33'>
+<animateTransform app-attr="calcMode#KeeperLair.displayOptions.animations ? 'linear' : 'discrete'" attributeName='transform' attributeType='XML' dur='2s' repeatCount='indefinite' type='scale' values='0 0;0.3 0.3;1 1'></animateTransform>
+</ellipse>
+</g>
+</g>
+</svg>

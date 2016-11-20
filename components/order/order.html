@@ -1,0 +1,218 @@
+<script src="https://xsolla.cachefly.net/embed/paystation/1.0.2/widget.min.js"></script>
+<section class='order'>
+<div class='order-content'>
+<div class='complete' ng:if='Order.isComplete'>
+<p ng-if='!Order.isComplete.amount'>
+Thank you! Your subscription has been activated.
+</p>
+<p ng-if='Order.isComplete.amount.days'>
+Thank you! You have received
+<strong count='Order.isComplete.amount.days' ng-pluralize when="{one: '1 day', other: '{} days'}"></strong>
+of CPU subscription.
+</p>
+<p ng-if='Order.isComplete.amount.credits'>
+Thank you! You have received
+<strong>{{Order.isComplete.amount.credits}} CPU Credits.</strong>
+</p>
+<div>
+<md-button class='md-primary md-raised' href="#!{{'top.game-world-map' | routeSegmentUrl}}">GO TO THE WORLD</md-button>
+</div>
+<div class='order-footer'>
+<a href="#!{{'top.account-subscription' | routeSegmentUrl}}">Subscription management</a>
+</div>
+</div>
+<div ng:if='!Order.isComplete'>
+<div ng-if='ptr'>
+<div class='order-ptr'>
+<p>
+This is the Public Test Realm. You can get free subscription for 24 hours. After this period your CPU will be automatically disabled, but you can
+come back again tomorrow.
+</p>
+<p>
+<md-button class='md-primary md-raised' ng-click='Order.order()'>Activate for 24 hours</md-button>
+</p>
+</div>
+</div>
+<div ng-if='!ptr'>
+<!--
+<div class='order-header'></div>
+<img src='components/order/sergey40.png'>
+<img src='components/order/anton40.png'>
+<img src='components/order/artem40.png'>
+Screeps is an indie project. We have no investors and publishers, and you are our only sponsors.<br>
+Thank you for your help in constant improving and developing the game.
+<a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/203898031-About-the-Screeps-Team' target='_blank'>Learn more about the team</a>
+-->
+<div class='order-desc'>
+<p>
+Executing your scripts on the server in online mode <b>each second 24/7</b> requires huge computing resources.
+Here you can order CPU resources to run your scripts in the online mode.
+<a href='http://support.screeps.com/hc/en-us/articles/209559605-Why-subscription-'>Learn more</a>
+</p>
+</div>
+<md-button class='order-block order-block--steam' ng-click='Order.humbleWidgetVisible = !Order.humbleWidgetVisible' ng-if='!nw'>
+<div class='order-block__icon'>
+<img src='components/login/steam.svg'>
+</div>
+<div class='order-block__title'>Buy Screeps on Steam</div>
+<div class='order-block__desc'>Lifetime MMO access with 10 CPU limit included.</div>
+</md-button>
+<div class='humble-widget' ng-show='Order.humbleWidgetVisible'>
+<iframe src="https://www.humblebundle.com/widget/v2/product/screeps/uEY5H9Zph0?theme=dark" width="560" height="261" style="border: none;" scrolling="no" frameborder="0"></iframe>
+</div>
+<md-button class='order-block order-block--subscription' ng-click='Order.goToSteam()' ng-if='nw'>
+<div class='order-block__icon'>
+<img src='components/order/ic_file_upload_white_48px.svg'>
+</div>
+<div class='order-block__title'>Order CPU Subscription</div>
+<div class='order-block__desc'>Raise your CPU limit to the point depending on your game level.</div>
+</md-button>
+<md-button class='order-block order-block--subscription' ng-click='Order.subscriptionsVisible = !Order.subscriptionsVisible' ng-if='!nw'>
+<div class='order-block__icon'>
+<img src='components/order/ic_file_upload_white_48px.svg'>
+</div>
+<div class='order-block__title'>Order CPU Subscription</div>
+<div class='order-block__desc'>Raise your CPU limit to the point depending on your game level.</div>
+</md-button>
+<div class='order-list' ng-show='Order.subscriptionsVisible'>
+<!--
+<div class='order-item twitter-promo'></div>
+<div class='order-title'>
+<b>10 days</b>
+<div class='days-note'>&nbsp;</div>
+</div>
+<div class='order-price'>FREE</div>
+<div class='order-discount'>
+<div class='fa fa-twitter'></div>
+<a ng:href="#!{{'top.twitter-promo' | routeSegmentUrl}}">Twitter Promo</a>
+</div>
+<div class='order-trial'>&nbsp;</div>
+<md-button class='md-primary md-raised' ng:click='Order.goToTwitter()' ng:disabled='Order.asGift'>Earn</md-button>
+-->
+<div class='order-item'>
+<div class='order-title'>
+<b>Every 30 days</b>
+<div class='days-note'>
+$8.95
+</div>
+</div>
+<div class='order-price'>
+$8.95
+<span>/ month</span>
+</div>
+<div class='order-trial'>
+3 days free trial
+<div class='footnote-mark'>*</div>
+</div>
+<div class='order-discount'>&nbsp;</div>
+<md-button app:click-animated='Order.order(30)' class='md-primary md-raised'>Order</md-button>
+</div>
+<div class='order-item recommended'>
+<div class='order-title'>
+<b>Every 90 days</b>
+<div class='days-note'>
+$23.85
+</div>
+</div>
+<div class='order-price'>
+$7.95
+<span>/ month</span>
+</div>
+<div class='order-trial'>
+3 days free trial
+<div class='footnote-mark'>*</div>
+</div>
+<div class='order-discount'>Recommended</div>
+<md-button app:click-animated='Order.order(90)' class='md-primary md-raised'>Order</md-button>
+</div>
+<div class='order-item no-margin'>
+<div class='order-title'>
+<b>Every 180 days</b>
+<div class='days-note'>
+$41.70
+</div>
+</div>
+<div class='order-price'>
+$6.95
+<span>/ month</span>
+</div>
+<div class='order-trial'>
+3 days free trial
+<div class='footnote-mark'>*</div>
+</div>
+<div class='order-discount'>&nbsp;</div>
+<md-button app:click-animated='Order.order(180)' class='md-primary md-raised'>Order</md-button>
+</div>
+<input class='ng-hide' ng-model='Order.overrideAmount'>
+<div class='order-footer'>
+<div class='order-footer__left'>
+All prices exclude VAT where applicable.<br>
+<div class='footnote-mark'>*</div>
+You will be charged in 3 days from now. Cancel any time.
+</div>
+</div>
+</div>
+<div class='order-block order-block--tokens' ng-click='Order.tokensVisible = !Order.tokensVisible'>
+<div class='order-block__icon'>
+<img src='components/top/ic_sync_white_24px.svg'>
+</div>
+<div class='order-block__title'>Subscription Tokens</div>
+<div class='order-block__desc'>Activate, buy and sell special in-game items called Subscription Tokens.</div>
+</div>
+<div class='order-tokens' ng-show='Order.tokensVisible'>
+<div class='order-tokens__amount'>
+You have
+<strong>{{Me().subscriptionTokens || 0}}</strong>
+<ng-pluralize count='Me().subscriptionTokens || 0' when="{one: 'subscription token', other: 'subscription tokens'}"></ng-pluralize>
+</div>
+<div class='order-tokens__note'>
+Each token allows its owner to activate 60 days of CPU subscription.
+<br>
+You can sell these items on the
+<a href="#!{{'top.market' | routeSegmentUrl}}">in-game market</a>
+or&nbsp;<a app-nw-external-link href='http://steamcommunity.com/market/listings/464350/Subscription%20Token' target='_blank'>Steam Community Market</a>.
+</div>
+<div class='order-tokens__controls'>
+<md-button class='md-primary md-raised' ng-click='Order.activateToken()' ng-disabled='!Me().subscriptionTokens'>
+Activate
+</md-button>
+<md-button app-click-animated='Order.purchaseToken()' class='md-primary md-raised' ng-if='!nw'>Buy ($17.95)</md-button>
+<md-button app-nw-external-link class='md-primary md-raised' href='http://steamcommunity.com/market/listings/464350/Subscription%20Token' ng-if='nw'>Trade on Steam</md-button>
+</div>
+<div class='order-footer' ng-if='!nw'>
+<div class='order-footer__left'>
+All prices exclude VAT where applicable.<br>
+</div>
+</div>
+</div>
+<md-button class='order-block order-block--small' href ng:click='Order.openCoupon()'>
+<div class='order-block__desc'>I have a coupon</div>
+</md-button>
+<md-button class='order-block order-block--small' href="#!{{'top.account-subscription' | routeSegmentUrl}}">
+<div class='order-block__desc'>Subscription management</div>
+</md-button>
+</div>
+</div>
+</div>
+<!--
+<div class='indiegogo'></div>
+<div class='indiegogo-content'>
+<div class='pull-left'>
+<a app-nw-external-link href='https://www.indiegogo.com/projects/open-source-sandbox-strategy-game-for-programmers'>
+<img src='components/order/igg.png'>
+</a>
+<br>
+<a app-nw-external-link href='http://steamcommunity.com/sharedfiles/filedetails/?id=629282835'>
+<img class='steam' src='components/order/steam.png'>
+</a>
+</div>
+<p>
+Would you like to have an open source Screeps game server to play with your friends?
+</p>
+<p>
+Check it out on our
+<a href="https://www.indiegogo.com/projects/open-source-sandbox-strategy-game-for-programmers" app-nw-external-link target="_blank">Indiegogo&nbsp;campaign</a>!
+</p>
+</div>
+-->
+</section>

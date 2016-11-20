@@ -1,0 +1,85 @@
+<app:aside-block class='aside-block-highlighted creep-properties' heading='Creep' visibility-model='Room.asidePanels.view'>
+<div ng:controller='Top.Game.Room.CreepProperties as CreepProperties'>
+<div class='object-properties-id'>
+ID: {{Room.selectedObject._id}}
+</div>
+<div>
+<label>Owner:</label>
+<a ng:href="#!{{ 'top.profile' | routeSegmentUrl:{username: Room.users[Room.selectedObject.user].username} }}" ng:if="!_.contains(['0','1','2','3'], Room.selectedObject.user)" title='View user profile'>
+<img app:badge-src='Room.users[Room.selectedObject.user].badge'>
+{{Room.users[Room.selectedObject.user].username}}
+</a>
+<span ng:if="_.contains(['0','1','2','3'], Room.selectedObject.user)">
+{{Room.users[Room.selectedObject.user].username}}
+</span>
+</div>
+<div ng:if='Room.selectedObject.user == Game.player || Room.selectedObject.user == 0 &amp;&amp; Game.player == Me()._id'>
+<label>Name:</label>
+{{Room.selectedObject.name}}
+</div>
+<div>
+<label>Position:</label>
+{{Room.selectedObject.x}}, {{Room.selectedObject.y}}
+</div>
+<div>
+<label>Hits:</label>
+{{Room.selectedObject.hits | round}} / {{Room.selectedObject.hitsMax | round}}
+</div>
+<div>
+<label>Fatigue:</label>
+{{Room.selectedObject.fatigue}}
+</div>
+<div ng:if='Room.gameTime &amp;&amp; Room.selectedObject.ageTime &gt;= Room.gameTime'>
+<label>Time to live:</label>
+{{Room.selectedObject.ageTime - Room.gameTime}}
+</div>
+<div class='body' ng:if='Room.selectedObject.energyCapacity'>
+<label class='body-header'>
+Carry
+<div class='pull-right'>
+{{Room.calcResources(Room.selectedObject) | round}} / {{Room.selectedObject.energyCapacity | round}}
+</div>
+</label>
+<div ng:if='!Room.calcResources(Room.selectedObject)'>Empty</div>
+<table class='carry-resource'>
+<tr ng-if='Room.selectedObject[resourceType]' ng:repeat='resourceType in Room.Constants.RESOURCES_ALL'>
+<td>{{Room.selectedObject[resourceType] | number}}&nbsp;&times;&nbsp;</td>
+<td>
+<img class='resource-type' ng-src='https://s3.amazonaws.com/static.screeps.com/upload/mineral-icons/{{resourceType}}.png' tooltip='{{Room.resourceTypeNames[resourceType]}}'>
+</td>
+</tr>
+</table>
+</div>
+<div class='body'>
+<label class='body-header'>
+Body
+<div class='pull-right'>
+<ng:pluralize count='(Room.selectedObject.body | keyFilter).length' when="{one: '1 part', other: '{} parts'}"></ng:pluralize>
+</div>
+</label>
+<div class='bodypart' ng:class="'type-'+i.type+' '+(i.boost ? 'boost':'')" ng:repeat='i in Room.selectedObject.body | orderByNameNumerically track by $index' tooltip-append-to-body='true' tooltip-html-unsafe="type: {{i.type}}&lt;br&gt;hits: {{i.hits}}/100&lt;br&gt;{{i.boost ? 'boost: '+Room.resourceTypeNames[i.boost] : ''}}" tooltip-placement='bottom'>
+<div class='dead-overlay' ng:if='i.hits &lt; 100'>
+<i ng:style="{bottom: i.hits + '%'}"></i>
+</div>
+</div>
+</div>
+<md-checkbox class='md-primary' md-no-ink ng:change='Room.onNotifyWhenAttackedChange()' ng:if="!Game.readOnly &amp;&amp; Room.selectedObject.user == Me()._id &amp;&amp; Room.roomMode == 'world'" ng:model='Room.selectedObject.notifyWhenAttacked'>
+Notify me when attacked
+</md-checkbox>
+<md:button class='md-primary md-hue-1 allwidth' ng:click='CreepProperties.addMemoryWatch()' ng:if='!Game.readOnly &amp;&amp; (Room.selectedObject.user == Game.player || Room.selectedObject.user == 0 &amp;&amp; Game.player == Me()._id)'>
+View memory
+</md:button>
+<md:button class='md-warn allwidth' ng:click='CreepProperties.suicide()' ng:if='!Game.readOnly &amp;&amp; (Room.selectedObject.user == Game.player || Room.selectedObject.user == 0 &amp;&amp; Game.player == Me()._id)'>
+{{CreepProperties.askSuicide ? 'Click again to confirm' : 'Suicide'}}
+</md:button>
+<md:button class='md-warn allwidth' ng:click='CreepProperties.removeInvader()' ng:if='!Game.readOnly &amp;&amp; !Game.simulationMode &amp;&amp; Room.selectedObject.userSummoned == Game.player'>
+Remove invader
+</md:button>
+<div ng-if="Room.selectedObject.user == 2 &amp;&amp; Room.roomMode == 'world'">
+<div class='desc'>This creep is angry with your harvesting activity in this room.</div>
+<div class='learn-more'>
+<a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/207729055-NPC-Invaders' target='_blank'>Learn more</a>
+</div>
+</div>
+</div>
+</app:aside-block>

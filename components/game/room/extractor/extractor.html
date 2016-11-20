@@ -1,0 +1,9 @@
+<svg class='extractor' height='6%' ng:class='{neutral: Extractor.objectData.user === undefined, owner: Extractor.player == Extractor.objectData.user || Extractor.objectData.user == 0 &amp;&amp; Extractor.player == Me()._id}' ng:style="::{left: ((Extractor.objectData.x-1)*100/50)+'%', top: ((Extractor.objectData.y-1)*100/50)+'%'}" viewbox='0 0 300 300' width='6%'>
+<g ng:attr-opacity='{{Extractor.objectData.tempRemove ? 0.3 : 1.0}}' transform='translate(150,150)'>
+<ellipse cx='0' cy='0' fill='#111' rx='60' ry='60'></ellipse>
+<path class='border' d='M 80 0 A 80 80 0 0 1 40 69.28 M  -40 69.28 A 80 80 0 0 1 -80 0 M -40 -69.28 A 80 80 0 0 1 40 -69.28' fill-opacity='0' stroke-width='20'>
+<animateTransform app-attr="calcMode#Extractor.displayOptions.animations ? 'linear' : 'discrete'" attributeName='transform' attributeType='XML' dur='4s' from='0 0 0' repeatCount='indefinite' to='360 0 0' type='rotate'></animateTransform>
+</path>
+<!-- /%ellipse.border(cx="0" cy="0" rx="80" ry="80" fill-opacity="0" stroke-width="10") -->
+</g>
+</svg>

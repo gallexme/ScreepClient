@@ -1,0 +1,52 @@
+<section class='profile-cpu' ng-if='ProfileCpu.changeLimit'>
+<div class='header-jumbotron'>
+<h1>Manage your CPU</h1>
+</div>
+<div class='cpu-desc'>
+<p>
+<b>CPU Credits</b> are spent to execute your scripts on the game server on a daily basis.
+You can set a <b>CPU limit</b> for scripts execution in the range between 20 and 300.
+You can change the value any time without limitation.
+</p>
+<P>
+<b>1 CPU Credit</b> = <b>1ms CPU time limit</b> on your game tick execution within <b>1 day</b>.
+</P>
+</div>
+<div class='cpu-stats-overview'>
+<div class='cpu-stat'>
+<div class='cpu-stat-title'>Credits</div>
+<div class='cpu-stat-counter'>{{ptr ? '&mdash;' : Me().credits}}</div>
+<md-button class='md-primary md-raised' href="#!{{'top.order' | routeSegmentUrl}}">Get more</md-button>
+</div>
+<div class='cpu-equation-mark'>/</div>
+<div class='cpu-stat cpu-stat-limit' ng:class='{active: ProfileCpu.isChangingLimit}'>
+<div class='cpu-stat-title'>CPU Limit</div>
+<div class='cpu-stat-counter' ng:if='ProfileCpu.changeLimitValue &gt;= 20'>{{ProfileCpu.changeLimitValue}}</div>
+<div class='cpu-stat-counter stat-disabled' ng:if='ProfileCpu.changeLimitValue &lt; 20 &amp;&amp; !Me().blocked'>Off</div>
+<div class='cpu-stat-counter stat-blocked' ng:if='ProfileCpu.changeLimitValue &lt; 20 &amp;&amp; Me().blocked'>Blocked</div>
+<md-button class='md-primary md-raised' ng:click='ProfileCpu.changeLimit()' ng:disabled='Me().blocked' ng:if='!ProfileCpu.isChangingLimit'>Change</md-button>
+<md-button class='md-raised' ng:click='ProfileCpu.resetChangeLimit()' ng:if='ProfileCpu.isChangingLimit'>Cancel</md-button>
+</div>
+<div class='cpu-equation-mark'>=</div>
+<div class='cpu-stat'>
+<div class='cpu-stat-title'>Days Left</div>
+<div class='cpu-stat-counter' ng:if='!ptr &amp;&amp; ProfileCpu.changeLimitValue &gt;= 20'>{{Math.floor(Me().credits / ProfileCpu.changeLimitValue)}}</div>
+<div class='cpu-stat-counter stat-disabled' ng:if='ptr || ProfileCpu.changeLimitValue &lt; 20'>&mdash;</div>
+<div class='cpu-next-charge-date' ng:if='!ptr &amp;&amp; ProfileCpu.changeLimitValue &gt;= 20 &amp;&amp; Me().lastChargeTime'>
+Next charge date:<br>
+<span>{{ProfileCpu.getNextChargeDate() | date:'yyyy-MM-dd HH:mm'}}</span>
+</div>
+</div>
+</div>
+<div class='cpu-limit-change' ng:if='ProfileCpu.isChangingLimit'><md-slider class='md-primary' max='{{ptr ? Me().ptrMaxCpu : 300}}' min='19' ng:model='ProfileCpu.changeLimitValue' step='1'></md-slider><md-button app:click-animated='ProfileCpu.save()' class='md-primary md-raised' ng:disabled='!ProfileCpu.isValidChange()'>Save</md-button>
+<div class='limit-note limit-note-charge' ng:if='!ptr &amp;&amp; ProfileCpu.isValidChange() &amp;&amp; ProfileCpu.getChargeAmount() &gt; 0'>
+You will be charged {{ProfileCpu.getChargeAmount()}} credits
+</div>
+<div class='limit-note limit-note-return' ng:if='!ptr &amp;&amp; ProfileCpu.isValidChange() &amp;&amp; ProfileCpu.getChargeAmount() &lt; 0'>
+You will be refunded {{-ProfileCpu.getChargeAmount()}} credits
+</div>
+<div class='limit-note limit-note-insufficient' ng:if='!ptr &amp;&amp; !ProfileCpu.isValidChange() &amp;&amp; ProfileCpu.getChargeAmount() &gt; Me().credits'>
+You have insufficient credits
+</div>
+</div>
+</section>

@@ -1,0 +1,9 @@
+<svg class='extension' height='6%' ng:class='{owner: Extension.player == Extension.objectData.user || Extension.objectData.user == 0 &amp;&amp; Extension.player == Me()._id}' ng:style="::{left: ((Extension.objectData.x-1)*100/50)+'%', top: ((Extension.objectData.y-1)*100/50)+'%'}" viewbox='0 0 300 300' width='6%'>
+<g ng:attr-opacity='{{Extension.objectData.tempRemove ? 0.3 : 1.0}}' transform='translate(150,150)'>
+<g>
+<ellipse class='border' cx='0' cy='0' fill='#181818' ng:attr-rx='{{Extension.getSize()}}' ng:attr-ry='{{Extension.getSize()}}' stroke-width='5'></ellipse>
+<ellipse cx='0' cy='0' fill='#555' ng:attr-rx='{{.7 * Extension.getSize()}}' ng:attr-ry='{{.7 * Extension.getSize()}}' ng:if='Extension.objectData.energy &lt; Extension.objectData.energyCapacity'></ellipse>
+<ellipse cx='0' cy='0' fill='#ffe56d' ng:attr-rx='{{.7 * Extension.getSize() * Math.min(Extension.objectData.energy / Extension.objectData.energyCapacity, 1)}}' ng:attr-ry='{{.7 * Extension.getSize() * Math.min(Extension.objectData.energy / Extension.objectData.energyCapacity, 1)}}' ng:if='Extension.objectData.energy &gt; 0'></ellipse>
+</g>
+</g>
+</svg>

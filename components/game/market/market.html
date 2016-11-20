@@ -1,0 +1,21 @@
+<div class='market'>
+<div class='header-jumbotron'>
+<h1>Market</h1>
+<div class='subtitle'>
+Market allows to automatically trade resources with other players.
+<a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/207783649-Market-system' target='_blank'>Learn more</a>
+</div>
+<div class='subnav'>
+<a ng-class="{active: ('top.market.all-orders' | routeSegmentStartsWith)}" ng-href="#!{{'top.market.all-orders' | routeSegmentUrl}}">
+All orders
+</a>
+<a ng-class="{active: ('top.market.my-orders' | routeSegmentStartsWith)}" ng-href="#!{{'top.market.my-orders' | routeSegmentUrl}}">
+My orders
+</a>
+<a ng-class="{active: ('top.market.history' | routeSegmentStartsWith)}" ng-href="#!{{'top.market.history' | routeSegmentUrl}}">
+History
+</a>
+</div>
+</div>
+<div app-view-segment='2'></div>
+</div>

@@ -1,0 +1,11 @@
+<div>
+<svg class='nuker' height='6%' ng:class='{owner: GenericObject.player == GenericObject.objectData.user || GenericObject.objectData.user == 0 &amp;&amp; GenericObject.player == Me()._id}' ng:style="::{left: ((GenericObject.objectData.x-1)*100/50)+'%', top: ((GenericObject.objectData.y-1)*100/50)+'%'}" viewbox='0 0 300 300' width='6%'>
+<g ng:attr-opacity='{{GenericObject.objectData.tempRemove ? 0.3 : 1.0}}' transform='translate(150,160)'>
+<path class='border' d='M -60 50 L -53 0 L 0 -130 L 53 0 L 60 50 Z' fill='#181818' stroke-width='5'></path>
+<path d='M -40 0 L 0 -100 L 40 0 Z' fill='#555'></path>
+<rect fill='#555' height='15' width='80' x='-40' y='18'></rect>
+<rect fill='#fff' height='15' ng-attr-width='{{80 * GenericObject.objectData.G / GenericObject.objectData.GCapacity}}' ng-attr-x='{{-40*GenericObject.objectData.G / GenericObject.objectData.GCapacity}}' ng-if='GenericObject.objectData.G' y='18'></rect>
+<path d='M -40 0 L 0 -100 L 40 0 Z' fill='#ffe56d' ng-attr-transform='scale({{GenericObject.objectData.energy / GenericObject.objectData.energyCapacity}} {{GenericObject.objectData.energy / GenericObject.objectData.energyCapacity}})' ng-if='GenericObject.objectData.energy'></path>
+</g>
+</svg>
+</div>

@@ -1,0 +1,15 @@
+<section class='survival-score'>
+<div class='title'>Game Over</div>
+<div>Your Arena score:</div>
+<div class='best-score'>
+<div class='best-score-value'>{{Game.arenaFinishScore}}</div>
+</div>
+<div class='controls'>
+<md:button ng:click='Game.clearGame()'>
+Back
+</md:button>
+<md:button class='md-primary md-raised' ng:click='Game.playArenaAgain()' ng:if='!$routeSegment.$routeParams.replay'>
+Next Round
+</md:button>
+</div>
+</section>

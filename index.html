@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:ng="ignored" xmlns:app="ignored" xmlns:ui="ignored" xmlns:md="ignored">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta property="fb:app_id" content="850303518324531" />
+
+    <link rel="icon" type="image/png" href="icon.png" />
+
+    <title>Screeps</title>
+
+    <link href='vendor/fonts/roboto.css' rel='stylesheet' type='text/css'>
+    <link rel='stylesheet' type='text/css' href='vendor/fontawesome/css/font-awesome.css?bust=1479290330846'>
+    <link rel='stylesheet' type='text/css' href='vendor/jsoneditor/jsoneditor.min.css?bust=1479290330846'>
+    <link rel='stylesheet' type='text/css' href='vendor/material-design/css/icons-material-design.css?bust=1479290330846'>
+    <link rel='stylesheet' type='text/css' href='vendor/spectrum/spectrum.css?bust=1479290330846'>
+    <link rel="stylesheet" href="vendor/prism.css?bust=1479290330846">
+    <link rel="stylesheet" href="vendor/angular-material/angular-material.css?bust=1479290330846">
+    <link rel="stylesheet" href="app.css?bust=1479290330846">
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-56656789-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+    <!-- start Mixpanel -->
+    <script type="text/javascript">(function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+        for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="https://cdn.mxpnl.com/libs/mixpanel-2.2.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
+    mixpanel.init("647fa4fef822c1d4e9fa7b25812599cf");</script>
+    <!-- end Mixpanel -->
+
+    <!-- Facebook Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+            n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+                document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+        fbq('init', '1034691543257678');
+        fbq('track', "PageView");</script>
+    <noscript><img height="1" width="1" style="display:none"
+                   src="https://www.facebook.com/tr?id=1034691543257678&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Facebook Pixel Code -->
+</head>
+<body ng:app="app" ng-strict-di>
+
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '850303518324531',
+            xfbml      : true,
+            version    : 'v2.4'
+        });
+
+        FB.Event.subscribe('edge.create', function(url, html_element) {
+            ga('send','event','Facebook','Like');
+            mixpanel.track('Facebook Like');
+            localStorage.setItem('facebookLiked', "1");
+        });
+    };
+
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<canvas id="force-refresh" ng-if="nw" app-show-when-steam-overlay width="1" height="1"></canvas>
+
+<div class="top-content" app:view-segment="0">
+    <div class="init-loading">
+        <img src="https://screeps.com/img/logo.gif"><br>
+        Loading...
+    </div>
+</div>
+
+
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>-->
+
+<script>
+    function onRecaptchaLoad() {
+        var injector = angular.element(document.body).injector();
+        injector.invoke(['$rootScope', 'Recaptcha', function($rootScope, Recaptcha) {
+            Recaptcha.loaded = true;
+            $rootScope.$digest();
+        }]);
+    }
+</script>
+
+<script src="https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit" async defer></script>
+
+<script type="text/javascript" src=vendor/lodash/lodash.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/jquery/dist/jquery.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/spectrum/spectrum.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/angular/angular.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/angular-animate/angular-animate.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/angular-material/angular-material.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/angular-messages/angular-messages.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/angular-route-segment/build/angular-route-segment.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/angular-route/angular-route.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/angular-spectrum-colorpicker/dist/angular-spectrum-colorpicker.min.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/angular-ui-ace/ui-ace.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/ace.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/ace/ext-searchbox.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/ace_highlight_rules.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/ext-tern.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/hammerjs/hammer.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/javascript.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/jsoneditor/jsoneditor.min.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/marked.min.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/mode-json.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/pako/dist/pako.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/prism.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/sockjs/sockjs.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/theme-tomorrow_night.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/ui-bootstrap-custom-0.12.0.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/ui-bootstrap-custom-tpls-0.12.0.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/worker-javascript.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/worker-json.js?bust=1479290330846"></script>
+<script type="text/javascript" src=vendor/worker-tern.js?bust=1479290330846"></script>
+
+<script src="constants.js?bust=1479290330846"></script>
+<script src="engine.js?bust=1479290330846"></script>
+
+<script>
+    function ngInject(f) { return f }
+
+    _.mixin({ 'capitalize': function (string) {
+        if (typeof string !== "string") {
+            return undefined;
+        }
+        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+    } });
+
+    window.requestAnimFrame = (function(){
+        return  window.requestAnimationFrame       ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame    ||
+                function( callback ){
+                    window.setTimeout(callback, 1000 / 60);
+                };
+    })();
+</script>
+
+<script>window.twttr = (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0],
+            t = window.twttr || {};
+    if (d.getElementById(id)) return t;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "https://platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js, fjs);
+
+    t._e = [];
+    t.ready = function(f) {
+        t._e.push(f);
+    };
+
+    return t;
+}(document, "script", "twitter-wjs"));</script>
+
+<script type="text/javascript" src="build.min.js?bust=1479290330846"></script>
+
+
+
+
+
+</body>
+</html>

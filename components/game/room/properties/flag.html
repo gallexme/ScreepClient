@@ -1,0 +1,24 @@
+<app:aside-block class='aside-block-highlighted' heading='Flag' visibility-model='Room.asidePanels.view'>
+<div ng:controller='Top.Game.Room.FlagProperties as FlagProperties'>
+<div>
+<label>Position:</label>
+{{Room.selectedObject.x}}, {{Room.selectedObject.y}}
+</div>
+<div>
+<label>Name:</label>
+{{Room.selectedObject.name}}
+</div>
+<md:button class='md-primary md-hue-1 allwidth' ng:class="{'md-raised': Room.selectedAction.changeFlag.name == Room.selectedObject.name}" ng:click='Room.selectedAction.changeFlag = {name: Room.selectedObject.name, color: Room.selectedObject.color, secondaryColor: Room.selectedObject.secondaryColor}' ng:if='!Game.readOnly'>
+Change position
+</md:button>
+<md:button class='md-primary md-hue-1 allwidth' ng:click='FlagProperties.changeColor()' ng:if='!Game.readOnly'>
+Change color
+</md:button>
+<md:button class='md-primary md-hue-1 allwidth' ng:click='FlagProperties.removeFlag()' ng:if='!Game.readOnly'>
+Remove flag
+</md:button>
+<md:button class='md-primary md-hue-1 allwidth' ng:click='FlagProperties.addMemoryWatch()' ng:if='!Game.readOnly'>
+View memory
+</md:button>
+</div>
+</app:aside-block>

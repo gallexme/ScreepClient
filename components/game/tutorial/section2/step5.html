@@ -1,0 +1,43 @@
+<section app-tutorial-content>
+<p>
+You can check your creeps' memory in either the creep information panel on the left or on the "Memory" tab.
+</p>
+<p>
+Now let's define the behavior of the new creep. Both creeps should harvest energy, but the creep with the role
+<code>harvester</code> should bring it to the spawn, while the creep with the role <code>upgrader</code>
+should go to the Controller and apply the function <code>upgradeController</code> to it (you can get the
+Controller object with the help of the <code>Creep.room.controller</code> property).
+</p>
+<p>
+In order to do this, we’ll create a new module called <code>role.upgrader</code>.
+</p>
+<div class='objective'>
+<div class='fa fa-caret-right'></div>
+Create a new module <code>role.upgrader</code> with the behavior logic of your new creep.
+</div>
+<div class='objective'>
+<div class='fa fa-caret-down'></div>
+Documentation:
+<ul>
+<li>
+<code><a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/208435305-RoomObject#room' target='_blank'>
+RoomObject.room
+</a></code>
+</li>
+<li>
+<code><a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/203079011-Room#controller' target='_blank'>
+Room.controller
+</a></code>
+</li>
+<li>
+<code><a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/203013212-Creep#upgradeController' target='_blank'>
+Creep.upgradeController
+</a></code>
+</li>
+</ul>
+</div>
+<app:tutorial-code title='role.upgrader'></app:tutorial-code>
+<div class='tutorial-controls'>
+<md:button class='md-raised md-primary' ng:click='Tutorial.close()'>Got it</md:button>
+</div>
+</section>

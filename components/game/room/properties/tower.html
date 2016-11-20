@@ -1,0 +1,31 @@
+<app:aside-block class='aside-block-highlighted' heading='Tower' visibility-model='Room.asidePanels.view'>
+<div class='object-properties-id'>
+ID: {{Room.selectedObject._id}}
+</div>
+<div>
+<label>Owner:</label>
+<a ng:href="#!{{ 'top.profile' | routeSegmentUrl:{username: Room.users[Room.selectedObject.user].username} }}" ng:if="!_.contains(['0','1','2'], Room.selectedObject.user)" title='View user profile'>
+<img app:badge-src='Room.users[Room.selectedObject.user].badge'>
+{{Room.users[Room.selectedObject.user].username}}
+</a>
+<span ng:if="_.contains(['0','1','2'], Room.selectedObject.user)">
+{{Room.users[Room.selectedObject.user].username}}
+</span>
+</div>
+<div>
+<label>Position:</label>
+{{Room.selectedObject.x}}, {{Room.selectedObject.y}}
+</div>
+<div>
+<label>Energy:</label>
+{{Room.selectedObject.energy | round}} / {{Room.selectedObject.energyCapacity | round}}
+</div>
+<div>
+<label>Hits:</label>
+{{Room.selectedObject.hits | round}} / {{Room.selectedObject.hitsMax | round}}
+</div>
+<md-checkbox class='md-primary' md-no-ink ng:change='Room.onNotifyWhenAttackedChange()' ng:if="!Game.readOnly &amp;&amp; Room.selectedObject.user == Me()._id &amp;&amp; Room.roomMode == 'world'" ng:model='Room.selectedObject.notifyWhenAttacked'>
+Notify me when attacked
+</md-checkbox>
+<app:room-destroy-structure></app:room-destroy-structure>
+</app:aside-block>

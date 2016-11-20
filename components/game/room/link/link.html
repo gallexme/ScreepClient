@@ -1,0 +1,19 @@
+<div>
+<svg class='link' height='6%' ng:class='{owner: Link.player == Link.objectData.user || Link.objectData.user == 0 &amp;&amp; Link.player == Me()._id}' ng:style="::{left: ((Link.objectData.x-1)*100/50)+'%', top: ((Link.objectData.y-1)*100/50)+'%'}" viewbox='0 0 300 300' width='6%'>
+<g ng:attr-opacity='{{Link.objectData.tempRemove ? 0.3 : 1.0}}' transform='translate(150,150)'>
+<g>
+<path class='border' d='M 0 -50 L 40 0 L 0 50 L -40 0 Z' fill='#181818' stroke-width='5'></path>
+<path d='M 0 -50 L 40 0 L 0 50 L -40 0 Z' fill='#555' transform='scale(0.6 0.6)'></path>
+<path d='M 0 -50 L 40 0 L 0 50 L -40 0 Z' fill='#ffe56d' ng:attr-transform='scale({{0.6 * Link.objectData.energy / Link.objectData.energyCapacity}} {{0.6 * Link.objectData.energy / Link.objectData.energyCapacity}})' ng:if='Link.objectData.energy &gt; 0'></path>
+</g>
+</g>
+</svg>
+<svg class='anim-shot link' height='100%' ng:if='Link.shotAnim' style='left: 0; top: 0' viewbox='0 0 5000 5000' width='100%'>
+<line stroke-width='16' stroke='#ffe56d' transform='translate(50,50)'>
+<animate app-attr="calcMode#Link.displayOptions.animations ? 'linear' : 'discrete'" attributeName='x1' attributeType='XML' keyTimes='0;0.6;1' ng:attr-dur='{{0.6 * 100 / Link.speed}}s' ng:attr-values="{{ (Link.objectData.x * 100)+';'+(Link.shotAnim.x * 100)+';'+(Link.shotAnim.x * 100) }}" repeatCount='0'></animate>
+<animate app-attr="calcMode#Link.displayOptions.animations ? 'linear' : 'discrete'" attributeName='y1' attributeType='XML' keyTimes='0;0.6;1' ng:attr-dur='{{0.6 * 100 / Link.speed}}s' ng:attr-values="{{ (Link.objectData.y * 100)+';'+(Link.shotAnim.y * 100)+';'+(Link.shotAnim.y * 100) }}" repeatCount='0'></animate>
+<animate app-attr="calcMode#Link.displayOptions.animations ? 'linear' : 'discrete'" attributeName='x2' attributeType='XML' keyTimes='0;0.4;1' ng:attr-dur='{{0.6 * 100 / Link.speed}}s' ng:attr-values="{{ (Link.objectData.x * 100)+';'+(Link.objectData.x * 100)+';'+(Link.shotAnim.x * 100) }}" repeatCount='0'></animate>
+<animate app-attr="calcMode#Link.displayOptions.animations ? 'linear' : 'discrete'" attributeName='y2' attributeType='XML' keyTimes='0;0.4;1' ng:attr-dur='{{0.6 * 100 / Link.speed}}s' ng:attr-values="{{ (Link.objectData.y * 100)+';'+(Link.objectData.y * 100)+';'+(Link.shotAnim.y * 100) }}" repeatCount='0'></animate>
+</line>
+</svg>
+</div>

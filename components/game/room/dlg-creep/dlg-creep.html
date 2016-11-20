@@ -1,0 +1,42 @@
+<section class='dlg-creep'>
+<div class='modal-header'>
+<button class='close' ng:click='$dismiss()'>&times;</button>
+<h4 class='modal-title'>Create Creep</h4>
+</div>
+<form app:submit='DlgCreep.submit()' class='form form-horizontal' name='form'>
+<div class='modal-body'>
+<div class='form-group'>
+<div class='col-xs-1'>
+<label>Name:</label>
+</div>
+<div class='col-xs-11'>
+<input class='form-control' ng:model='DlgCreep.name' placeholder='Name' required>
+</div>
+</div>
+<div class='form-group'>
+<div class='col-xs-1'>
+<label>Body:</label>
+</div>
+<div class='col-xs-11'>
+<div class='creep-body'>
+<div class='bodypart' ng:class="'type-'+bodypart" ng:click='DlgCreep.removeBodypart($index)' ng:repeat='bodypart in DlgCreep.body track by $index'></div>
+</div>
+<div class='bodypart-selectors'>
+<md:button class='md-raised type-move' ng:click="DlgCreep.addBodypart('move')" type='button'>MOVE</md:button>
+<md:button class='md-raised type-work' ng:click="DlgCreep.addBodypart('work')" type='button'>WORK</md:button>
+<md:button class='md-raised type-carry' ng:click="DlgCreep.addBodypart('carry')" type='button'>CARRY</md:button>
+<md:button class='md-raised type-attack' ng:click="DlgCreep.addBodypart('attack')" type='button'>ATTACK</md:button>
+<md:button class='md-raised type-ranged_attack' ng:click="DlgCreep.addBodypart('ranged_attack')" type='button'>RANGED_ATTACK</md:button>
+<md:button class='md-raised type-heal' ng:click="DlgCreep.addBodypart('heal')" type='button'>HEAL</md:button>
+<md:button class='md-raised type-claim' ng:click="DlgCreep.addBodypart('claim')" type='button'>CLAIM</md:button>
+<md:button class='md-raised type-tough' ng:click="DlgCreep.addBodypart('tough')" type='button'>TOUGH</md:button>
+</div>
+</div>
+</div>
+</div>
+<div class='modal-footer'>
+<md:button ng:click='$dismiss()' type='button'>Cancel</md:button>
+<md:button app:submit-animated class='md-raised md-primary' ng-disabled='form.$invalid' type='submit'>OK</md:button>
+</div>
+</form>
+</section>

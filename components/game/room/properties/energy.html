@@ -1,0 +1,24 @@
+<app:aside-block class='aside-block-highlighted' heading='Resource' visibility-model='Room.asidePanels.view'>
+<div class='object-properties-id'>
+ID: {{Room.selectedObject._id}}
+</div>
+<div>
+<label>Position:</label>
+{{Room.selectedObject.x}}, {{Room.selectedObject.y}}
+</div>
+<div>
+<label>Type:</label>
+<img class='resource-type' ng-src='https://s3.amazonaws.com/static.screeps.com/upload/mineral-icons/{{Room.selectedObject.resourceType}}.png' tooltip='{{Room.resourceTypeNames[Room.selectedObject.resourceType]}}'>
+&nbsp;{{Room.resourceTypeNames[Room.selectedObject.resourceType] || 'energy'}}
+</div>
+<div>
+<label>Amount:</label>
+{{Room.selectedObject[Room.selectedObject.resourceType || 'energy'] | round}}
+</div>
+<div ng-if="Room.selectedObject.resourceType == 'power'">
+<div class='desc'>Bring power to your Power Spawn to register into your account.</div>
+<div class='learn-more'>
+<a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/205971132-Power' target='_blank'>Learn more</a>
+</div>
+</div>
+</app:aside-block>

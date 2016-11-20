@@ -1,0 +1,16 @@
+<ui:drop-group>
+<ui:drop-btn ng:class='{undefined: !model}' ng:if="styleType == 'link'" style-type='link'>
+<span ng:bind-html='getLabel()'></span>
+</ui:drop-btn>
+<ui:drop-btn class='form-control' ng:class='{undefined: !model}' ng:if="styleType == 'button'" style-type='btn'>
+<span ng:bind-html='getLabel()'></span>
+</ui:drop-btn>
+<ui:drop-btn btn-class='{{btnClass}}' ng:class='{undefined: !model}' ng:if="styleType == 'md-button'" style-type='md-button'>
+<span ng:bind-html='getLabel()'></span>
+</ui:drop-btn>
+<ui:drop ng:class='dropClass'>
+<ui:drop-item ng:class='{active: _.findKey(i) == model}' ng:repeat='i in options track by _.findKey(i)'>
+<a ng:class='{disabled: disabled}' ng:click='onSelect(_.findKey(i))'>{{i[_.findKey(i)]}}</a>
+</ui:drop-item>
+</ui:drop>
+</ui:drop-group>

@@ -1,0 +1,40 @@
+<section app-tutorial-content>
+<p>
+Your spawn creates new units called "creeps" by its method <code>createCreep</code>.
+Usage of this method is described in the <a href="http://support.screeps.com" app-nw-external-link target="_blank">documentation</a>. Each creep has a name and certain body parts that give it
+various skills.
+</p>
+<p>
+You can address your spawn by its name the following way: <code>Game.spawns['Spawn1']</code>.
+</p>
+<div class='objective'>
+<div class='fa fa-caret-right'></div>
+Create a worker creep with the body array <code>[WORK,CARRY,MOVE]</code> and name <code>Harvester1</code> (the name is important for the tutorial!).
+You can type the code in the console yourself or copy&nbsp;&&nbsp;paste the hint below.
+</div>
+<div class='objective'>
+<div class='fa fa-caret-down'></div>
+Documentation:
+<ul>
+<li>
+How to play:
+<a app-nw-external-link href='http://support.screeps.com' target='_blank'>The spawn: your colony center</a>
+</li>
+<li>
+How to play:
+<a app-nw-external-link href='http://support.screeps.com' target='_blank'>Spawning creeps</a>
+</li>
+<li>
+How to play:
+<a app-nw-external-link href='http://support.screeps.com' target='_blank'>Game object</a>
+</li>
+<li>
+<code><a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/205990342-StructureSpawn#createCreep' target='_blank'>StructureSpawn.createCreep</a></code>
+</li>
+</ul>
+</div>
+<app:tutorial-code visible='true'></app:tutorial-code>
+<div class='tutorial-controls'>
+<md:button class='md-raised md-primary' ng:click='Tutorial.close()'>Got it</md:button>
+</div>
+</section>

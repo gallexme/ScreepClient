@@ -1,0 +1,46 @@
+<div class='market-my-orders'>
+<div class='market-controls'>
+<div></div>
+<md-button ng-click='MyOrders.reload()'>
+<div class='fa fa-refresh'></div>
+<span>Refresh</span>
+</md-button>
+</div>
+<div class='orders-table'>
+<table class='orders-table__table' ng-if='MyOrders.data.orders.length'>
+<tr>
+<th>Order ID</th>
+<th class='orders-table__col--left'>Resource</th>
+<th>Type</th>
+<th>Active</th>
+<th>Price</th>
+<th>Available</th>
+<th>Remaining</th>
+<th>Total</th>
+<th>Room</th>
+</tr>
+<tr ng-repeat='order in MyOrders.data.orders'>
+<td class='order-id'>{{order._id}}</td>
+<td class='orders-table__col--left'>
+<a ng-href="#!{{'top.market.all-orders-resource' | routeSegmentUrl:{resourceType:order.resourceType} }}"><img ng-src='https://s3.amazonaws.com/static.screeps.com/upload/mineral-icons/{{order.resourceType}}.png'>{{MyOrders.resourceNames[order.resourceType]}}
+</a>
+</td>
+<td>{{order.type == 'sell' ? 'Selling' : 'Buying'}}</td>
+<td ng-class="{'green': order.active, red: !order.active}">
+{{order.active ? 'Yes' : 'No'}}
+</td>
+<td>{{order.price | number:2}}</td>
+<td>{{order.amount | number}}</td>
+<td class='order-remaining'>{{order.remainingAmount | number}}</td>
+<td class='order-remaining'>{{order.totalAmount | number}}</td>
+<td>
+<a ng-href="#!{{'top.game-room' | routeSegmentUrl:{room:order.roomName} }}" ng-if='order.roomName'>{{order.roomName}}</a>
+<span ng-if='!order.roomName'>&mdash;</span>
+</td>
+</tr>
+</table>
+<div class='orders-table__empty' ng-if='!MyOrders.data.orders.length'>
+You have no orders. Create an order using the&nbsp;<a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/207928635-Market' target='_blank'>Market API</a>.
+</div>
+</div>
+</div>

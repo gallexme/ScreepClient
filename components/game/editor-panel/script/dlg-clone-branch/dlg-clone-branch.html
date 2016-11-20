@@ -1,0 +1,23 @@
+<section class='dlg-clone-branch'>
+<div class='modal-header'>
+<button class='close' ng:click='$dismiss()'>&times;</button>
+<h4 class='modal-title'>Clone branch</h4>
+</div>
+<form app:submit='DlgCloneBranch.submit()' class='form form-horizontal' name='form'>
+<div class='modal-body'>
+<p>
+This branch will be cloned to the new branch. Please enter a new branch name:
+</p>
+<div class='form-group'>
+<div class='col-xs-12'>
+<input class='form-control' maxlength='12' ng:change='DlgCloneBranch.onChange()' ng:model='DlgCloneBranch.newName' placeholder='Branch name' required>
+</div>
+</div>
+<div class='warn' ng:if='DlgCloneBranch.error'>{{DlgCloneBranch.error}}</div>
+</div>
+<div class='modal-footer'>
+<md:button ng:click='$dismiss()' type='button'>Cancel</md:button>
+<md:button app:submit-animated class='md-raised md-primary' ng-disabled='form.$invalid' type='submit'>OK</md:button>
+</div>
+</form>
+</section>

@@ -1,0 +1,26 @@
+<app:aside-block class='aside-block-highlighted' heading='Source' visibility-model='Room.asidePanels.view'>
+<div class='object-properties-id'>
+ID: {{Room.selectedObject._id}}
+</div>
+<div>
+<label>Position:</label>
+{{Room.selectedObject.x}}, {{Room.selectedObject.y}}
+</div>
+<div>
+<label>Energy:</label>
+{{Room.selectedObject.energy | round}} /
+<span ng-class='{upgraded: Room.selectedObject.energyCapacity &gt; Room.Constants.SOURCE_ENERGY_CAPACITY}' ng-if='Room.selectedObject.energyCapacity &gt;= Room.Constants.SOURCE_ENERGY_CAPACITY'>
+{{Room.selectedObject.energyCapacity | round}}
+</span>
+<span class='damaged' ng-if='Room.selectedObject.energyCapacity &lt; Room.Constants.SOURCE_ENERGY_CAPACITY'>
+{{Room.selectedObject.energyCapacity | round}}
+<span class='help' title='Reserve or claim this room to restore full source capacity'>
+<i class='fa fa-question-circle'></i>
+</span>
+</span>
+</div>
+<div ng:if='Room.gameTime &amp;&amp; Room.selectedObject.nextRegenerationTime &gt;= Room.gameTime'>
+<label>Regeneration in:</label>
+{{Room.selectedObject.nextRegenerationTime - Room.gameTime}}
+</div>
+</app:aside-block>

@@ -1,0 +1,11 @@
+<svg class='power-spawn' height='10%' ng:class='{owner: PowerSpawn.player == PowerSpawn.objectData.user || PowerSpawn.objectData.user == 0 &amp;&amp; PowerSpawn.player == Me()._id}' ng:style="::{left: ((PowerSpawn.objectData.x-2)*100/50)+'%', top: ((PowerSpawn.objectData.y-2)*100/50)+'%'}" viewbox='0 0 500 500' width='10%'>
+<g ng:attr-opacity='{{PowerSpawn.objectData.tempRemove ? 0.3 : 1.0}}' transform='translate(250,250)'>
+<ellipse class='border' cx='0' cy='0' fill='#222' rx='75' ry='75' stroke-width='7'></ellipse>
+<ellipse cx='0' cy='0' fill='#222' rx='68' ry='68' stroke-width='10' stroke='#f41f33'></ellipse>
+<ellipse cx='0' cy='0' fill='#181818' rx='59' ry='59'></ellipse>
+<ellipse cx='0' cy='0' fill='#555' ng:if='::!PowerSpawn.users[PowerSpawn.objectData.user].badge' rx='37' ry='37'></ellipse>
+<image app:badge-xlink-href='PowerSpawn.users[PowerSpawn.objectData.user].badge' height='74' image-rendering='optimizeSpeed' ng:if='::PowerSpawn.users[PowerSpawn.objectData.user].badge' width='74' x='-37' xlink:href='' y='-37'></image>
+<path fill='transparent' ng:attr-d='M 50 0 A 50 50 0 {{ (PowerSpawn.objectData.power) &lt; PowerSpawn.objectData.powerCapacity / 2 ? 0 : 1 }} 1 {{50*Math.cos(Math.PI * 2 * (PowerSpawn.objectData.power) / PowerSpawn.objectData.powerCapacity)}} {{50*Math.sin(Math.PI * 2 * (PowerSpawn.objectData.power) / PowerSpawn.objectData.powerCapacity)}}' ng:if='PowerSpawn.objectData.power' stroke-width='15' stroke='#f41f33' transform='rotate(-90)'></path>
+<ellipse cx='0' cy='0' fill='#ffe56d' ng:attr-rx='{{38 * Math.min(PowerSpawn.objectData.energy / PowerSpawn.objectData.energyCapacity, 1)}}' ng:attr-ry='{{38 * Math.min(PowerSpawn.objectData.energy / PowerSpawn.objectData.energyCapacity, 1)}}' ng:if='PowerSpawn.objectData.energy &gt; 0'></ellipse>
+</g>
+</svg>

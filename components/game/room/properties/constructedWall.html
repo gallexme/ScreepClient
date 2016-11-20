@@ -1,0 +1,25 @@
+<app:aside-block class='aside-block-highlighted' heading='Constructed Wall' visibility-model='Room.asidePanels.view'>
+<div class='object-properties-id'>
+ID: {{Room.selectedObject._id}}
+</div>
+<div>
+<label>Position:</label>
+{{Room.selectedObject.x}}, {{Room.selectedObject.y}}
+</div>
+<div ng:class='{damaged: Room.selectedObject.hits == 1 &amp;&amp; Room.selectedObject.hitsMax &gt; 1}' ng:if='Room.selectedObject.hits'>
+<label>Hits:</label>
+{{Room.selectedObject.hits | round}} / {{Room.selectedObject.hitsMax | round}}
+</div>
+<div ng:if='Room.gameTime &amp;&amp; !_.isObject(Room.selectedObject.decayTime) &amp;&amp; Room.selectedObject.decayTime &gt;= Room.gameTime'>
+<label>Decay in:</label>
+{{Room.selectedObject.decayTime - Room.gameTime }}
+</div>
+<div ng:if='_.isObject(Room.selectedObject.decayTime) &amp;&amp; Room.selectedObject.decayTime.timestamp &gt;= Room.now()'>
+<label>Decay in:</label>
+{{Room.selectedObject.decayTime.timestamp | elapsedDays}}
+</div>
+<md-checkbox class='md-primary' md-no-ink ng:change='Room.onNotifyWhenAttackedChange()' ng:if="!Game.readOnly &amp;&amp; Room.roomController.user == Me()._id &amp;&amp; Room.roomMode == 'world'" ng:model='Room.selectedObject.notifyWhenAttacked'>
+Notify me when attacked
+</md-checkbox>
+<app:room-destroy-structure></app:room-destroy-structure>
+</app:aside-block>

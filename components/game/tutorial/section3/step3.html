@@ -1,0 +1,25 @@
+<section app-tutorial-content>
+<p>
+Let’s create a new creep whose purpose is to build structures. This process will be similar to the previous Tutorial sections.
+But this time let’s set the memory for the new creep right in the method <code>Spawn.createCreep</code> by
+passing it as the third function argument.
+</p>
+<div class='objective'>
+<div class='fa fa-caret-right'></div>
+Spawn a creep with the body <code>[WORK,CARRY,MOVE]</code>, the name <code>Builder1</code>, and <code>{role:'builder'}</code>
+as its memory.
+</div>
+<div class='objective'>
+<div class='fa fa-caret-down'></div>
+Documentation:
+<ul>
+<li>
+<code><a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/205990342-StructureSpawn#createCreep' target='_blank'>StructureSpawn.createCreep</a></code>
+</li>
+</ul>
+</div>
+<app:tutorial-code></app:tutorial-code>
+<div class='tutorial-controls'>
+<md:button class='md-raised md-primary' ng:click='Tutorial.close()'>Got it</md:button>
+</div>
+</section>

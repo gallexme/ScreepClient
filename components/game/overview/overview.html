@@ -1,0 +1,148 @@
+<section class='game-overview'>
+<div class='header-jumbotron'>
+<ui-drop-group class='btn-more' ng-if='isOffServer()'>
+<ui-drop-btn btn-class='md-raised' style-type='md-button'>
+<div class='fa fa-ellipsis-v'></div>
+</ui-drop-btn>
+<ui-drop class='pull-right'>
+<ui-drop-header>Stats Period</ui-drop-header>
+<ui-drop-item ng-class="{'active-tick': GameOverview.displayOptions.statInterval == 8}">
+<a ng-click='GameOverview.displayOptions.statInterval = 8'>1 hour</a>
+</ui-drop-item>
+<ui-drop-item ng-class="{'active-tick': GameOverview.displayOptions.statInterval == 180}">
+<a ng-click='GameOverview.displayOptions.statInterval = 180'>24 hours</a>
+</ui-drop-item>
+<ui-drop-item ng-class="{'active-tick': GameOverview.displayOptions.statInterval == 1440}">
+<a ng-click='GameOverview.displayOptions.statInterval = 1440'>7 days</a>
+</ui-drop-item>
+<!--
+<ui-drop-divider></ui-drop-divider>
+<ui-drop-item ng-class="{'active-tick': GameOverview.displayOptions.statNormalize}">
+<a ng-click='GameOverview.displayOptions.statNormalize = !GameOverview.displayOptions.statNormalize'>
+Normalize by tick duration
+</a>
+</ui-drop-item>
+-->
+</ui-drop>
+</ui-drop-group>
+<h1>Overview</h1>
+</div>
+<div class='row'>
+<div class='col-xs-7'>
+<div class='overview-block overview-rank-block overview-gcl'>
+<div class='overview-rank-left'>
+<div class='gcl-icon'>
+<div class='gcl-icon-title'>GCL</div>
+{{GameOverview.getGcl()}}
+</div>
+<div class='gcl-title'>Global Control Level</div>
+<div class='gcl-rooms'>
+<span>Rooms:</span>
+<strong>{{GameOverview.getGcl()}}</strong>
+</div>
+<div class='gcl-cpu' ng-if='isOffServer() &amp;&amp; Me().cpu &gt;= 20'>
+<span>CPU:</span>
+<strong>{{Me().getCpu()}}</strong>
+</div>
+<div class='gcl-cpu gcl-cpu--limited' ng-if='isOffServer() &amp;&amp; Me().cpu &lt; 20'>
+<span>CPU:</span>
+<strong>{{Me().cpu}}</strong>
+<a class='fa fa-exclamation-triangle' href="#!{{'top.order' | routeSegmentUrl}}" tooltip-html-unsafe='Your CPU is limited.&lt;br&gt;Order a subscription to raise your CPU limit to {{Me().getCpu()}}.&lt;br&gt;(click to learn more)' tooltip-placement='bottom'></a>
+</div>
+<div class='gcl-cpu' ng-if='!isOffServer()'>
+<span>CPU:</span>
+<strong>{{Me().cpu}}</strong>
+</div>
+<div class='gcl-progress'>
+<div class='gcl-progress-indicator' ng:style="{width: GameOverview.getGclCurrentProgress() * 100 / GameOverview.getGclNeededProgress() + '%'}"></div>
+<div class='gcl-progress-label'>
+<span>Next level:</span>
+<strong>
+{{GameOverview.getGclCurrentProgress() | round}} / {{GameOverview.getGclNeededProgress() | round}}
+</strong>
+</div>
+</div>
+</div>
+<div class='overview-rank-right' ng-if='isOffServer()'>
+<div class='rank-icon' ng:if='!_.isUndefined(GameOverview.data.leaderboardWorld.rank)'>#{{GameOverview.data.leaderboardWorld.rank + 1}}</div>
+<div class='rank-icon-empty' ng:if='_.isUndefined(GameOverview.data.leaderboardWorld.rank)'>No rank</div>
+<div class='rank-season'>in {{GameOverview.data.seasons[0].name}}</div>
+<a class='rank-leaderboard' ng:href="#!{{ 'top.game-lobby-world.list' | routeSegmentUrl: {season: GameOverview.data.seasons[0]._id} }}?page={{(Math.floor(GameOverview.data.leaderboardWorld.rank / 10) + 1) || 1}}&amp;highlight={{GameOverview.data.leaderboardWorld.rank}}">
+View leaderboard
+</a>
+</div>
+<div class='overview-rank-right' ng-if='!isOffServer()'>
+<div class='rank-not-supported'>Leaderboards<br>not available</div>
+</div>
+<a app-nw-external-link class='overview-rank-help' href='http://support.screeps.com/hc/en-us/articles/203086021-Global-control' target='_blank' tooltip-html-unsafe='Learn&amp;nbsp;more&amp;nbsp;about&lt;br&gt;global&amp;nbsp;control'>
+<i class='fa fa-question-circle'></i>
+</a>
+</div>
+</div>
+<div class='col-xs-5'>
+<div class='overview-block overview-rank-block overview-power'>
+<div class='overview-rank-left'>
+<div class='power-icon'>
+<div class='power-icon-title'>power processed</div>
+{{Me().power | round}}
+</div>
+</div>
+<div class='overview-rank-right' ng-if='isOffServer()'>
+<div class='rank-icon' ng:if='!_.isUndefined(GameOverview.data.leaderboardPower.rank)'>#{{GameOverview.data.leaderboardPower.rank + 1}}</div>
+<div class='rank-icon-empty' ng:if='_.isUndefined(GameOverview.data.leaderboardPower.rank)'>No rank</div>
+<div class='rank-season'>in {{GameOverview.data.seasons[0].name}}</div>
+<a class='rank-leaderboard' ng:href="#!{{ 'top.game-lobby-power.list' | routeSegmentUrl: {season: GameOverview.data.seasons[0]._id} }}?page={{(Math.floor(GameOverview.data.leaderboardPower.rank / 10) + 1) || 1}}&amp;highlight={{GameOverview.data.leaderboardPower.rank}}">
+View leaderboard
+</a>
+</div>
+<div class='overview-rank-right' ng-if='!isOffServer()'>
+<div class='rank-not-supported'>Leaderboards<br>not available</div>
+</div>
+<a app-nw-external-link class='overview-rank-help' href='http://support.screeps.com/hc/en-us/articles/205971132-Power' target='_blank' tooltip-html-unsafe='Learn&amp;nbsp;more&amp;nbsp;about&lt;br&gt;power'>
+<i class='fa fa-question-circle'></i>
+</a>
+</div>
+</div>
+</div>
+<app-profile-stats ng-if='isOffServer()' normalize='false' stats='GameOverview.data.overview.totals'></app-profile-stats>
+<div class='overview-block' ng:if='GameOverview.data.overview.rooms.length'>
+<div class='overview-rooms-controls' ng-if='isOffServer()'>
+<div class='controls-group' ng:if="GameOverview.displayOptions.viewMode == 'list'">
+<label>Graph:</label>
+<ui:drop-select drop-class='pull-right' ng:model='GameOverview.displayOptions.statName' options="[{energyControl: 'Control points'}, {energyHarvested: 'Energy harvested'}, {energyConstruction: 'Energy spent on construction'}, {energyCreeps: 'Energy spent on creeps'}, {creepsProduced: 'Creeps produced'}, {creepsLost: 'Creeps lost'}, {powerProcessed: 'Power processed'}]" style-type='md-button'></ui:drop-select>
+</div>
+<md:button ng:class="{'md-primary': GameOverview.displayOptions.viewMode == 'list', 'md-raised': GameOverview.displayOptions.viewMode == 'list'}" ng:click="GameOverview.displayOptions.viewMode = 'list'" tooltip-placement='bottom' tooltip='List view'>
+<i class='fa fa-th-list'></i>
+</md:button>
+<md:button ng:class="{'md-primary': GameOverview.displayOptions.viewMode == 'grid', 'md-raised': GameOverview.displayOptions.viewMode == 'grid'}" ng:click="GameOverview.displayOptions.viewMode = 'grid'" tooltip-placement='bottom' tooltip='Grid view'>
+<i class='fa fa-th-large'></i>
+</md:button>
+</div>
+<h2>
+<ng:pluralize count='GameOverview.data.overview.rooms.length' when="{one: '{} room', other: '{} rooms'}"></ng:pluralize>
+</h2>
+<div class='overview-rooms overview-rooms-grid' ng:if="GameOverview.displayOptions.viewMode == 'grid'">
+<a class='room-preview' ng:click='GameOverview.goToRoom(roomName)' ng:repeat='roomName in GameOverview.data.overview.rooms'>
+<img ng:src='{{GameOverview.mapUrl}}{{roomName}}.png'>
+<canvas app:game-map-room-objects='{{roomName}}' class='room-objects' height='150' map-scale='3' width='150'></canvas>
+<div class='room-title'>
+<span>{{roomName}}</span>
+<i app:stop-click-propagation='~' class='fa fa-list' ng:click='GameOverview.goToRoomOverview(roomName)' title='Room Overview'></i>
+</div>
+</a>
+</div>
+<div class='overview-rooms overview-rooms-list' ng:class="'stat-'+GameOverview.loader.displayOptions.statName" ng:if="GameOverview.displayOptions.viewMode == 'list'">
+<div class='punchcard-header'>
+<div class='punchcard-header-title' ng:repeat='i in GameOverview.offsetLabels[GameOverview.loader.displayOptions.statInterval]'>{{i}}</div>
+</div>
+<div class='room-item' ng:repeat='roomName in GameOverview.data.overview.rooms'>
+<a class='room-preview' ng:click='GameOverview.goToRoom(roomName)' tooltip-placement='left' tooltip='View room'>
+<img ng:src='https://d3os7yery2usni.cloudfront.net/map3/{{roomName}}.png'>
+<canvas app:game-map-room-objects='{{roomName}}' class='room-objects' height='50' map-scale='1' width='50'></canvas>
+</a>
+<a class='room-title' ng:click='GameOverview.goToRoomOverview(roomName)'>{{roomName}}</a>
+<app:punch-card data='GameOverview.data.overview.stats[roomName]' interval='GameOverview.loader.displayOptions.statInterval' label="{energyHarvested: 'energy points', energyConstruction: 'energy points', energyCreeps: 'energy points', energyControl: 'points', creepsProduced: 'creep body parts', creepsLost: 'creep body parts', powerProcessed: 'power points'}[GameOverview.loader.displayOptions.statName]" max='GameOverview.loader.max'></app:punch-card>
+</div>
+</div>
+</div>
+</section>

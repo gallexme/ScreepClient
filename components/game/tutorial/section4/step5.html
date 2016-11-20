@@ -1,0 +1,19 @@
+<section app-tutorial-content>
+<p>
+As you can see from the console, after we lacked one harvester, the spawn instantly started building a new
+one with a new name.
+</p>
+<p>
+An important point here is that the memory of dead creeps is not erased but kept for later reuse.
+If you create creeps with random names each time it may lead to memory overflow, so you should clear
+it in the beginning of each tick (prior to the creep creation code).
+</p>
+<div class='objective'>
+<div class='fa fa-caret-right'></div>
+Add code to clear the memory.
+</div>
+<app:tutorial-code title='main'></app:tutorial-code>
+<div class='tutorial-controls'>
+<md:button class='md-raised md-primary' ng:click='Tutorial.close()'>Got it</md:button>
+</div>
+</section>

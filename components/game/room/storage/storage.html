@@ -1,0 +1,11 @@
+<svg class='extension' height='6%' ng:class='{owner: Storage.player == Storage.objectData.user || Storage.objectData.user == 0 &amp;&amp; Storage.player == Me()._id}' ng:style="::{left: ((Storage.objectData.x-1)*100/50)+'%', top: ((Storage.objectData.y-1)*100/50)+'%'}" viewbox='0 0 300 300' width='6%'>
+<g ng:attr-opacity='{{Storage.objectData.tempRemove ? 0.3 : 1.0}}' transform='translate(150,150)'>
+<g>
+<path class='border' d='M -60 -70 A 120 120 0 0 1 60 -70 A 300 300 0 0 1 60 70 A 120 120 0 0 1 -60 70 A 300 300 0 0 1 -60 -70 Z' fill='#181818' stroke-width='5'></path>
+<rect fill='#555' height='120' width='100' x='-50' y='-60'></rect>
+<rect fill='#fff' ng:attr-height='{{Storage.resourcesTotal * 120 / Constants.STORAGE_CAPACITY}}' ng:attr-y='{{60 - Storage.resourcesTotal * 120 / Constants.STORAGE_CAPACITY}}' ng:if='Storage.objectData.energy + (Storage.objectData.power||0) &lt; Storage.resourcesTotal' width='100' x='-50'></rect>
+<rect fill='#f41f33' ng:attr-height='{{(Storage.objectData.power + Storage.objectData.energy) * 120 / Constants.STORAGE_CAPACITY}}' ng:attr-y='{{60 - (Storage.objectData.energy + Storage.objectData.power) * 120 / Constants.STORAGE_CAPACITY}}' ng:if='Storage.objectData.power &gt; 0' width='100' x='-50'></rect>
+<rect fill='#ffe56d' ng:attr-height='{{Storage.objectData.energy * 120 / Constants.STORAGE_CAPACITY}}' ng:attr-y='{{60 - Storage.objectData.energy * 120 / Constants.STORAGE_CAPACITY}}' ng:if='Storage.objectData.energy &gt; 0' width='100' x='-50'></rect>
+</g>
+</g>
+</svg>

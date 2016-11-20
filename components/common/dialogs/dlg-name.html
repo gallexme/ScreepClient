@@ -1,0 +1,16 @@
+<section class='dlg-name'>
+<div class='modal-header'>
+<button class='close' ng:click='$dismiss()'>&times;</button>
+<h4 class='modal-title'>Create</h4>
+</div>
+<form app:submit='DlgName.submit()' name='form'>
+<div class='modal-body'>
+Enter name:
+<input app:custom-validator='DlgName.nameValidators' name='name' ng:model-options='{debounce: 300}' ng:model='DlgName.name' placeholder='Name' required>
+</div>
+<div class='modal-footer'>
+<md:button ng:click='$dismiss()' type='button'>Cancel</md:button>
+<md:button app:submit-animated class='md-raised md-primary' ng:disabled='form.$invalid' type='submit'>OK</md:button>
+</div>
+</form>
+</section>

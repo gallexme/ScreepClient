@@ -1,0 +1,72 @@
+<app:account-edit-page title='Subscription'>
+<div class='account-subscription'>
+<div class='account-block'>
+<div class='row'>
+<div class='col-xs-4'>
+CPU Subscription:
+</div>
+<div class='col-xs-8' ng-if='AccountSubscription.data.sub.active || Me().isSteamSubscriber()'>
+<div class='subscription-active'>Active</div>
+<span ng-if='AccountSubscription.data.sub.active'>
+until {{AccountSubscription.data.sub.active | date:'yyyy-MM-dd'}}
+<div class='subscription-days' count='AccountSubscription.getDays()' ng-pluralize when="{one: '(1 day)', other: '({} days)'}"></div>
+</span>
+</div>
+<div class='col-xs-8' ng-if='!AccountSubscription.data.sub.active &amp;&amp; !Me().isSteamSubscriber()'>
+<div class='subscription-inactive'>Inactive</div>
+</div>
+</div>
+<div class='row'>
+<div class='col-xs-4'>
+Next renewal:
+</div>
+<div class='col-xs-8'>
+<div ng-if='AccountSubscription.data.sub.xsollaRenewal'>
+<div class='subscription-amount'>{{AccountSubscription.data.sub.xsollaRenewal.amount}}</div>
+on {{AccountSubscription.data.sub.xsollaRenewal.timestamp | date:'yyyy-MM-dd HH:mm:ss'}}
+</div>
+<div ng-if='AccountSubscription.data.sub.steamRenewal'>
+<div class='subscription-amount'>{{AccountSubscription.data.sub.steamRenewal.amount}}</div>
+on {{AccountSubscription.data.sub.steamRenewal.timestamp | date:'yyyy-MM-dd HH:mm:ss'}}
+</div>
+<div class='steam-problem' ng-if='!Me().isSteamSubscriber() &amp;&amp; AccountSubscription.data.sub.steamRenewal'>
+There is a problem with your Steam subscription
+</div>
+<div ng-if='Me().isSteamSubscriber() || !Me().isSteamSubscriber() &amp;&amp; AccountSubscription.data.sub.steamRenewal'>
+<a app-nw-external-link ng-href='https://store.steampowered.com/account/subscriptions/' target='_blank'>
+View on Steam
+</a>
+</div>
+<div ng-if='AccountSubscription.data.sub.xsollaRenewal || Me().isSteamSubscriber()'>
+<md:button class='md-primary md-raised' href="#!{{ 'top.order' | routeSegmentUrl }}">Order</md:button>
+<md:button app-click-animated='AccountSubscription.cancelSubscription()' class='md-primary md-hue-1' ng-if='AccountSubscription.data.sub.xsollaRenewal'>
+Cancel subscription
+</md:button>
+</div>
+</div>
+<div class='col-xs-8' ng-if='!AccountSubscription.data.sub.xsollaRenewal &amp;&amp; !AccountSubscription.data.sub.steamRenewal &amp;&amp; !Me().isSteamSubscriber()'>
+No subscription
+<br>
+<md:button class='md-primary md-raised' href="#!{{ 'top.order' | routeSegmentUrl }}">Order</md:button>
+</div>
+</div>
+</div>
+<div class='account-block' ng-if='Me().credits &gt; 0'>
+<p>
+You have got
+<strong>{{Math.floor(Me().credits/90)}} days {{Math.floor(Me().credits%90/90*24)}} hours</strong>
+of game subscription time converted from your CPU Credits. Please note that once activated, you will not be able to suspend this subscription.
+</p>
+<div class='account-controls'>
+<div class='pull-right'>
+<md:button app-click-animated='AccountSubscription.convertCredits()' class='md-primary md-hue-1'>Activate</md:button>
+</div>
+</div>
+</div>
+<div class='account-block' ng-if='Me().subscriptionTokens &gt; 0'>
+<p>
+You have&nbsp;<strong count='Me().subscriptionTokens || 0' ng-pluralize when="{one: '1 subscription token', other: '{} subscription tokens'}"></strong>. Activate a token on the&nbsp;<a ng-href="#!{{ 'top.order' | routeSegmentUrl }}">order page</a>.
+</p>
+</div>
+</div>
+</app:account-edit-page>

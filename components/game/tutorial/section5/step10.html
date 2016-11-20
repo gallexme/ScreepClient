@@ -1,0 +1,32 @@
+<section app-tutorial-content>
+<p>
+Damaged structures can be repaired by both creeps and towers. Let’s try to use a tower for that.
+We’ll need the method <code>repair</code>. You will also need the method <code>Room.find</code> and a filter to locate the damaged walls.
+</p>
+<p>
+Note that since walls don’t belong to any player, finding them requires the constant <code>FIND_STRUCTURES</code>
+rather than <code>FIND_MY_STRUCTURES</code>.
+</p>
+<div class='objective'>
+<div class='fa fa-caret-right'></div>
+Repair all the damaged walls.
+</div>
+<div class='objective'>
+<div class='fa fa-caret-down'></div>
+Documentation:
+<ul>
+<li>
+<code><a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/203079011-Room#find' target='_blank'>
+Room.find
+</a></code>
+</li>
+<li>
+<code><a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/208437105-StructureTower#repair' target='_blank'>StructureTower.repair</a></code>
+</li>
+</ul>
+</div>
+<app:tutorial-code title='main'></app:tutorial-code>
+<div class='tutorial-controls'>
+<md:button class='md-raised md-primary' ng:click='Tutorial.close()'>Got it</md:button>
+</div>
+</section>

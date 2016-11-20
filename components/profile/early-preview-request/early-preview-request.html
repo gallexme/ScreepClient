@@ -1,0 +1,53 @@
+<section class='early-preview-request'>
+<h2>Early Preview join request</h2>
+<div ng:if='!EarlyPreviewRequest.ok'>
+<div class='note'>We gradually invite new players into the Early Preview as the capacity grows. Please fill in the following form if you want to join too.</div>
+<form app:submit='EarlyPreviewRequest.submit()' name='form'>
+<md-input-container>
+<label>E-mail</label>
+<input ng:model='EarlyPreviewRequest.data.email' required>
+</md-input-container>
+<md-input-container>
+<label>Your name</label>
+<input ng:model='EarlyPreviewRequest.data.name' required>
+</md-input-container>
+<div class='row birth'>
+<div class='col-xs-3 title'>Birth date:</div>
+<div class='col-xs-2'>
+<md-input-container>
+<label>Date</label>
+<input ng:model='EarlyPreviewRequest.data.birthDate.day'>
+</md-input-container>
+</div>
+<div class='col-xs-2'>
+<md-input-container>
+<label>Month</label>
+<input ng:model='EarlyPreviewRequest.data.birthDate.month'>
+</md-input-container>
+</div>
+<div class='col-xs-3'>
+<md-input-container>
+<label>Year</label>
+<input ng:model='EarlyPreviewRequest.data.birthDate.year'>
+</md-input-container>
+</div>
+</div>
+<div class='row qualify'>
+<div class='col-xs-3'>You are:</div>
+<div class='col-xs-9'>
+<ui:drop-select ng:model='EarlyPreviewRequest.data.qualify' options="[{student: 'Student'}, {geek: 'Tech geek'}, {pro: 'Tech professional'}, {none: 'None of the above'}]" placeholder='Please Select' required style-type='link'></ui:drop-select>
+</div>
+</div>
+<md-input-container>
+<label>Please explain why you would like to access the Early Preview:</label>
+<textarea ng:model='EarlyPreviewRequest.data.description' rows='3'></textarea>
+</md-input-container>
+<div class='form-controls'>
+<md:button app:submit-animated class='md-raised md-primary' ng:disabled='form.$invalid' type='submit'>Submit</md:button>
+</div>
+</form>
+</div>
+<div ng:if='EarlyPreviewRequest.ok'>
+<div class='note'>Thank you! Your request has been submitted. We will contact you when we have more capacity available.</div>
+</div>
+</section>

@@ -1,0 +1,27 @@
+<svg class='controller' height='6%' ng:style="::{left: ((Controller.objectData.x-1)*100/50)+'%', top: ((Controller.objectData.y-1)*100/50)+'%'}" viewbox='0 0 300 300' width='6%'>
+<g transform='translate(150,150)'>
+<g>
+<path fill-opacity='0.1' fill='#ffffff' ng:attr-d='M {{::80*Math.cos(Math.PI/8)}} {{::80*Math.sin(Math.PI/8)}} L {{::80*Math.cos(Math.PI/8+Math.PI/4)}} {{::80*Math.sin(Math.PI/8+Math.PI/4)}} {{::80*Math.cos(Math.PI/8+2*Math.PI/4)}} {{::80*Math.sin(Math.PI/8+2*Math.PI/4)}} {{::80*Math.cos(Math.PI/8+3*Math.PI/4)}} {{::80*Math.sin(Math.PI/8+3*Math.PI/4)}} {{::80*Math.cos(Math.PI/8+4*Math.PI/4)}} {{::80*Math.sin(Math.PI/8+4*Math.PI/4)}} {{::80*Math.cos(Math.PI/8+5*Math.PI/4)}} {{::80*Math.sin(Math.PI/8+5*Math.PI/4)}} {{::80*Math.cos(Math.PI/8+6*Math.PI/4)}} {{::80*Math.sin(Math.PI/8+6*Math.PI/4)}} {{::80*Math.cos(Math.PI/8+7*Math.PI/4)}} {{::80*Math.sin(Math.PI/8+7*Math.PI/4)}} Z' transform='scale(1.2 1.2)'></path>
+<ellipse cx='0' cy='0' fill='#33ff33' ng:if='Controller.objectData.reservation &amp;&amp; Controller.player == Controller.objectData.reservation.user || Controller.objectData.reservation.user == 0 &amp;&amp; Controller.player == Me()._id' opacity='0' rx='110' ry='110'>
+<animate app-attr="calcMode#Controller.displayOptions.animations ? 'linear' : 'discrete'" attributeName='opacity' attributeType='XML' dur='2s' repeatCount='indefinite' values='0.05;0.2;0.05'></animate>
+</ellipse>
+<ellipse cx='0' cy='0' fill='#ff3333' ng:if='Controller.objectData.upgradeBlocked &amp;&amp; Controller.objectData.upgradeBlocked &gt; Controller.gameTime || Controller.objectData.reservation &amp;&amp; !(Controller.player == Controller.objectData.reservation.user || Controller.objectData.reservation.user == 0 &amp;&amp; Controller.player == Me()._id)' opacity='0' rx='110' ry='110'>
+<animate app-attr="calcMode#Controller.displayOptions.animations ? 'linear' : 'discrete'" attributeName='opacity' attributeType='XML' dur='2s' repeatCount='indefinite' values='0.05;0.2;0.05'></animate>
+</ellipse>
+<ellipse cx='0' cy='0' fill='#FFD180' ng:if='Controller.objectData.safeMode &gt; Controller.gameTime' opacity='0' rx='110' ry='110'>
+<animate app-attr="calcMode#Controller.displayOptions.animations ? 'linear' : 'discrete'" attributeName='opacity' attributeType='XML' dur='2s' repeatCount='indefinite' values='0.05;0.2;0.05'></animate>
+</ellipse>
+<path fill='#0a0a0a' ng:attr-d='M {{::80*Math.cos(Math.PI/8)}} {{::80*Math.sin(Math.PI/8)}} L {{::80*Math.cos(Math.PI/8+Math.PI/4)}} {{::80*Math.sin(Math.PI/8+Math.PI/4)}} {{::80*Math.cos(Math.PI/8+2*Math.PI/4)}} {{::80*Math.sin(Math.PI/8+2*Math.PI/4)}} {{::80*Math.cos(Math.PI/8+3*Math.PI/4)}} {{::80*Math.sin(Math.PI/8+3*Math.PI/4)}} {{::80*Math.cos(Math.PI/8+4*Math.PI/4)}} {{::80*Math.sin(Math.PI/8+4*Math.PI/4)}} {{::80*Math.cos(Math.PI/8+5*Math.PI/4)}} {{::80*Math.sin(Math.PI/8+5*Math.PI/4)}} {{::80*Math.cos(Math.PI/8+6*Math.PI/4)}} {{::80*Math.sin(Math.PI/8+6*Math.PI/4)}} {{::80*Math.cos(Math.PI/8+7*Math.PI/4)}} {{::80*Math.sin(Math.PI/8+7*Math.PI/4)}} Z'></path>
+<path fill='#ccc' ng:attr-d='{{Controller.getLevelsPath()}}' ng:if='Controller.objectData.level' paint-order='fill' stroke-width='6' stroke='#0a0a0a'></path>
+<ellipse cx='0' cy='0' fill='#222' ng:if='!Controller.users[Controller.objectData.user].badge' rx='37' ry='37'></ellipse>
+<image app:badge-xlink-href='Controller.users[Controller.objectData.user].badge' height='74' ng:if='Controller.users[Controller.objectData.user].badge' width='74' x='-37' xlink:href='' y='-37'></image>
+<ellipse cx='0' cy='0' fill='transparent' rx='40' ry='40' stroke-width='10' stroke='#080808'></ellipse>
+<path fill='transparent' ng:attr-d='M 19 0 A 19 19 0 {{ Controller.progress() &lt; Controller.progressTotal() / 2 ? 0 : 1 }} 1 {{19*Math.cos(-Math.PI * 2 * (Controller.progressTotal()-Controller.progress()) / Controller.progressTotal())}} {{19*Math.sin(-Math.PI * 2 * (Controller.progressTotal()-Controller.progress()) / Controller.progressTotal())}}' ng:if='Controller.objectData.level &gt; 0 &amp;&amp; Controller.objectData.progress &gt; 0' stroke-opacity='0.4' stroke-width='38' stroke='#fff' transform='rotate(-90)'></path>
+<g ng:attr-opacity='{{Controller.getDowngradingOpacity()}}'>
+<path class='anim-downgrade' fill='#ff3333' ng:attr-d='M {{::80*Math.cos(Math.PI/8)}} {{::80*Math.sin(Math.PI/8)}} L {{::80*Math.cos(Math.PI/8+Math.PI/4)}} {{::80*Math.sin(Math.PI/8+Math.PI/4)}} {{::80*Math.cos(Math.PI/8+2*Math.PI/4)}} {{::80*Math.sin(Math.PI/8+2*Math.PI/4)}} {{::80*Math.cos(Math.PI/8+3*Math.PI/4)}} {{::80*Math.sin(Math.PI/8+3*Math.PI/4)}} {{::80*Math.cos(Math.PI/8+4*Math.PI/4)}} {{::80*Math.sin(Math.PI/8+4*Math.PI/4)}} {{::80*Math.cos(Math.PI/8+5*Math.PI/4)}} {{::80*Math.sin(Math.PI/8+5*Math.PI/4)}} {{::80*Math.cos(Math.PI/8+6*Math.PI/4)}} {{::80*Math.sin(Math.PI/8+6*Math.PI/4)}} {{::80*Math.cos(Math.PI/8+7*Math.PI/4)}} {{::80*Math.sin(Math.PI/8+7*Math.PI/4)}} Z' opacity='0'>
+<animate app-attr="calcMode#Controller.displayOptions.animations ? 'linear' : 'discrete'" attributeName='opacity' attributeType='XML' begin='indefinite' ng:attr-dur='{{100 / Controller.speed}}s' repeatCount='0' values='0;0.9;0.6;0.3;0'></animate>
+</path>
+</g>
+</g>
+</g>
+</svg>

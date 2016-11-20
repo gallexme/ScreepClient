@@ -1,0 +1,56 @@
+<section class='game-overview-room'>
+<div class='header-jumbotron'>
+<md:button class='md-fab fab-back' ng:href="#!{{'top.game-overview' | routeSegmentUrl}}"><div class='fa fa-chevron-left'></div></md:button>
+<h1>
+Room {{GameOverviewRoom.roomName}}
+<div class='subtitle'>
+Owner:
+<a ng:href="#!{{ 'top.profile' | routeSegmentUrl:{username: GameOverviewRoom.data.overview.owner.username} }}" ng:if='GameOverviewRoom.data.overview.owner'>
+<img app:badge-src='GameOverviewRoom.data.overview.owner.badge' ng:if='GameOverviewRoom.data.overview.owner.badge'>
+{{GameOverviewRoom.data.overview.owner.username}}
+</a>
+<span ng:if='!GameOverviewRoom.data.overview.owner'>None</span>
+</div>
+</h1>
+<a class='room-preview' ng:href="#!{{ 'top.game-room' | routeSegmentUrl:{room:GameOverviewRoom.roomName} }}" tooltip-placement='bottom' tooltip='View room'>
+<img ng:src='{{GameOverviewRoom.mapUrl}}{{GameOverviewRoom.roomName}}.png'>
+<canvas app:game-map-room-objects='{{GameOverviewRoom.roomName}}' class='room-objects' height='100' map-scale='2' width='100'></canvas>
+</a>
+</div>
+<app-profile-stats ng-if='isOffServer()' stats='GameOverviewRoom.data.overview.totals'></app-profile-stats>
+<div class='overview-block' ng-if='isOffServer()'>
+<div class='pull-right'>
+<ui:drop-select drop-class='pull-right' ng:model='GameOverviewRoom.displayOptions.statInterval' options="[{8: '1 hour'}, {180: '24 hours'}, {1440: '7 days'}]" style-type='md-button'></ui:drop-select>
+</div>
+<h2>Graph</h2>
+<div class='overview-graph'>
+<div class='punchcard-header'>
+<div class='punchcard-header-title' ng:repeat='i in GameOverviewRoom.offsetLabels[GameOverviewRoom.loader.displayOptions.statInterval]'>{{i}}</div>
+</div>
+<div class='graph-item stat-energyHarvested'>
+<label>Energy harvested</label>
+<app:punch-card data='GameOverviewRoom.data.overview.stats.energyHarvested' interval='GameOverviewRoom.loader.displayOptions.statInterval' label="'energy points'" max="GameOverviewRoom.loader.max['energyHarvested'+GameOverviewRoom.loader.displayOptions.statInterval]"></app:punch-card>
+</div>
+<div class='graph-item stat-energyConstruction'>
+<label>Construction points</label>
+<app:punch-card data='GameOverviewRoom.data.overview.stats.energyConstruction' interval='GameOverviewRoom.loader.displayOptions.statInterval' label="'points'" max="GameOverviewRoom.loader.max['energyConstruction'+GameOverviewRoom.loader.displayOptions.statInterval]"></app:punch-card>
+</div>
+<div class='graph-item stat-energyControl'>
+<label>Control points</label>
+<app:punch-card data='GameOverviewRoom.data.overview.stats.energyControl' interval='GameOverviewRoom.loader.displayOptions.statInterval' label="'control points'" max="GameOverviewRoom.loader.max['energyControl'+GameOverviewRoom.loader.displayOptions.statInterval]"></app:punch-card>
+</div>
+<div class='graph-item stat-energyCreeps'>
+<label>Energy spent on creeps</label>
+<app:punch-card data='GameOverviewRoom.data.overview.stats.energyCreeps' interval='GameOverviewRoom.loader.displayOptions.statInterval' label="'energy points'" max="GameOverviewRoom.loader.max['energyCreeps'+GameOverviewRoom.loader.displayOptions.statInterval]"></app:punch-card>
+</div>
+<div class='graph-item stat-creepsProduced'>
+<label>Creeps produced</label>
+<app:punch-card data='GameOverviewRoom.data.overview.stats.creepsProduced' interval='GameOverviewRoom.loader.displayOptions.statInterval' label="'creep body parts'" max="GameOverviewRoom.loader.max['creepsProduced'+GameOverviewRoom.loader.displayOptions.statInterval]"></app:punch-card>
+</div>
+<div class='graph-item stat-creepsLost'>
+<label>Creeps lost</label>
+<app:punch-card data='GameOverviewRoom.data.overview.stats.creepsLost' interval='GameOverviewRoom.loader.displayOptions.statInterval' label="'creep body parts'" max="GameOverviewRoom.loader.max['creepsLost'+GameOverviewRoom.loader.displayOptions.statInterval]"></app:punch-card>
+</div>
+</div>
+</div>
+</section>

@@ -1,0 +1,33 @@
+<section app:resize-panel class='game'>
+<div ng:if="$routeSegment.startsWith('top.sim')">
+<div class='game-switch-container' ng:if="Game.simulationMode &amp;&amp; (Game.simulationMode != 'survival' || Game.survivalMap &amp;&amp; Game.survivalScore === null)">
+<ng:include src="::'components/game/room/room.html' | bust"></ng:include>
+<ng:include src="::'components/game/editor-panel/editor-panel.html' | bust"></ng:include>
+</div>
+<div class='game-switch-container' ng:if="Game.simulationMode == 'survival' &amp;&amp; !Game.survivalMap &amp;&amp; Game.survivalScore === null"></div>
+<div class='game-switch-container' ng:if="Game.simulationMode == 'survival' &amp;&amp; Game.survivalScore !== null">
+<ng:include src="::'components/game/survival-finish.html' | bust"></ng:include>
+</div>
+</div>
+<div ng:if="$routeSegment.name == 'top.game-room-history'">
+<div class='loading' ng:if='!Game.replayLoaded'>Loading replay...</div>
+<div class='loading' ng:if="Game.replayLoaded === 'error'">Replay not found</div>
+<div class='game-switch-container' ng:if="Game.replayLoaded &amp;&amp; Game.replayLoaded != 'error' &amp;&amp; Game.survivalScore === null">
+<ng:include src="::'components/game/room/room.html' | bust"></ng:include>
+</div>
+<div class='game-switch-container' ng:if="Game.simulationMode == 'survival' &amp;&amp; Game.survivalScore !== null">
+<ng:include src="::'components/game/survival-finish.html' | bust"></ng:include>
+</div>
+</div>
+<div class='game-switch-container' ng:if="$routeSegment.name == 'top.game-room' &amp;&amp; Game.survivalScore === null &amp;&amp; Game.arenaFinishScore === null">
+<ng:include src="::'components/game/room/room.html' | bust"></ng:include>
+<ng:include src="::'components/game/editor-panel/editor-panel.html' | bust"></ng:include>
+<div class='loading' ng:if='Game.roomError'>Room not found</div>
+</div>
+<div class='game-switch-container' ng:if="$routeSegment.name == 'top.game-room' &amp;&amp; Game.survivalScore !== null">
+<ng:include src="::'components/game/survival-finish.html' | bust"></ng:include>
+</div>
+<div class='game-switch-container' ng:if="$routeSegment.name == 'top.game-room' &amp;&amp; Game.arenaFinishScore !== null">
+<ng:include src="::'components/game/arena-finish.html' | bust"></ng:include>
+</div>
+</section>

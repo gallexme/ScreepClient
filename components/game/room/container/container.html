@@ -1,0 +1,8 @@
+<svg class='struct-container' height='2%' ng:class='{owner: Container.player == Container.objectData.user || Container.objectData.user == 0 &amp;&amp; Container.player == Me()._id}' ng:style="::{left: ((Container.objectData.x)*100/50)+'%', top: ((Container.objectData.y)*100/50)+'%'}" viewbox='0 0 100 100' width='2%'>
+<g ng:attr-opacity='{{Container.objectData.tempRemove ? 0.3 : 1.0}}' transform='translate(50,50)'>
+<rect fill='#555' height='60' stroke-width='10' stroke='#181818' width='50' x='-25' y='-30'></rect>
+<rect fill='#fff' ng:attr-height='{{Container.resourcesTotal * 50 / Container.objectData.energyCapacity}}' ng:attr-y='{{25 - Container.resourcesTotal * 50 / Container.objectData.energyCapacity}}' ng:if='Container.objectData.energy + (Container.objectData.power||0) &lt; Container.resourcesTotal' width='40' x='-20'></rect>
+<rect fill='#f41f33' ng:attr-height='{{(Container.objectData.power + Container.objectData.energy) * 50 / Container.objectData.energyCapacity}}' ng:attr-y='{{25 - (Container.objectData.energy + Container.objectData.power) * 50 / Container.objectData.energyCapacity}}' ng:if='Container.objectData.power &gt; 0' width='40' x='-20'></rect>
+<rect fill='#ffe56d' ng:attr-height='{{Container.objectData.energy * 50 / Container.objectData.energyCapacity}}' ng:attr-y='{{25 - Container.objectData.energy * 50 / Container.objectData.energyCapacity}}' ng:if='Container.objectData.energy &gt; 0' width='40' x='-20'></rect>
+</g>
+</svg>

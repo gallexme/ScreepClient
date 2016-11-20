@@ -1,0 +1,40 @@
+<section app-tutorial-content>
+<p>
+As before, let’s move this role into a separate module <code>role.builder</code>. The building is carried out
+by applying the method <code>Creep.build</code> to the construction sites searchable by
+<code>Room.find(FIND_CONSTRUCTION_SITES)</code>. The structure requires energy which your creep can harvest on its own.
+</p>
+<p>
+To avoid having the creep run back and forth too often but make it deplete the cargo, let’s complicate our logic by
+creating a new Boolean variable <code>creep.memory.building</code> which will tell the creep when to switch tasks.
+</p>
+<div class='objective'>
+<div class='fa fa-caret-right'></div>
+Create the module <code>role.builder</code> with a behavior logic for a new creep.
+</div>
+<div class='objective'>
+<div class='fa fa-caret-down'></div>
+Documentation:
+<ul>
+<li>
+<code><a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/208435305-RoomObject#room' target='_blank'>
+RoomObject.room
+</a></code>
+</li>
+<li>
+<code><a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/203079011-Room#find' target='_blank'>
+Room.find
+</a></code>
+</li>
+<li>
+<code><a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/203013212-Creep#build' target='_blank'>
+Creep.build
+</a></code>
+</li>
+</ul>
+</div>
+<app:tutorial-code title='role.builder'></app:tutorial-code>
+<div class='tutorial-controls'>
+<md:button class='md-raised md-primary' ng:click='Tutorial.close()'>Got it</md:button>
+</div>
+</section>

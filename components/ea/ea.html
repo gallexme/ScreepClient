@@ -1,0 +1,31 @@
+<section class='ea' style='background-color: white'>
+<button class='btn' ng:click='Ea.send()'>Send</button>
+<label>
+<input ng:model='Ea.hideSent' type='checkbox'>
+Hide sent
+</label>
+<table class='table table-striped'>
+<tr>
+<th></th>
+<th>Email</th>
+<th>Birth</th>
+<th>Name</th>
+<th>Qualify</th>
+<th>Description</th>
+<th>User</th>
+<th>Survival</th>
+</tr>
+<tr ng:repeat='item in Ea.data | filter:Ea.filter'>
+<td>
+<input ng:if='!item.sent' ng:model='item.checked' type='checkbox'>
+</td>
+<td>{{item.email}}</td>
+<td>{{item.birthDate}}</td>
+<td>{{item.name}}</td>
+<td>{{item.qualify}}</td>
+<td>{{item.description}}</td>
+<td>{{item.user}}</td>
+<td>{{item.survival}}</td>
+</tr>
+</table>
+</section>

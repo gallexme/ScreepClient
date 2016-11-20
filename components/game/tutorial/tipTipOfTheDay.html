@@ -1,0 +1,10 @@
+<section app-tutorial-content ng-controller='Top.Tutorial.TipOfTheDay as TipOfTheDay'>
+<p>
+<strong>Tip of the day:</strong>
+<span ng-bind-html='TipOfTheDay.tip | trust'></span>
+</p>
+<div class='tutorial-controls'>
+<md:button class='md-primary md-hue-1' ng:click='TipOfTheDay.block()'>Don't show tips</md:button>
+<md:button class='md-primary md-hue-1' ng:click='TipOfTheDay.nextTip()'>Next tip</md:button>
+</div>
+</section>

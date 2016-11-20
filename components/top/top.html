@@ -1,0 +1,234 @@
+<header class='navbar'>
+<div class='navbar-header'>
+<a class='navbar-brand' ng-click='Top.toggleMainNav()'>
+<div class='icon-material-menu'></div>
+<div class='navbar-counter' ng-if='Top.data.unreadMessages &gt; 0'>{{Top.data.unreadMessages}}</div>
+<div app-logo-blinking class='logo-blinking'></div>
+</a>
+</div>
+<div class='navbar-profile' ng:if='Me()'>
+<ui:drop-group>
+<ui:drop-btn app-click-close-sidenav='main' class='navbar-profile-btn'>
+<i class='profile-icon' ng:if='!Me().badge'></i>
+<img app:badge-src='Me().badge' class='profile-icon' ng:if='Me().badge'>
+<span class='username'>{{Me().username}}</span>
+<div class='navbar-sysbar'>
+<div class='cpu'>
+<div class='sysbar-indicator'>
+<div class='sysbar-indicator-progress' ng:style="{width: (Top.cpuUsed == 'error' ? 100 : Top.cpuUsed * 100 / Me().cpu) + '%'}">
+<div class='warning' ng:style='{opacity: Top.cpuUsed / Me().cpu}'></div>
+<div class='error' ng:show="Top.cpuUsed == 'error'"></div>
+</div>
+</div>
+</div>
+<div class='mem'>
+<div class='sysbar-indicator'>
+<div class='sysbar-indicator-progress' ng:style="{width: Top.memoryUsed * 100 / (2*1024*1024) + '%'}">
+<div class='warning' ng:style='{opacity: Top.memoryUsed / (2*1024*1024)}'></div>
+</div>
+</div>
+</div>
+</div>
+</ui:drop-btn>
+<ui:drop class='pull-right'>
+<div class='sysbar'>
+<div class='cpu'>
+<div class='sysbar-indicator'>
+<div class='sysbar-indicator-progress' ng:style="{width: (Top.cpuUsed == 'error' ? 100 : Top.cpuUsed * 100 / Me().cpu) + '%'}">
+<div class='warning' ng:style='{opacity: Top.cpuUsed / Me().cpu}'></div>
+<div class='error' ng:show="Top.cpuUsed == 'error'"></div>
+</div>
+</div>
+<div class='sysbar-title' ng:if='Me().cpu'>
+<span>CPU:</span>
+<strong>{{Top.cpuUsed == 'error' ? Me().cpu : Top.cpuUsed}}</strong>
+/ {{Me().cpu}}
+</div>
+<div class='sysbar-title' ng:if='!Me().cpu'>
+<span>CPU:</span>
+<strong class='off'>Off</strong>
+</div>
+</div>
+<div class='mem'>
+<div class='sysbar-indicator'>
+<div class='sysbar-indicator-progress' ng:style="{width: Top.memoryUsed * 100 / (2*1024*1024) + '%'}">
+<div class='warning' ng:style='{opacity: Top.memoryUsed / (2*1024*1024)}'></div>
+</div>
+</div>
+<div class='sysbar-title'>
+<span>Mem:</span>
+<strong>{{Top.memoryUsed / 1024 | number:0}}</strong>
+/ 2048 KB
+</div>
+</div>
+<ui:drop-item ng-if='!Me().credits &amp;&amp; !Me().cpu'>
+<a class='cpu-note' href="#!{{'top.order' | routeSegmentUrl}}">
+Your CPU is disabled!
+<div ng-if='isOffServer()'>Order a subscription here</div>
+<div class='fa fa-chevron-circle-right'></div>
+</a>
+</ui:drop-item>
+<ui:drop-item ng-if='isOffServer() &amp;&amp; !Me().credits &amp;&amp; Me().cpu &amp;&amp; Me().cpu &lt; 20'>
+<a class='cpu-note' href="#!{{'top.order' | routeSegmentUrl}}">
+Your CPU is limited<br>Order a subscription here
+<div class='fa fa-chevron-circle-right'></div>
+</a>
+</ui:drop-item>
+<ui:drop-item ng-if='isOffServer() &amp;&amp; Me().cpu &amp;&amp; !Me().subscription &amp;&amp; !Me().isSteamSubscriber() &amp;&amp; Top.getPromoDaysLeft() &gt;= 0 &amp;&amp; Top.getPromoDaysLeft() &lt; 90'>
+<a class='cpu-note' href="#!{{'top.order' | routeSegmentUrl}}">
+<ng-pluralize count='Top.getPromoDaysLeft()' when="{'0': 'Less than a day', one: 'You have 1 day', other: 'You have {} days'}"></ng-pluralize>
+left<br>Order CPU subscription here
+<div class='fa fa-chevron-circle-right'></div>
+</a>
+</ui:drop-item>
+<ui:drop-item ng-if='isOffServer() &amp;&amp; Me().credits &gt; 0'>
+<a class='cpu-note' href="#!{{'top.cpu' | routeSegmentUrl}}" ng:class="{'cpu-note-warn': Math.floor(Me().credits / Me().cpu) &lt; 5}">
+Manage CPU
+<span count='Math.floor(Me().credits / Me().cpu)' ng:if='Me().cpu' ng:pluralize when="{one: '(1 day left)', other: '({} days left)'}"></span>
+</a>
+</ui:drop-item>
+<ui:drop-item ng-if='isOffServer() &amp;&amp; Me().credits &gt; 0'>
+<a app-nw-external-link class='cpu-note' href='http://support.screeps.com/hc/en-us/articles/206598969-Important-change-The-same-CPU-subscription-for-everyone' ng:class="{'cpu-note-warn': Math.floor(Me().credits / Me().cpu) &lt; 5}" target='_blank'>
+New subscription available!<br>Learn more
+<div class='fa fa-chevron-circle-right'></div>
+</a>
+</ui:drop-item>
+</div>
+<div class='profile-options'>
+<ul>
+<ui:drop-item>
+<a class='respawn' ng:click='Top.respawn()'>Respawn</a>
+</ui:drop-item>
+<ui:drop-item>
+<a href="#!{{ 'top.profile' | routeSegmentUrl:{username: Me().username} }}">View profile</a>
+</ui:drop-item>
+<ui:drop-item>
+<a href="#!{{'top.account' | routeSegmentUrl}}">Manage account</a>
+</ui:drop-item>
+<ui:drop-item ng-if='!nw'>
+<a ng:click='Top.signOut()'>Sign out</a>
+</ui:drop-item>
+</ul>
+</div>
+</ui:drop>
+</ui:drop-group>
+</div>
+<a class='navbar-money' ng-href="#!{{'top.market.history' | routeSegmentUrl}}" ng-if='Me()'>
+Credits:
+<span>{{Me().money | number:2}}</span>
+</a>
+<div class='not-logged' ng:click='Top.LoginSvc.show()' ng:if='!Me() &amp;&amp; !nw'>
+<span>Sign in</span>
+or register
+</div>
+<div class='not-logged striped' ng:if='!Me() &amp;&amp; nw'>
+&nbsp;
+</div>
+</header>
+<div class='ptr-header' ng:if='ptr'>
+This is the Public Test Realm. This server is intended for testing purposes only.
+<a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/205999532-Public-Test-Realm' target='_blank'>Learn more</a>
+</div>
+<md-sidenav class='md-sidenav-left' md-component-id='main'>
+<md-button app-click-close-sidenav='main' app-nw-external-link href='https://screeps.com/a/' ng-if='ptr'>
+<md-icon md-svg-icon='components/top/ic_arrow_back_white_24px.svg'></md-icon>
+Back to main realm
+</md-button>
+<md-button app-click-close-sidenav='main' ng-href="#!{{'nw-menu' | routeSegmentUrl}}" ng-if='nw'>
+<md-icon md-svg-icon='components/top/ic_arrow_back_white_24px.svg'></md-icon>
+Main menu
+</md-button>
+<div class='sidenav-divider' ng-if='ptr || nw'></div>
+<md-button app-click-close-sidenav='main' ng-href="#!{{'top.game-overview' | routeSegmentUrl}}">
+<md-icon md-svg-icon='components/top/ic_event_note_white_24px.svg'></md-icon>
+Overview
+</md-button>
+<md-button app-click-close-sidenav='main' ng-href="#!{{'top.game-world-map' | routeSegmentUrl}}">
+<md-icon md-svg-icon='components/top/ic_language_white_24px.svg'></md-icon>
+World
+</md-button>
+<md-button app-click-close-sidenav='main' ng-href="#!{{'top.market' | routeSegmentUrl}}">
+<md-icon md-svg-icon='components/top/ic_sync_white_24px.svg'></md-icon>
+Market
+</md-button>
+<md-button app-click-close-sidenav='main' ng-href="#!{{'top.messages-index' | routeSegmentUrl}}">
+<md-icon md-svg-icon='components/top/ic_mail_outline_white_24px.svg'></md-icon>
+Messages
+<div class='sidenav-item-counter' ng-if='Top.data.unreadMessages &gt; 0'>{{Top.data.unreadMessages}}</div>
+</md-button>
+<div class='sidenav-divider' ng-if='isOffServer()'></div>
+<md-button app-click-close-sidenav='main' href='#!/sim' ng-if='isOffServer()'>
+<md-icon md-svg-icon='components/top/ic_ondemand_video_white_24px.svg'></md-icon>
+Simulation
+</md-button>
+<div class='sidenav-divider'></div>
+<a app-nw-external-link class='sidenav-header' href='http://support.screeps.com/hc'>
+Support Center
+</a>
+<md-button app-click-close-sidenav='main' app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/203084991-API-Reference'>
+<md-icon md-svg-icon='components/top/books.svg'></md-icon>
+Documentation
+</md-button>
+<md-button app-click-close-sidenav='main' ng-href="#!{{'top.sim-tutorial-index' | routeSegmentUrl}}" ng-if='isOffServer()'>
+<md-icon md-svg-icon='components/top/rocket.svg'></md-icon>
+Tutorial
+</md-button>
+<md-button app-click-close-sidenav='main' app-nw-external-link href='http://support.screeps.com/hc/communities/public/topics' ng-if='!nw'>
+<md-icon md-svg-icon='components/top/ic_question_answer_white_24px.svg'></md-icon>
+Forums
+</md-button>
+<md-button app-click-close-sidenav='main' app-nw-external-link href='http://support.screeps.com/hc/en-us/requests/new'>
+<md-icon md-svg-icon='components/top/ic_report_problem_white_24px.svg'></md-icon>
+Report a problem
+</md-button>
+<div class='sidenav-divider'></div>
+<div class='sidenav-header'>
+Other resources
+</div>
+<md-button app-click-close-sidenav='main' app-nw-external-link href='http://chat.screeps.com'>
+<md-icon md-svg-icon='components/top/ic_chat_white_24px.svg'></md-icon>
+Chat
+</md-button>
+<md-button app-click-close-sidenav='main' app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/205999532-Public-Test-Realm'>
+<md-icon md-svg-icon='components/top/ic_bug_report_white_24px.svg'></md-icon>
+Public Test Realm
+</md-button>
+<md-button app-click-close-sidenav='main' app-nw-external-link href='https://github.com/screeps/screeps'>
+<md-icon md-svg-icon='components/top/github.svg'></md-icon>
+GitHub
+</md-button>
+<md-button app-click-close-sidenav='main' app-nw-external-link href='https://twitter.com/ScreepsGame'>
+<md-icon md-svg-icon='components/top/twitter.svg'></md-icon>
+Twitter
+</md-button>
+<md-button app-click-close-sidenav='main' app-nw-external-link href='https://facebook.com/ScreepsGame'>
+<md-icon md-svg-icon='components/top/facebook2.svg'></md-icon>
+Facebook
+</md-button>
+<div class='sidenav-terms' ng-if='!nw'>
+<a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/203833952-Terms-of-Service'>Terms of Service</a>
+·
+<a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/203833942-Privacy-Policy'>Privacy Policy</a>
+</div>
+</md-sidenav>
+<div app:view-segment='1' class='page-content' ng-class='{ptr: ptr}'></div>
+<div app:loading id='loading-box' ng:show='Loader.loadingCnt &gt; 0'>
+<md-progress-linear md-mode='indeterminate'></md-progress-linear>
+</div>
+<app:login></app:login>
+<ng:include src="::'components/game/tutorial/dlg-tutorial.html' | bust"></ng:include>
+<app-dlg-version-updated></app-dlg-version-updated>
+<app-dlg-server-message></app-dlg-server-message>
+<!-- / templates -->
+<script id='error-message' type='text/ng-template'>
+<ng-message when='required'>This field is required</ng-message>
+</script>
+<script id='account-edit-page' type='text/ng-template'>
+<section class='account'>
+<div class='header-jumbotron'>
+<md:button class='back' ng:href="#!{{'top.account' | routeSegmentUrl}}"><div class='fa fa-chevron-left'></div></md:button>
+<h1>{{title}}</h1>
+</div>
+<div ng:transclude></div>
+</section>
+</script>

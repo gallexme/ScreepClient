@@ -1,0 +1,55 @@
+<div class='market-history'>
+<div class='market-controls'>
+<div></div>
+<md-button ng-click='History.reload()'>
+<div class='fa fa-refresh'></div>
+<span>Refresh</span>
+</md-button>
+</div>
+<div class='orders-table'>
+<table class='orders-table__table' ng-if='History.data.money.list.length'>
+<tr>
+<th>Date</th>
+<th>Tick</th>
+<th>Description</th>
+<th>Change</th>
+<th>Balance</th>
+</tr>
+<tr ng-repeat='item in History.data.money.list'>
+<td>{{item.date | date:'short'}}</td>
+<td>{{item.tick}}</td>
+<td>
+<div class='market-history-description' ng-switch='item.type'>
+<span ng-switch-when='market.buy'>Resources bought via market order</span>
+<span ng-switch-when='market.sell'>Resources sold via market order</span>
+<span ng-switch-when='market.fee'>Market fee</span>
+<div class='fa fa-question-circle' title='{{item.market}}'></div>
+</div>
+</td>
+<td ng-class='{green: item.change &gt; 0, red: item.change &lt; 0}'>
+{{item.change > 0 ? '+' : ''}}{{item.change | number:2}}
+</td>
+<td>{{item.balance | number:2}}</td>
+</tr>
+</table>
+<div class='pagination-container' ng-if='History.data.money.list.length'>
+<ul class='pagination'>
+<li ng-if='History.data.money.page &gt; 0'>
+<a href ng-click='History.changePage(-1)'>
+<div class='fa fa-angle-double-left'></div>
+&nbsp;&nbsp;Newer
+</a>
+</li>
+<li ng-if='History.data.money.hasMore'>
+<a href ng-click='History.changePage(1)'>
+Older&nbsp;&nbsp;
+<div class='fa fa-angle-double-right'></div>
+</a>
+</li>
+</ul>
+</div>
+<div class='orders-table__empty' ng-if='!History.data.money.list.length'>
+Your market history is empty
+</div>
+</div>
+</div>

@@ -1,0 +1,7 @@
+<svg class='construction-site' height='2%' ng:class='{owner: ConstructionSite.player == ConstructionSite.objectData.user || ConstructionSite.objectData.user == 0 &amp;&amp; ConstructionSite.player == Me()._id}' ng:style="::{left: ((ConstructionSite.objectData.x)*100/50)+'%', top: ((ConstructionSite.objectData.y)*100/50)+'%'}" viewbox='0 0 100 100' width='2%'>
+<g opacity='0.8' transform='translate(50,50)'>
+<ellipse class='border' cx='0' cy='0' fill='transparent' ng:attr-stroke-opacity='{{ConstructionSite.objectData.temp || ConstructionSite.objectData.tempRemove ? 0.3 : 1.0}}' rx='25' ry='25' stroke-width='10'></ellipse>
+<path class='fill' ng:attr-d='M 25 0 A 25 25 0 {{ (ConstructionSite.objectData.progress-0.01) &lt; ConstructionSite.objectData.progressTotal / 2 ? 0 : 1 }} 1 {{25*Math.cos(-Math.PI * 2 * (ConstructionSite.objectData.progressTotal-ConstructionSite.objectData.progress-0.01) / ConstructionSite.objectData.progressTotal)}} {{25*Math.sin(-Math.PI * 2 * (ConstructionSite.objectData.progressTotal-ConstructionSite.objectData.progress-0.01) / ConstructionSite.objectData.progressTotal)}} L 0 0 Z' ng:if='ConstructionSite.objectData.progress &gt; 0' transform='rotate(-90)'></path>
+<animate app-attr="calcMode#ConstructionSite.displayOptions.animations ? 'linear' : 'discrete'" attributeName='opacity' dur='2s' repeatCount='indefinite' values='0.8; 0.3; 0.8'></animate>
+</g>
+</svg>

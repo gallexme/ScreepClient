@@ -1,0 +1,8 @@
+<section class='choose-map' ng:controller='Top.Game.ChooseMap as ChooseMap'>
+<div class='title'>Select Map</div>
+<div class='maps-list'>
+<div class='map' ng:click='ChooseMap.choose(map)' ng:repeat='map in ChooseMap.maps track by $index'>
+<img ng:src='components/game/map{{map}}.png'>
+</div>
+</div>
+</section>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang='en' xmlns:app='ignored' xmlns:md='ignored' xmlns:ng='ignored' xmlns:ui='ignored'>
+
+<head>
+    <meta charset='utf-8'>
+    <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+    <meta content='850303518324531' property='fb:app_id'>
+    <link href='/icon.png' rel='icon' type='image/png'>
+    <title>Screeps</title>
+    <link href='vendor/fonts/roboto.css' rel='stylesheet' type='text/css'>
+    <link href='/app.css' rel='stylesheet'>
+    <script>
+        function forceRefresh() {
+            setTimeout(function() {
+                document.getElementById('force-refresh').getContext('2d').clearRect(0, 0, 1, 1);
+                window.requestAnimationFrame(forceRefresh);
+            }, 1000 / 30);
+        }
+    </script>
+</head>
+
+<body onload='forceRefresh()'>
+    <canvas height='1' id='force-refresh' width='1'></canvas>
+    <div class='top-content'>
+        <div class='init-loading'>
+            <img src='https://screeps.com/img/logo.gif'>
+            <br>
+            <div id='loading'>Loading...</div>
+            <div id='error' style='text-align: center; margin-top: 100px; font-size: 20px; font-weight: 300; color: #ddd'></div>
+        </div>
+    </div>
+    <script>
+        nw.App.clearCache();
+
+        function downloadNewPackage(version, callback) {
+            var path = require('path');
+            var execDirname = path.dirname(process.execPath).replace(/\/nwjs\.app.*$/, '');
+            var http = require('https');
+            var fs = require('graceful-fs');
+            var sep = /\\/.test(nw.App.dataPath) ? '\\' : '/';
+            var packageFilename = execDirname + sep + 'package.nw.new';
+
+            var logFile = fs.openSync(execDirname + sep + 'update.log', 'a');
+
+            function log(text) {
+                fs.writeSync(logFile, '[' + new Date().toUTCString() + '] ' + text + "\n");
+            }
+
+            try {
+                log(`Package ${version} available`);
+                var fileWrite = fs.createWriteStream(packageFilename);
+                fileWrite.on('open', function() {
+                        log('File opened');
+                        http.get('https://screeps.com/packages/' + version, function(res) {
+                            log(`Received response from the server: ${res.statusCode}`);
+                            if (res.statusCode == 200) {
+                                res.pipe(fileWrite);
+                                fileWrite.on('finish', function() {
+                                    log(`File write finished, ${fileWrite.bytesWritten} bytes written`);
+                                    fileWrite.close(function() {
+                                        log(`File write closed`);
+                                        fs.renameSync(packageFilename, execDirname + sep + 'package.nw');
+                                        log(`File renamed`);
+                                        fs.close(logFile);
+                                        callback(null, true);
+                                    })
+                                });
+                            } else {
+                                fs.unlinkSync(packageFilename);
+                                fs.close(logFile);
+                                callback(res.statusCode);
+                            }
+                        }).on('error', function(e) {
+                            log(`HTTP transfer error: ${e}`);
+                            fs.unlinkSync(packageFilename);
+                            fs.close(logFile);
+                            callback(e.message);
+                        });
+                    })
+                    .on('error', function(e) {
+                        log(`File write error: ${e}`);
+                        fs.unlinkSync(packageFilename);
+                        fs.close(logFile);
+                        callback(e.message);
+                    });
+
+            } catch (e) {
+                log(`Error: ${e}`);
+                fs.close(logFile);
+                callback(e);
+            }
+        }
+
+
+        function checkPackageVersion(callback) {
+
+            var request = new XMLHttpRequest();
+            request.open('GET', 'https://screeps.com/api/version', true);
+
+            request.onload = function() {
+                if (request.status >= 200 && request.status < 400) {
+                    var data = JSON.parse(request.responseText);
+                    callback(null, data);
+                } else {
+                    callback(request.status);
+                }
+            };
+
+            request.onerror = function(e) {
+                callback(e);
+            };
+
+            request.send();
+        }
+
+
+        checkPackageVersion(function(err, version) {
+                window.location.href = window.location.origin + '/index.html#!/nw-menu';            
+        });
+    </script>
+</body>
+
+</html>

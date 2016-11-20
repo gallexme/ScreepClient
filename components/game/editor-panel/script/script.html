@@ -1,0 +1,59 @@
+<section class='script' ng:class="{'has-cpu-error': !Game.simulationMode &amp;&amp; Me() &amp;&amp; !Me().cpu}" ng:controller='Top.Game.Script as Script'>
+<div class='cpu-error'>
+Your CPU is disabled. The script is not being executed!
+<a ng:href="#!{{'top.order' | routeSegmentUrl}}">Order subscription</a>
+</div>
+<section>
+<div app:focus-on-event='scriptTabSelect' app:on-ctrl-enter='Script.submit()' ng:change='Script.dirty = true' ng:model='Script.modules[Script.activeModule]' ui-ace="{mode: 'javascript', theme: 'tomorrow_night'}"></div>
+<div ng:if='Script.branchesMode'>
+<div class='branches-list'>
+<div class='note'>Choose active branch:</div>
+<i class='fa fa-remove' ng:click='Script.switchToModules()'></i>
+<div class='branch-item' ng:repeat='branch in Script.branchesList'>
+<div class='branch-name' ng:click='Script.selectBranch(branch.branch)'>
+<span>{{branch.branch}}</span>
+<div class='branch-active' ng:if='branch.activeWorld'>World</div>
+<div class='branch-active' ng:if='branch.activeSim'>Sim</div>
+</div>
+<div class='branch-item-controls pull-right'><md-button class='md-primary md-hue-1' ng:click='Script.deleteBranch(branch.branch)' ng:if='!branch.activeWorld &amp;&amp; !branch.activeSim' title='Delete branch'>
+<i class='fa fa-trash'></i>
+</md-button><md-button class='md-primary md-hue-1' ng:click='Script.cloneBranch(branch.branch)' title='Clone branch'>
+<i class='fa fa-clone'></i>
+</md-button></div>
+</div>
+</div>
+</div>
+<div ng:if='!Script.branchesMode'>
+<div class='branch-block'>
+<div class='branch-note'>Branch:</div>
+<a class='branch-name' href ng-if='Game.player == 0 || Game.player == Me()._id' ng:click='Script.switchToBranches()'>{{Script.branch || 'default'}}</a>
+<span class='branch-name' ng-if='Game.player != 0 &amp;&amp; Game.player != Me()._id'>Player {{+Game.player+1}}</span>
+<div class='branch-controls'>
+<md-button class='md-primary md-hue-1 submit' ng:click='Script.submit()' ng:disabled='!Script.dirty' title='Commit (Ctrl+Enter)'>
+<i class='fa fa-check'></i>
+</md-button>
+<md-button class='md-primary md-hue-1' ng:click='Script.reset()' ng:disabled='!Script.dirty' title='Reset changes'>
+<i class='fa fa-undo'></i>
+</md-button>
+</div>
+</div>
+<div class='modules-list' ng-class='{nw: nw}'>
+<div class='header'>Modules</div>
+<div class='module-item main' ng:class="{active: Script.activeModule == 'main'}" ng:click="Script.activeModule = 'main'">
+main
+</div>
+<div class='module-item' ng:class='{active: Script.activeModule == module}' ng:click='Script.activeModule = module' ng:repeat='module in Script.modules | keys | filter:Script.filterNotMain | sort track by $index'>
+{{module}}
+<div app:stop-click-propagation class='remove fa fa-remove' ng:click='Script.removeModule(module)'></div>
+</div>
+<form class='add-new' name='addForm' ng:controller='Top.Game.Script.AddModuleForm as AddModuleForm' ng:submit='AddModuleForm.addNewModule()'>
+<input app:custom-validator='AddModuleForm.moduleNameValidator' ng:model='AddModuleForm.newModuleName' placeholder='New module name...'>
+</form>
+</div>
+<div class='open-folder' ng-click='Script.openLocalFolder()' ng-if='nw'>
+<div class='fa fa-folder-open'></div>
+Open local folder
+</div>
+</div>
+</section>
+</section>

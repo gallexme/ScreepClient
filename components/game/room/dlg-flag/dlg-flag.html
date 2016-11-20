@@ -1,0 +1,51 @@
+<section class='dlg-flag'>
+<form app:submit='DlgFlag.submit()' name='form'>
+<div class='modal-body'>
+<button class='close' ng:click='$dismiss()' type='button'>&times;</button>
+<div class='row'>
+<div class='col-xs-9'>
+<div class='row' ng:if='!DlgFlag.flag'>
+<div class='col-xs-4'>
+<label>Name:</label>
+</div>
+<div class='col-xs-8'>
+<input name='name' ng-change='DlgFlag.checkName()' ng:model-options='{debounce: 300}' ng:model='DlgFlag.name' placeholder='Name' required>
+</div>
+</div>
+<div class='row'>
+<div class='col-xs-4'>
+<label>Color:</label>
+</div>
+<div class='col-xs-8'>
+<div class='colors'>
+<div class='color' ng:class="'flag-color-'+color+' '+(color == DlgFlag.color ? 'active' : '')" ng:click='DlgFlag.color = color; DlgFlag.secondaryColor = color' ng:repeat='color in DlgFlag.colorsList track by $index'></div>
+</div>
+</div>
+</div>
+<div class='row'>
+<div class='col-xs-4'>
+<label>Secondary color:</label>
+</div>
+<div class='col-xs-8'>
+<div class='colors'>
+<div class='color' ng:class="'flag-color-'+color+' '+(color == DlgFlag.secondaryColor ? 'active' : '')" ng:click='DlgFlag.secondaryColor = color' ng:repeat='color in DlgFlag.colorsList track by $index'></div>
+</div>
+</div>
+</div>
+</div>
+<div class='col-xs-3'>
+<div class='flag-sample'>
+<div class='flag-sample-content'>
+<app-game-flag object-data='{color: DlgFlag.color, secondaryColor: DlgFlag.secondaryColor, user: 0, x: 0, y: 0}' player='0'></app-game-flag>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class='modal-footer'>
+<div class='overwrite-warning' ng-if='DlgFlag.overwriteWarning'>Flag with the same name already exists and will be overwritten!</div>
+<md:button ng:click='$dismiss()' type='button'>Cancel</md:button>
+<md:button app:submit-animated class='md-raised md-primary' ng:disabled='form.$invalid' type='submit'>OK</md:button>
+</div>
+</form>
+</section>

@@ -1,0 +1,9 @@
+<svg class='power-bank' height='6%' ng:style="::{left: ((PowerBank.objectData.x-1)*100/50)+'%', top: ((PowerBank.objectData.y-1)*100/50)+'%'}" viewbox='0 0 300 300' width='6%'>
+<g transform='translate(150,150), scale(1.5 1.5)'>
+<path d='M0 -50 H30 L50 -30 V30 L30 50 H-30 L-50 30 V-30 L-30 -50 Z' fill='#311' stroke-width='10' stroke='#666'></path>
+<ellipse cx='0' cy='0' fill='#f41f33' ng:attr-rx='{{::PowerBank.getRadius()}}' ng:attr-ry='{{::PowerBank.getRadius()}}' stroke-width='10' stroke='#8d000d'>
+<animateTransform attributeName='transform' attributeType='XML' dur='2s' keyTimes='0;0.66;1' ng-if='PowerBank.displayOptions.animations' repeatCount='indefinite' type='scale' values='1 1;0.6 0.6;1 1'></animateTransform>
+<animate app-attr="calcMode#PowerBank.displayOptions.animations ? 'linear' : 'discrete'" attributeName='fill' dur='2s' repeatCount='indefinite' values='#f41f33; #d31022; #8d000d; #f41f33'></animate>
+</ellipse>
+</g>
+</svg>

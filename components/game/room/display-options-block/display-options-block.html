@@ -1,0 +1,17 @@
+<div class='display-options-block'>
+<i class='toggle fa' ng:class="{'fa-caret-up': DisplayOptionsBlock.expanded, 'fa-caret-down': !DisplayOptionsBlock.expanded}" ng:click='DisplayOptionsBlock.expanded = !DisplayOptionsBlock.expanded'></i>
+<div class='ui-checkbox parent' ng:class="{partial: DisplayOptionsBlock.parentSelected == 'partial'}">
+<label>
+<input ng:change='DisplayOptionsBlock.parentChange()' ng:model='DisplayOptionsBlock.parentModel' type='checkbox'>
+<span>{{DisplayOptionsBlock.heading}}</span>
+</label>
+</div>
+<div class='children' ng:show='DisplayOptionsBlock.expanded'>
+<div class='ui-checkbox' ng:repeat='(key,label) in DisplayOptionsBlock.children track by key'>
+<label>
+<input ng:disabled='DisplayOptionsBlock.parent &amp;&amp; !DisplayOptionsBlock.parentModel' ng:model='DisplayOptionsBlock.model[key]' type='checkbox'>
+<span>{{label}}</span>
+</label>
+</div>
+</div>
+</div>

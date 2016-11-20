@@ -1,0 +1,25 @@
+<div class='tower'>
+<svg class='anim-shot tower' height='100%' ng:if='Tower.shotAnim' style='left: 0; top: 0' viewbox='0 0 5000 5000' width='100%'>
+<line ng:class="'action-'+Tower.shotAnim.type" stroke-width='16' transform='translate(50,50)'>
+<animate app-attr="calcMode#Tower.displayOptions.animations ? 'linear' : 'discrete'" attributeName='x1' attributeType='XML' keyTimes='0;0.6;1' ng:attr-dur='{{0.6 * 100 / Tower.speed}}s' ng:attr-values="{{ (Tower.objectData.x * 100)+';'+(Tower.shotAnim.x * 100)+';'+(Tower.shotAnim.x * 100) }}" repeatCount='0'></animate>
+<animate app-attr="calcMode#Tower.displayOptions.animations ? 'linear' : 'discrete'" attributeName='y1' attributeType='XML' keyTimes='0;0.6;1' ng:attr-dur='{{0.6 * 100 / Tower.speed}}s' ng:attr-values="{{ (Tower.objectData.y * 100)+';'+(Tower.shotAnim.y * 100)+';'+(Tower.shotAnim.y * 100) }}" repeatCount='0'></animate>
+<animate app-attr="calcMode#Tower.displayOptions.animations ? 'linear' : 'discrete'" attributeName='x2' attributeType='XML' keyTimes='0;0.4;1' ng:attr-dur='{{0.6 * 100 / Tower.speed}}s' ng:attr-values="{{ (Tower.objectData.x * 100)+';'+(Tower.objectData.x * 100)+';'+(Tower.shotAnim.x * 100) }}" repeatCount='0'></animate>
+<animate app-attr="calcMode#Tower.displayOptions.animations ? 'linear' : 'discrete'" attributeName='y2' attributeType='XML' keyTimes='0;0.4;1' ng:attr-dur='{{0.6 * 100 / Tower.speed}}s' ng:attr-values="{{ (Tower.objectData.y * 100)+';'+(Tower.objectData.y * 100)+';'+(Tower.shotAnim.y * 100) }}" repeatCount='0'></animate>
+</line>
+</svg>
+<svg class='tower' height='6%' ng:class='{owner: Tower.player == Tower.objectData.user || Tower.objectData.user == 0 &amp;&amp; Tower.player == Me()._id}' ng:style="::{left: ((Tower.objectData.x-1)*100/50)+'%', top: ((Tower.objectData.y-1)*100/50)+'%'}" viewbox='0 0 300 300' width='6%'>
+<g ng:attr-opacity='{{Tower.objectData.tempRemove ? 0.3 : 1.0}}' transform='translate(150,150)'>
+<ellipse class='border' cx='0' cy='0' fill='#222' rx='65' ry='65' stroke-width='5'></ellipse>
+<g app:game-tower-auto-rotate class='rotatable'>
+<rect fill='#aaa' height='50' stroke-width='7' stroke='#181818' width='40' x='-20' y='-80'></rect>
+<rect fill='#555' height='58' rx='12' ry='10' width='78' x='-39' y='-25'></rect>
+<rect fill='#ffe56d' ng:attr-height='{{58*Tower.objectData.energy/Tower.objectData.energyCapacity}}' ng:attr-y='{{33-58*Tower.objectData.energy/Tower.objectData.energyCapacity}}' ng:if='Tower.objectData.energy &gt; 0' rx='12' ry='12' width='78' x='-39'></rect>
+</g>
+</g>
+</svg>
+<svg class='anim-work' height='2%' ng:if='Tower.workAnim' ng:style="{left: ((Tower.workAnim.x)*100/50)+'%', top: ((Tower.workAnim.y)*100/50)+'%'}" viewbox='0 0 100 100' width='2%'>
+<ellipse cx='50' cy='50' fill='#ffe56d' ng:attr-rx='{{Tower.workAnim.size}}' ng:attr-ry='{{Tower.workAnim.size}}' opacity='0'>
+<animate attributeName='opacity' attributeType='XML' begin='indefinite' ng:attr-dur='{{0.95 * 100 / Tower.speed}}s' repeatCount='0' values='0;0.3;0.2;0.1;0'></animate>
+</ellipse>
+</svg>
+</div>

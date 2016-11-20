@@ -1,0 +1,28 @@
+<section class='dlg-arena-activation'>
+<div class='modal-header'>
+<button class='close' ng:click='$dismiss()'>&times;</button>
+<h4 class='modal-title'>The Arena Mode activation</h4>
+</div>
+<form app:submit='DlgArenaActivation.submit()' class='form form-horizontal' name='form'>
+<div class='modal-body'>
+<p>
+For testing purposes, we have temporary limited access only to the <a href="https://indiegogo.com/projects/screeps/" app-nw-external-link target="_blank">Indiegogo campaign</a>
+backers. Please enter your activation code sent at your email here:
+</p>
+<div class='form-group'>
+<div class='col-xs-12'>
+<input class='form-control' ng:model='DlgArenaActivation.code' placeholder='Code' required>
+</div>
+</div>
+<div class='error' ng:if='DlgArenaActivation.error'>{{DlgArenaActivation.error}}</div>
+<p>
+If you did not fund the campaign, but feel that you still have to access the Arena, please email us at
+<a href="mailto:contact@screeps.com">contact@screeps.com</a>.
+</p>
+</div>
+<div class='modal-footer'>
+<md:button ng:click='$dismiss()' type='button'>Cancel</md:button>
+<md:button app:submit-animated class='md-raised md-primary' ng-disabled='form.$invalid' type='submit'>OK</md:button>
+</div>
+</form>
+</section>

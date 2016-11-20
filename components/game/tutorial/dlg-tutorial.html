@@ -1,0 +1,6 @@
+<div app:tutorial class='tutorial' ng-style="{visibility: Tutorial.contentLoaded ? 'visible' : 'hidden'}" ng:class='Tutorial.getClassName()' ng:show='TutorialService.visible &amp;&amp; Tutorial.anchorFound'>
+<div class='tutorial-overlay' ng:click='Tutorial.close()' ng:if='!TutorialService.getStepInfo().selector'></div>
+<div class='tutorial-content' ng:if='TutorialService.getStepInfo() &amp;&amp; TutorialService.visible' ng:include="'components/game/tutorial/'+TutorialService.getStepTemplate()+'.html' | bust"></div>
+<div class='close fa fa-close' ng:click='Tutorial.close()'></div>
+<div class='arrow' ng:class="{'arrow-bottom': Tutorial.snap.bottom, 'arrow-top': Tutorial.snap.top, 'arrow-left': Tutorial.snap.left, 'arrow-right': Tutorial.snap.right, 'arrow-center': Tutorial.snap.center}" ng:if='Tutorial.snap'></div>
+</div>

@@ -1,0 +1,14 @@
+<div>
+<div class='modal-header' ng:if='title'>
+<button class='close' ng:click='cancel()'>&times;</button>
+<h4 class='modal-title'>{{title}}</h4>
+</div>
+<div class='modal-body alert'>
+<button class='close' ng:click='cancel()' ng:if='!title'>&times;</button>
+<div ng:bind-html='message.html | trust' ng:if='message.html'></div>
+<div ng:if='!message.html'>{{message}}</div>
+</div>
+<div class='modal-footer'>
+<md:button class='md-primary md-raised' ng:click='cancel()'>OK</md:button>
+</div>
+</div>

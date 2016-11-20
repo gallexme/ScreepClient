@@ -1,0 +1,19 @@
+<app:account-edit-page title='Change e-mail'>
+<form app:submit='AccountEmail.submit()' class='account-block' name='form'>
+<md-input-container>
+<label>New e-mail</label>
+<input app:custom-validator='AccountEmail.emailValidators' minlength='8' name='email' ng:model='AccountEmail.email' required type='email'>
+<div class='hint' ng:if='form.email.$pristine || !form.email.$invalid'>
+&nbsp;
+</div>
+<div class='error' include='error-message' ng-messages='form.email.$error' ng:show='form.email.$dirty'>
+<div ng-message='correct'>Must be a valid e-mail address.</div>
+<div ng-message='unique'>This e-mail is already used by another user.</div>
+</div>
+</md-input-container>
+<div class='account-controls'>
+<md:button class='md-primary md-hue-1' ng:href="#!{{'top.account' | routeSegmentUrl}}">Cancel</md:button>
+<md:button app:submit-animated class='md-primary md-raised' ng:disabled='form.$invalid' type='submit'>Save</md:button>
+</div>
+</form>
+</app:account-edit-page>

@@ -1,0 +1,84 @@
+<section class='register'>
+<div ng:if='ptr'>
+<div class='register-disabled'>New account registration is disabled on the Public Test Realm server.</div>
+</div>
+<div ng:if='!ptr &amp;&amp; (!Me() || !Me().username)'>
+<h2>Create a new account</h2>
+<form app:submit='Register.submit()' name='form'>
+<div class='register-block'>
+<md-input-container>
+<label>Player Name</label>
+<input app:custom-validator='Register.usernameValidators' minlength='3' name='username' ng:model-options='{debounce: 200}' ng:model='Register.username' required>
+<div class='hint' ng:if='form.username.$pristine || !form.username.$invalid'>
+Other players will see this unique name at your rooms, creeps, and structures. At least 3 alphanumeric characters.
+</div>
+<div class='error' include='error-message' ng-messages='form.username.$error' ng:show='form.username.$dirty'>
+<div ng-message='minlength'>Minimum 3 characters.</div>
+<div ng-message='correct'>Only alphanumeric characters are allowed.</div>
+<div ng-message='unique'>This name is already used by another user.</div>
+</div>
+</md-input-container>
+</div>
+<div class='register-block'>
+<md-input-container ng-if='!Register.noEmail'>
+<label>E-mail</label>
+<input app:custom-validator='Register.emailValidators' name='email' ng:model-options='{debounce: 200}' ng:model='Register.email' required>
+<div class='md-errors-spacer'></div>
+<div class='hint' ng:if='form.email.$pristine || !form.email.$invalid'>
+You will be able to use this e-mail to notify yourself on custom events via in-game API. No spam, we promise.
+</div>
+<div class='error' include='error-message' ng-messages='form.email.$error' ng:show='form.email.$dirty'>
+<div ng-message='correct'>Must be a valid e-mail address.</div>
+<div ng-message='unique'>This e-mail is already used by another user.</div>
+</div>
+</md-input-container>
+<div class='md-label' ng-if='Register.noEmail'>You can specify your e-mail later in your account settings.</div>
+<md-checkbox class='md-primary' ng-if='Me()' ng-model='Register.noEmail'>I don't want to use in-game notifications</md-checkbox>
+</div>
+<div class='register-block' ng:if='!Me()'>
+<md-input-container>
+<label>Password</label>
+<input app:custom-validator='Register.passwordValidators' minlength='8' name='password' ng:model='Register.password' required type='password'>
+<div class='hint' ng:if='form.password.$pristine || !form.password.$invalid'>
+Must be at least 8 characters including at least one numeric character.<br>&nbsp;
+</div>
+<div class='error' include='error-message' ng-messages='form.password.$error' ng:show='form.password.$dirty'>
+<div ng-message='correct'>Only alphanumeric and special characters are allowed.</div>
+<div ng-message='minlength'>Minimum 8 characters.</div>
+<div ng-message='number'>Please include at least one numeric character.</div>
+<div ng-message='non_number'>Please include at least one non-numeric character.</div>
+</div>
+</md-input-container>
+</div>
+<div class='register-block' ng:if='!Me()'>
+<md-input-container>
+<label>Confirm Password</label>
+<input app:custom-validator='Register.passwordConfirmValidators' name='passwordConfirm' ng:model='Register.passwordConfirm' required type='password'>
+<div class='hint' ng:if='form.passwordConfirm.$pristine || !form.passwordConfirm.$invalid'>
+Once again please.<br>&nbsp;
+</div>
+<div class='error' ng-messages='form.passwordConfirm.$error' ng:show='form.passwordConfirm.$dirty'>
+<div ng-message='match'>Password doesn't match.</div>
+</div>
+</md-input-container>
+</div>
+<div app-recaptcha='Register.recaptcha' class='recaptcha' ng-if='!Me()'></div>
+<div class='terms' ng-if='!nw'>
+By submitting this information you acknowledge that you have read and agree to be bound by the <a href="http://support.screeps.com/hc/en-us/articles/203833952-Terms-Conditions" app-nw-external-link target="_blank">Terms and Conditions</a>.
+</div>
+<div app-form-fail-anim='anim-shake' class='controls' ng:class="{'controls-center': Me()}">
+<md:button app:submit-animated class='md-raised md-primary' ng:disabled='!form.$valid || !Register.recaptcha &amp;&amp; !Me()' type='submit'>Register</md:button>
+<span ng:if='!Me()'>
+<div class='or'>OR</div>
+<div class='steam' ng:click='Register.signInSteam()'></div>
+<div class='github' ng:click='Register.signInGithub()'></div>
+</span>
+</div>
+<div class='login-existing' ng-if='nw &amp;&amp; isOffServer()'>
+<a href ng-click='Register.loginExisting()'>
+I have an account at screeps.com
+</a>
+</div>
+</form>
+</div>
+</section>

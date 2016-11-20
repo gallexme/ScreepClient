@@ -1,0 +1,15 @@
+<section app-tutorial-content>
+<p>
+Let’s say we want to have at least two harvesters at any time. The easiest way to achieve this is to run
+<code>StructureSpawn.createCreep</code> each time we discover it’s less than this number. You may not define its
+name (it will be given automatically in this case), but don’t forget to define the needed role.
+</p>
+<div class='objective'>
+<div class='fa fa-caret-right'></div>
+Add the logic for <code>StructureSpawn.createCreep</code> in your main module.
+</div>
+<app:tutorial-code title='main'></app:tutorial-code>
+<div class='tutorial-controls'>
+<md:button class='md-raised md-primary' ng:click='Tutorial.close()'>Got it</md:button>
+</div>
+</section>

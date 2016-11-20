@@ -1,0 +1,146 @@
+<section class='profile'>
+<div class='header-jumbotron'>
+<img app:badge-src='Profile.user.badge' class='portrait' ng:if='Profile.user.badge'>
+<div class='profile-title'>
+<h1>{{Profile.user.username}}</h1>
+<a app-nw-external-link='steam://url/SteamIDPage/{{Profile.user.steam.id}}' class='steam-profile' ng-href='http://steamcommunity.com/profiles/{{Profile.user.steam.id}}' ng-if='Profile.user.steam' target='_blank'>
+View Steam profile
+</a>
+</div>
+<div class='power'>
+<div class='power-title'>power processed</div>
+{{Profile.user.power | round}}
+</div>
+<div class='gcl'>
+<div class='gcl-title'>GCL</div>
+{{Profile.getGcl()}}
+</div>
+<md:button class='md-primary md-hue-1' href="#!{{ 'top.game-overview' | routeSegmentUrl}}" ng:if='Me() &amp;&amp; Me()._id == Profile.user._id'>
+My overview
+</md:button>
+<md:button class='md-primary md-raised' href="#!{{ 'top.messages-respondent' | routeSegmentUrl:{username:Profile.user.username} }}" ng:if='Me() &amp;&amp; Me()._id != Profile.user._id'>
+Send message
+</md:button>
+</div>
+<div class='survival' ng-if='isOffServer()'>
+<div class='profile-seasons-list'>
+<div class='profile-season'>
+<div class='score power'>
+<div class='title'>POWER<br>POINTS</div>
+<div class='value' ng:if='Profile.leaderboard.power[Profile.currentSeason].score'>
+{{Profile.leaderboard.power[Profile.currentSeason].score | round}}
+</div>
+<div class='value' ng:if='!Profile.leaderboard.power[Profile.currentSeason].score'>&mdash;</div>
+</div>
+<div class='rank power'>
+<div class='title'>POWER<br>RANK</div>
+<a class='value' ng:href="#!{{$routeSegment.getSegmentUrl('top.game-lobby-power.list', {season: Profile.currentSeason})}}?page={{Profile.leaderboard.power[Profile.currentSeason].rankPage}}&amp;highlight={{Profile.user.username}}" ng:if='Profile.leaderboard.power[Profile.currentSeason]'>
+{{Profile.leaderboard.power[Profile.currentSeason].rank + 1}}
+</a>
+<div class='value' ng:if='!Profile.leaderboard.power[Profile.currentSeason]'>&mdash;</div>
+</div>
+<div class='score'>
+<div class='title'>CONTROL<br>POINTS</div>
+<div class='value' ng:if='Profile.leaderboard.world[Profile.currentSeason].score'>
+{{Profile.leaderboard.world[Profile.currentSeason].score | round}}
+</div>
+<div class='value' ng:if='!Profile.leaderboard.world[Profile.currentSeason].score'>&mdash;</div>
+</div>
+<div class='rank'>
+<div class='title'>EXPANSION<br>RANK</div>
+<a class='value' ng:href="#!{{$routeSegment.getSegmentUrl('top.game-lobby-world.list', {season: Profile.currentSeason})}}?page={{Profile.leaderboard.world[Profile.currentSeason].rankPage}}&amp;highlight={{Profile.user.username}}" ng:if='Profile.leaderboard.world[Profile.currentSeason]'>
+{{Profile.leaderboard.world[Profile.currentSeason].rank + 1}}
+</a>
+<div class='value' ng:if='!Profile.leaderboard.world[Profile.currentSeason]'>&mdash;</div>
+</div>
+<div class='season-name'>
+<div class='season-name-label'>Current month</div>
+<div class='value'>{{Profile.seasons[Profile.currentSeason].name}}</div>
+</div>
+</div>
+<!--
+<div class='profile-season'>
+<div class='score power'>
+<div class='title'>POWER<br>POINTS</div>
+<div class='value' ng:if='Profile.leaderboard.power[Profile.prevSeason].score'>
+{{Profile.leaderboard.power[Profile.prevSeason].score | round}}
+</div>
+<div class='value' ng:if='!Profile.leaderboard.power[Profile.prevSeason].score'>&mdash;</div>
+</div>
+<div class='rank power'>
+<div class='title'>POWER<br>RANK</div>
+<a class='value' ng:href="#!{{$routeSegment.getSegmentUrl('top.game-lobby-power.list', {season: Profile.prevSeason})}}?page={{Profile.leaderboard.power[Profile.prevSeason].rankPage}}&amp;highlight={{Profile.user.username}}" ng:if='Profile.leaderboard.power[Profile.prevSeason]'>
+{{Profile.leaderboard.power[Profile.prevSeason].rank + 1}}
+</a>
+<div class='value' ng:if='!Profile.leaderboard.power[Profile.prevSeason]'>&mdash;</div>
+</div>
+<div class='score'>
+<div class='title'>CONTROL<br>POINTS</div>
+<div class='value' ng:if='Profile.leaderboard.world[Profile.prevSeason].score'>
+{{Profile.leaderboard.world[Profile.prevSeason].score | round}}
+</div>
+<div class='value' ng:if='!Profile.leaderboard.world[Profile.prevSeason].score'>&mdash;</div>
+</div>
+<div class='rank'>
+<div class='title'>EXPANSION<br>RANK</div>
+<a class='value' ng:href="#!{{$routeSegment.getSegmentUrl('top.game-lobby-world.list', {season: Profile.prevSeason})}}?page={{Profile.leaderboard.world[Profile.prevSeason].rankPage}}&amp;highlight={{Profile.user.username}}" ng:if='Profile.leaderboard.world[Profile.prevSeason]'>
+{{Profile.leaderboard.world[Profile.prevSeason].rank + 1}}
+</a>
+<div class='value' ng:if='!Profile.leaderboard.world[Profile.prevSeason]'>&mdash;</div>
+</div>
+<div class='season-name'>
+<div class='season-name-label'>Last season</div>
+<div class='value'>{{Profile.seasons[Profile.prevSeason].name}}</div>
+</div>
+</div>
+-->
+<div class='profile-seasons-hidden' ng:if='ProfileSeasonsList.showHiddenSeasons'>
+<div class='profile-season' ng:repeat='season in Profile.allSeasons'>
+<div class='score power'>
+<div class='value' ng:if='Profile.leaderboard.power[season._id].score'>
+{{Profile.leaderboard.power[season._id].score | round}}
+</div>
+<div class='value' ng:if='!Profile.leaderboard.power[season._id].score'>&mdash;</div>
+</div>
+<div class='rank power'>
+<a class='value' ng:href="#!{{$routeSegment.getSegmentUrl('top.game-lobby-power.list', {season: season._id})}}?page={{Profile.leaderboard.power[season._id].rankPage}}&amp;highlight={{Profile.user.username}}" ng:if='Profile.leaderboard.power[season._id]'>
+{{Profile.leaderboard.power[season._id].rank + 1}}
+</a>
+<div class='value' ng:if='!Profile.leaderboard.power[season._id]'>&mdash;</div>
+</div>
+<div class='score'>
+<div class='value' ng:if='Profile.leaderboard.world[season._id].score'>
+{{Profile.leaderboard.world[season._id].score | round}}
+</div>
+<div class='value' ng:if='!Profile.leaderboard.world[season._id].score'>&mdash;</div>
+</div>
+<div class='rank'>
+<a class='value' ng:href="#!{{$routeSegment.getSegmentUrl('top.game-lobby-world.list', {season: season._id})}}?page={{Profile.leaderboard.world[season._id].rankPage}}&amp;highlight={{Profile.user.username}}" ng:if='Profile.leaderboard.world[season._id]'>
+{{Profile.leaderboard.world[season._id].rank + 1}}
+</a>
+<div class='value' ng:if='!Profile.leaderboard.world[season._id]'>&mdash;</div>
+</div>
+<div class='season-name'>{{season.name}}</div>
+</div>
+</div>
+<md:button class='md-primary md-hue-1' ng:click='ProfileSeasonsList.showHiddenSeasons = !ProfileSeasonsList.showHiddenSeasons'>
+<span ng:if='!ProfileSeasonsList.showHiddenSeasons'>Show all</span>
+<span ng:if='ProfileSeasonsList.showHiddenSeasons'>Hide</span>
+</md:button>
+</div>
+</div>
+<div class='stats-controls' ng-if='isOffServer()'>
+<ui:drop-select ng-change='Profile.statIntervalChange()' ng:model='Profile.statInterval' options="[{8: 'Last 1 hour'}, {180: 'Last 24 hours'}, {1440: 'Last 7 days'}]" style-type='md-button'></ui:drop-select>
+</div>
+<app-profile-stats ng-if='isOffServer()' stats='Profile.data.stats'></app-profile-stats>
+<div class='rooms' ng:if='Profile.data.rooms'>
+<h2 count='Profile.data.rooms.length' ng-pluralize when="{one: '1 room', other: '{} rooms'}"></h2>
+<a class='room-preview' ng-href="#!{{ 'top.game-room' | routeSegmentUrl:{room: roomName} }}" ng:repeat='roomName in Profile.data.rooms'>
+<img ng:src='{{Profile.mapUrl}}{{roomName}}.png'>
+<canvas app:game-map-room-objects='{{roomName}}' class='room-objects' height='150' map-scale='3' ng-if='Me()' width='150'></canvas>
+<div class='room-title'>
+<span>{{roomName}}</span>
+</div>
+</a>
+</div>
+</section>

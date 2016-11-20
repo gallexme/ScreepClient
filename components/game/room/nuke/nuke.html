@@ -1,0 +1,32 @@
+<div>
+<svg class='nuke-target' height='18%' ng-if='GenericObject.objectData.landTime &gt; GenericObject.gameTime' ng:style="::{left: ((GenericObject.objectData.x-4)*100/50)+'%', top: ((GenericObject.objectData.y-4)*100/50)+'%'}" viewbox='0 0 900 900' width='18%'>
+<g ng:attr-opacity='{{GenericObject.objectData.tempRemove ? 0.3 : 1.0}}' transform='translate(450,450)'>
+<g>
+<ellipse cx='0' cy='0' fill-opacity='0.2' fill='#f44' rx='80' ry='80'>
+<animate app-attr="calcMode#GenericObject.displayOptions.animations ? 'linear' : 'discrete'" attributeName='fill-opacity' attributeType='XML' dur='2s' repeatCount='indefinite' values='0.2;0.7;0.2'></animate>
+</ellipse>
+<ellipse cx='0' cy='0' fill-opacity='0.7' fill='#f44' rx='20' ry='20'></ellipse>
+<path d='M 0 -100 V -50 M 0 100 V 50 M 100 0 H 50 M -100 0 H -50 Z' stroke-opacity='0.7' stroke-width='20' stroke='#f44'></path>
+<animateTransform app-attr="calcMode#GenericObject.displayOptions.animations ? 'linear' : 'discrete'" attributeName='transform' attributeType='XML' dur='2s' repeatCount='indefinite' type='scale' values='1.3 1.3;0.8 0.8;1.3 1.3'></animateTransform>
+</g>
+<ellipse cx='0' cy='0' fill='#f44' ng-if='!GenericObject.displayOptions.animations' rx='420' ry='420' stroke-width='20' stroke='#f44'>
+<animate attributeName='stroke-opacity' attributeType='XML' calcMode='discrete' ng-attr-dur='{{Math.max(0.4,(GenericObject.objectData.landTime - GenericObject.gameTime)/50000 * 8)}}s' repeatCount='indefinite' values='0.3;0'></animate>
+<animate attributeName='fill-opacity' attributeType='XML' calcMode='discrete' ng-attr-dur='{{Math.max(0.4,(GenericObject.objectData.landTime - GenericObject.gameTime)/50000 * 8)}}s' repeatCount='indefinite' values='0.15;0'></animate>
+</ellipse>
+<ellipse cx='0' cy='0' fill='#f44' ng-if='GenericObject.displayOptions.animations' stroke-width='20' stroke='#f44'>
+<animate attributeName='stroke-opacity' attributeType='XML' ng-attr-dur='{{Math.max(0.4,(GenericObject.objectData.landTime - GenericObject.gameTime)/50000 * 8)}}s' repeatCount='indefinite' values='0;0.6'></animate>
+<animate attributeName='fill-opacity' attributeType='XML' ng-attr-dur='{{Math.max(0.4,(GenericObject.objectData.landTime - GenericObject.gameTime)/50000 * 8)}}s' repeatCount='indefinite' values='0;0.3'></animate>
+<animate attributeName='rx' attributeType='XML' ng-attr-dur='{{Math.max(0.4,(GenericObject.objectData.landTime - GenericObject.gameTime)/50000 * 8)}}s' repeatCount='indefinite' values='450;0'></animate>
+<animate attributeName='ry' attributeType='XML' ng-attr-dur='{{Math.max(0.4,(GenericObject.objectData.landTime - GenericObject.gameTime)/50000 * 8)}}s' repeatCount='indefinite' values='450;0'></animate>
+</ellipse>
+</g>
+</svg>
+<svg class='nuke-target anim-shot' height='42%' ng-if='GenericObject.objectData.landTime &lt;= GenericObject.gameTime' ng:style="::{left: ((GenericObject.objectData.x-10)*100/50)+'%', top: ((GenericObject.objectData.y-10)*100/50)+'%'}" viewbox='0 0 2100 2100' width='42%'>
+<ellipse cx='0' cy='0' fill='transparent' stroke='#f44' transform='translate(1050,1050)'>
+<animate attributeName='opacity' attributeType='XML' dur='2s' repeatCount='0' values='0.3;0'></animate>
+<animate attributeName='stroke-width' attributeType='XML' dur='2s' repeatCount='0' values='200;400'></animate>
+<animate attributeName='rx' attributeType='XML' dur='2s' repeatCount='indefinite' values='0;850'></animate>
+<animate attributeName='ry' attributeType='XML' dur='2s' repeatCount='0' values='0;850'></animate>
+</ellipse>
+</svg>
+</div>

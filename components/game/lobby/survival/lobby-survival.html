@@ -1,0 +1,94 @@
+<section class='lobby-generic lobby-survival'>
+<div class='header-jumbotron'>
+<md:button class='md-fab lobby-back' ng:href="#!{{'top.game-lobby' | routeSegmentUrl}}">
+<div class='fa fa-chevron-left'></div>
+</md:button>
+<!--
+<md:button class='md-raised md-accent play-button' ng:click='LobbySurvival.start()' ng:if='Me()'></md:button>
+<div class='fa fa-play'></div>
+PLAY
+-->
+<h1>Survival</h1>
+<div class='subtitle'>Defend from computer-lead creeps, wave after wave, trying to stay as long as you can.</div>
+</div>
+<div class='leaderboard'>
+<div app:enlarge-on-click class='map'>
+<div class='cover ng-hide'></div>
+<img ng:src='//s3.amazonaws.com/static.screeps.com/upload/{{LobbySurvival.season._id}}/survival-map.png'>
+</div>
+<div class='my-rank-block' ng:if='Me()'>
+<div class='my-rank-title'>YOUR RANK</div>
+<a class='my-rank-value' ng:href="#!{{'top.game-lobby-survival.list' | routeSegmentUrl}}?page={{LobbySurvival.myResult.page}}&amp;highlight={{Me().username}}" ng:if='LobbySurvival.myResult'>
+{{LobbySurvival.myResult.rank+1}}
+</a>
+<span class='my-rank-value' ng:if='!LobbySurvival.myResult'>&mdash;</span>
+</div>
+<h2>
+Season:
+<ui:drop-group class='with-icon'>
+<ui:drop-btn class='switch-season'>
+{{LobbySurvival.season.name}}
+</ui:drop-btn>
+<ui:drop>
+<ui:drop-item ng:repeat='item in LobbySurvival.seasonsList track by item._id'>
+<a ng:href="#!{{ 'top.game-lobby-survival.list' | routeSegmentUrl: {season: item._id} }}"><i class='fa fa-check' ng:if='LobbySurvival.season._id == item._id'></i><span>{{item.name}}</span>
+</a>
+</ui:drop-item>
+</ui:drop>
+</ui:drop-group>
+</h2>
+<form app:form-fail-anim='anim-shake' app:submit='LobbySurvival.submitSearch()' class='search'>
+<div class='fa fa-search'></div>
+<md-input-container>
+<label>Search by name</label>
+<input ng:model='LobbySurvival.search'>
+</md-input-container>
+</form>
+<div app:view-segment='2' class='leaderboard-list'>
+<div ng:if='LeaderboardList.list.length'>
+<table class='table table-striped'>
+<tr>
+<th>Rank</th>
+<th>Player</th>
+<th>Score</th>
+</tr>
+<tr ng:class='{highlight: LeaderboardList.highlight == LeaderboardList.users[item.user].username}' ng:mouseleave='hover = false' ng:mouseover='hover = true' ng:repeat='item in LeaderboardList.list track by $index'>
+<td>{{item.rank+1}}</td>
+<td>
+<a ng:href="#!{{$routeSegment.getSegmentUrl('top.profile', {username: LeaderboardList.users[item.user].username})}}">
+{{LeaderboardList.users[item.user].username}}
+</a>
+</td>
+<td class='score'><md:button app:click-animated='LeaderboardList.loadReplay(item)' ng:class="{'md-raised': hover}" tooltip-placement='right' tooltip='View replay'><div class='fa fa-play-circle' ng:show='hover'></div><span>{{item.score}}</span></md:button></td>
+</tr>
+</table>
+<div class='pagination-container'>
+<ul class='pagination'>
+<li ng:class='{disabled: LeaderboardList.startPage === false}' title='First page'>
+<a class='fa fa-angle-double-left' ng:if='LeaderboardList.startPage === false'></a>
+<a class='fa fa-angle-double-left' ng:href="#!{{'top.game-lobby-survival.list' | routeSegmentUrl}}?page={{LeaderboardList.startPage}}" ng:if='LeaderboardList.startPage !== false'></a>
+</li>
+<li ng:class='{disabled: LeaderboardList.prevPage === false}' title='Previous page'>
+<a class='fa fa-angle-left' ng:if='LeaderboardList.prevPage === false'></a>
+<a class='fa fa-angle-left' ng:href="#!{{'top.game-lobby-survival.list' | routeSegmentUrl}}?page={{LeaderboardList.prevPage}}" ng:if='LeaderboardList.prevPage !== false'></a>
+</li>
+<li ng:class='{active: page.active}' ng:repeat='page in LeaderboardList.pages'>
+<a ng:href="#!{{'top.game-lobby-survival.list' | routeSegmentUrl}}?page={{page.num}}">{{page.num}}</a>
+</li>
+<li ng:class='{disabled: LeaderboardList.nextPage === false}' title='Next page'>
+<a class='fa fa-angle-right' ng:if='LeaderboardList.nextPage === false'></a>
+<a class='fa fa-angle-right' ng:href="#!{{'top.game-lobby-survival.list' | routeSegmentUrl}}?page={{LeaderboardList.nextPage}}" ng:if='LeaderboardList.nextPage !== false'></a>
+</li>
+<li ng:class='{disabled: LeaderboardList.endPage === false}' title='Last page'>
+<a class='fa fa-angle-double-right' ng:if='LeaderboardList.endPage === false'></a>
+<a class='fa fa-angle-double-right' ng:href="#!{{'top.game-lobby-survival.list' | routeSegmentUrl}}?page={{LeaderboardList.endPage}}" ng:if='LeaderboardList.endPage !== false'></a>
+</li>
+</ul>
+</div>
+</div>
+<div class='empty' ng:if='!LeaderboardList.list.length'>
+No results yet
+</div>
+</div>
+</div>
+</section>

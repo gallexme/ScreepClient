@@ -1,0 +1,46 @@
+<section app-tutorial-content>
+<p>
+Excellent, your tower is ready to use!
+</p>
+<p>
+Like a creep, a tower has several similar methods: <code>attack</code>, <code>heal</code>, and
+<code>repair</code>. Each action spends 10 energy units. We need to use <code>attack</code> on the closest
+enemy creep upon its discovery. Remember that distance is vital: the effect can be several times stronger
+with the same energy cost!
+</p>
+<p>
+To get the tower object directly you can use its ID from the right panel and the method <code>Game.getObjectById</code>.
+</p>
+<div class='objective'>
+<div class='fa fa-caret-right'></div>
+Destroy the enemy creep with the help of the tower.
+</div>
+<div class='objective'>
+<div class='fa fa-caret-down'></div>
+Documentation:
+<ul>
+<li>
+<code><a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/203016382-Game#getObjectById' target='_blank'>
+Game.getObjectById
+</a></code>
+</li>
+<li>
+<code><a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/208435305-RoomObject#pos' target='_blank'>
+RoomObject.pos
+</a></code>
+</li>
+<li>
+<code><a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/203079201-RoomPosition#findClosestByRange' target='_blank'>
+RoomPosition.findClosestByRange
+</a></code>
+</li>
+<li>
+<code><a app-nw-external-link href='http://support.screeps.com/hc/en-us/articles/208437105-StructureTower#attack' target='_blank'>StructureTower.attack</a></code>
+</li>
+</ul>
+</div>
+<app:tutorial-code title='main'></app:tutorial-code>
+<div class='tutorial-controls'>
+<md:button class='md-raised md-primary' ng:click='Tutorial.close()'>Got it</md:button>
+</div>
+</section>

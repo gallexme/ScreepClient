@@ -1,0 +1,51 @@
+<div class='row profile-stats'>
+<div class='col-xs-2'>
+<div class='stat-energyControl'>
+<div class='profile-stat-title'>Control<br>points</div>
+<div class='profile-stat-value'>{{ProfileStats.stats.energyControl | round}}</div>
+<div class='profile-stat-per-tick' ng-if='ProfileStats.normalize'>tick</div>
+</div>
+</div>
+<div class='col-xs-2'>
+<div class='stat-energyHarvested'>
+<div class='profile-stat-title'>Energy<br>harvested</div>
+<div class='profile-stat-value'>{{ProfileStats.stats.energyHarvested | round}}</div>
+<div class='profile-stat-per-tick' ng-if='ProfileStats.normalize'>tick</div>
+</div>
+</div>
+<div class='col-xs-2'>
+<div class='stat-energyConstruction'>
+<div class='profile-stat-title'>Energy<br>on construct</div>
+<div class='profile-stat-value'>{{ProfileStats.stats.energyConstruction | round}}</div>
+<div class='profile-stat-per-tick' ng-if='ProfileStats.normalize'>tick</div>
+</div>
+</div>
+<div class='col-xs-2'>
+<div class='stat-energyCreeps'>
+<div class='profile-stat-title'>Energy<br>on creeps</div>
+<div class='profile-stat-value'>{{ProfileStats.stats.energyCreeps | round}}</div>
+<div class='profile-stat-per-tick' ng-if='ProfileStats.normalize'>tick</div>
+</div>
+</div>
+<div class='col-xs-2'>
+<div class='stat-creepsProduced'>
+<div class='profile-stat-title'>Creeps<br>produced</div>
+<div class='profile-stat-value'>{{ProfileStats.stats.creepsProduced | round}}</div>
+<div class='profile-stat-per-tick' ng-if='ProfileStats.normalize'>tick</div>
+</div>
+</div>
+<div class='col-xs-2'>
+<div class='stat-creepsLost'>
+<div class='profile-stat-title'>Creeps<br>lost</div>
+<div class='profile-stat-value'>{{ProfileStats.stats.creepsLost | round}}</div>
+<div class='profile-stat-per-tick' ng-if='ProfileStats.normalize'>tick</div>
+</div>
+</div>
+<div class='col-xs-2'>
+<div class='stat-powerProcessed'>
+<div class='profile-stat-title'>Power<br>processed</div>
+<div class='profile-stat-value'>{{ProfileStats.stats.powerProcessed | round}}</div>
+<div class='profile-stat-per-tick' ng-if='ProfileStats.normalize'>tick</div>
+</div>
+</div>
+</div>
